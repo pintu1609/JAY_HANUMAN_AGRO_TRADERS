@@ -20,10 +20,11 @@ const registerSchema = new Schema({
         type: String,
         required: true,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
+    role: {
+        type: String,
+        enum: ["Admin", "User"],
+        default: "User",
+    }
+    },{timestamps: true});
 
 module.exports = mongoose.model("Register", registerSchema);
