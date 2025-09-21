@@ -50,7 +50,7 @@ exports.createSeller = async (body) => {
 
 exports.getAllSeller = async (body) => {
   const sellerData = await dal.aggregate(model, body);
-    console.log("🚀 ~ body:", JSON.stringify(sellerData, null, 2))
+    // console.log("🚀 ~ body:", JSON.stringify(sellerData, null, 2))
     // const users = await dal.find(model);
   //    const usersWithLength = users.map((user) => ({
   //   ...user._doc, // to get plain object if using Mongoose
@@ -154,7 +154,7 @@ exports.sellerDetailsByBrokerId = async (quries,quriespayment,id) => {
   const sellerDettailforbroker = await dal.aggregate(model, quries);
 
   const paymentDettailforbroker = await dal.aggregate(modelPayment, quriespayment);
-    console.log("🚀 ~ body:", JSON.stringify(paymentDettailforbroker, null, 2))
+    // console.log("🚀 ~ body:", JSON.stringify(paymentDettailforbroker, null, 2))
     const brokerDetails=await dal.findByID(brokerModel,id)
   if (!sellerDettailforbroker) {
     return {
