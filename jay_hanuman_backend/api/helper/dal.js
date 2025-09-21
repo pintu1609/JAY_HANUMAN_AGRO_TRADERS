@@ -84,3 +84,11 @@ exports.aggregate = async (model, query) => {
 exports.distinct = async (model, field, query = {}, options = {}) => {
   return await model.distinct(field, query);
 };
+
+exports.findOneAndReplace = async (model, filter, body) => {
+  return await model.findOneAndReplace(filter, body, {
+    new: true,
+    overwrite: true,
+  });
+};
+
