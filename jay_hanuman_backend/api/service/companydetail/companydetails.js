@@ -2,8 +2,11 @@ const model = require("../../model/companydetail/companydetails");
 const dal = require("../../helper/dal");
 
 exports.createCompany = async (body) => {
+  const rawCompanyName = body.companyName || "";
+const companyName = rawCompanyName.trim();
+
   const findCompanyName = await dal.findOne(model, {
-    companyName: body.companyName,
+    companyName:  { $regex: new RegExp(`^${companyName}$`, "i") },
   });
   if (findCompanyName) {
     return {
@@ -47,7 +50,10 @@ exports.createCompany = async (body) => {
     }
   }
 
-  const companydetail = await dal.create(model, body);
+  
+  const companydetail = await dal.create(model, {...body,
+    companyName:companyName
+  });
   return {
     status: 200,
     message: "Company Created Successfully",
@@ -65,8 +71,12 @@ exports.updateCompanyDetails = async (id, body) => {
     };
   }
 
+  const rawCompanyName = body.companyName || "";
+const companyName = rawCompanyName.trim();
+
+
   const findCompanyName = await dal.findOne(model, {
-    companyName: body.companyName,
+    companyName: { $regex: new RegExp(`^${companyName}$`, "i") },
     _id: { $ne: id },
   });
   if (findCompanyName) {
@@ -99,7 +109,7 @@ exports.updateCompanyDetails = async (id, body) => {
       message: "Phone number already exists",
     };
   }
-
+if (body.gst){
   const findgst = await dal.findOne(model, { gst: body.gst, _id: { $ne: id } });
   if (findgst) {
     return {
@@ -107,6 +117,8 @@ exports.updateCompanyDetails = async (id, body) => {
       message: "GST already exists",
     };
   }
+}
+  if(body.pan){
   const findpan = await dal.findOne(model, { pan: body.pan, _id: { $ne: id } });
   if (findpan) {
     return {
@@ -114,8 +126,10 @@ exports.updateCompanyDetails = async (id, body) => {
       message: "PAN already exists",
     };
   }
-
-  const companydetail = await dal.findOneAndUpdate(model, { _id: id }, body,{ new: true } );
+  }
+  const companydetail = await dal.findOneAndUpdate(model, { _id: id }, {...body,
+    companyName:companyName
+  },{ new: true } );
   return {
     status: 200,
     message: "Company details updated Successfully",
