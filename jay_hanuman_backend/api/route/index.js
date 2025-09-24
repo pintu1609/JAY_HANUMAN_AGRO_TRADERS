@@ -11,6 +11,7 @@ const year=require("./yeardetails/yeardetails")
 const CompanyDetails = require("./companydetail/companydetails");
 const client = require("./client/clientdetails");
 const wareHouse=require("./seller/warehouse")
+const clientGood=require("./ClientBuyerGoods/ClientBuyerGoods")
 
 
 app.use("/register", registerUser);
@@ -22,5 +23,6 @@ app.use("/year", year)
 app.use("/companydetails", CompanyDetails);
 app.use("/clientdetails",client)
 app.use("/wareHouseDetails",wareHouse)
+app.use("/clientGood",clientGood)
 
 module.exports = app;
