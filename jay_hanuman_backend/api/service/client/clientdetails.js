@@ -1,5 +1,7 @@
 const model = require("../../model/client/clientdetails");
 const dal = require("../../helper/dal");
+const { required } = require("joi");
+const companymodel = require("../../model/companydetail/companydetails");
 
 exports.createClient = async (body) => {
 
@@ -67,7 +69,10 @@ exports.updateClientDetails = async (id, body) => {
 };
 
 exports.getAllClient = async () => {
-  const clientDetail = await dal.find(model);
+  const clientDetail = await dal.findAndPopulate(model,{}, {}, {}, {}, ["companyName"]);
+  console.log("🚀 ~ clientDetail:", clientDetail)
+  // const CompanyDetails= await dal.findByID(companymodel, id);
+  console.log("🚀 ~ clientDetail:", clientDetail)
   return {
     status: 200,
     message: "Client Details Fetched Successfully",

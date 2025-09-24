@@ -22,6 +22,31 @@ exports.find = async (
     .limit(pagination.limit);
 };
 
+
+// find and populate
+exports.findAndPopulate = async (
+  model,
+  filter = {},
+  pagination = {},
+  sort = {},
+  projection = {},
+  populate = []
+) => {
+  let query = model.find(filter, projection).sort(sort);
+
+  if (pagination.skip) query = query.skip(pagination.skip);
+  if (pagination.limit) query = query.limit(pagination.limit);
+
+  if (populate.length) {
+    populate.forEach((p) => {
+      query = query.populate(p);
+    });
+  }
+
+  return await query.exec();
+};
+
+
 exports.findOne = async (model, filter, projection = {}) => {
   return await model.findOne(filter, projection);
 };

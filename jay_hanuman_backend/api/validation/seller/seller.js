@@ -15,6 +15,7 @@ const sellerSchema = joi.object({
             })
         ).required(),
     }).or('name','address');
+    
 module.exports={
         sellerSchema
 }

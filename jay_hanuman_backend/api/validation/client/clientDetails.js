@@ -45,6 +45,8 @@ const clientSchema = Joi.object({
       "string.min": "Address must be at least 5 characters",
       "string.max": "Address must be less than 200 characters",
     }),
+   companyName: Joi.string().required(),
+
 });
 
 module.exports = {clientSchema};

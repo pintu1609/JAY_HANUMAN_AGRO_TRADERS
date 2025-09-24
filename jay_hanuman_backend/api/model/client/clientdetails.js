@@ -30,6 +30,11 @@ const clientDetailsSchema = new Schema(
       type: String,
       required: true,
     },
+    companyName: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "CompanyDetails",
+    },
     
     
   },
