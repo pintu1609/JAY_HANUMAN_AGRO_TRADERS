@@ -25,6 +25,7 @@ const sellerSchema = new Schema({
         broker: { type:Schema.Types.ObjectId, required: true,ref:"Broker"},
         commision: { type: Number, required: true },
         amount: { type: Number, required: true },
+        wareHouse:{type:Boolean, required:true},
       },
     ],
 }

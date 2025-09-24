@@ -10,6 +10,7 @@ const brokerPayment=require("./broker/brokerPayment")
 const year=require("./yeardetails/yeardetails")
 const CompanyDetails = require("./companydetail/companydetails");
 const client = require("./client/clientdetails");
+const wareHouse=require("./seller/warehouse")
 
 
 app.use("/register", registerUser);
@@ -20,5 +21,6 @@ app.use("/brokerPayment",brokerPayment)
 app.use("/year", year)
 app.use("/companydetails", CompanyDetails);
 app.use("/clientdetails",client)
+app.use("/wareHouseDetails",wareHouse)
 
 module.exports = app;

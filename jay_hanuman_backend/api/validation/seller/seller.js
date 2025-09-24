@@ -11,6 +11,7 @@ const sellerSchema = joi.object({
                 date: joi.date().required(),
                 broker: joi.string().required(),
                 commision: joi.number().required(),
+                wareHouse:joi.boolean().required()
             })
         ).required(),
     }).or('name','address');
