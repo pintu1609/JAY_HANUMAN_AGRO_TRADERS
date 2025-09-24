@@ -29,10 +29,17 @@ exports.getAllSellerGood = async (req, res, next) => {
   try {
     // const filter=req.query;
     // const pagination=req.query
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10,year } = req.query;
 
     const filter = {}; // Add any filters from req.query if needed
     const pagination = { page: parseInt(page), limit: parseInt(limit) };
+
+    if (year) {
+      const start = new Date(`${year}-01-01`);
+      const end = new Date(`${year}-12-31T23:59:59`);
+      filter["packages.date"] = { $gte: start, $lte: end }; 
+      // ✅ FIXED
+    }
 
     // Get aggregation pipeline
     const pipeline = search(filter, pagination);
