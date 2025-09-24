@@ -1,0 +1,153 @@
+ <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg">
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        {/* Seller Info */}
+                        <div>
+                            <label className="block font-medium">Name</label>
+                            <input
+                                type="text"
+                                name="name"
+                                value={values.name}
+                                onChange={handleChange}
+                                className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.name && touched.name ? "border-red-500" : "border-gray-300"
+                                    }`}
+                            />
+                        </div>
+                        <div>
+                            <label className="block font-medium">Address</label>
+                            <input
+                                type="text"
+                                name="address"
+                                value={values.address}
+                                onChange={handleChange}
+                                className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.address && touched.address
+                                    ? "border-red-500"
+                                    : "border-gray-300"
+                                    }`}
+                            />
+                        </div>
+
+                        {/* Packages */}
+                        <h2 className="text-xl font-semibold mt-6">Packages</h2>
+                        {values.packages.map((pkg: Package, index: number) => (
+                            <div key={index} className="grid grid-cols-6 gap-3 border p-3 rounded mb-2 relative">
+                                {/* Optional remove button */}
+                                {values.packages.length > 1 && (
+                                    <button
+                                        type="button"
+                                        onClick={() => removePackage(index)}
+                                        className="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold"
+                                    >
+                                        X
+                                    </button>
+                                )}
+
+                                {/* Package Name */}
+                                <input
+                                    type="text"
+                                    placeholder="Package"
+                                    name={`packages[${index}].package`}
+                                    value={pkg.package}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.package && touched.packages?.[index]?.package
+                                            ? "border-red-500"
+                                            : "border-gray-300"
+                                        }`}
+                                />
+
+                                {/* Weight */}
+                                <input
+                                    type="number"
+                                    placeholder="Weight"
+                                    name={`packages[${index}].weight`}
+                                    value={pkg.weight}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.weight && touched.packages?.[index]?.weight
+                                            ? "border-red-500"
+                                            : "border-gray-300"
+                                        }`}
+                                />
+
+                                {/* Rate */}
+                                <input
+                                    type="number"
+                                    placeholder="Rate"
+                                    name={`packages[${index}].rate`}
+                                    value={pkg.rate}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.rate && touched.packages?.[index]?.rate
+                                            ? "border-red-500"
+                                            : "border-gray-300"
+                                        }`}
+                                />
+
+                                {/* Date */}
+                                <input
+                                    type="date"
+                                    name={`packages[${index}].date`}
+                                    value={pkg.date}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.date && touched.packages?.[index]?.date
+                                            ? "border-red-500"
+                                            : "border-gray-300"
+                                        }`}
+                                />
+
+                                {/* Commission */}
+                                <input
+                                    type="number"
+                                    placeholder="Commission"
+                                    name={`packages[${index}].commision`}
+                                    value={pkg.commision}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.commision && touched.packages?.[index]?.commision
+                                            ? "border-red-500"
+                                            : "border-gray-300"
+                                        }`}
+                                />
+
+                                {/* Broker */}
+                                <select
+                                    name={`packages[${index}].broker`}
+                                    value={pkg.broker}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.broker && touched.packages?.[index]?.broker
+                                            ? "border-red-500"
+                                            : "border-gray-300"
+                                        }`}
+                                >
+                                    <option value="">Select Broker</option>
+                                    {brokers.map((b, i) => (
+                                        <option key={i} value={b}>
+                                            {b}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        ))}
+
+
+                        <button
+                            type="button"
+                            onClick={addPackage}
+                            className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+                        >
+                            + Add Package
+                        </button>
+
+                        {/* Submit */}
+                        <div className="pt-4">
+                            <button
+                                type="submit"
+                                className="bg-green-600 text-white px-6 py-2 rounded shadow hover:bg-green-700"
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
