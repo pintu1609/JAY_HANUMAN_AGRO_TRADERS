@@ -102,21 +102,22 @@ export default function WareHouseDetails() {
                                         <td className="p-2 border text-center">
                                             {item.packages.map((pkg, i) => (
                                                 <div key={i} className="flex flex-col">
-                                                    {pkg.weight}                                                </div>
+                                                    {pkg.weight}</div>
                                             ))}
                                         </td>   
                                                                                 <td className="p-2 border text-center">
                                             {item.packages.map((pkg, i) => (
                                                 <div key={i} className="flex flex-col">
-                                                    ₹{pkg.rate}                                                </div>
+                                                    ₹{pkg.rate}</div>
                                             ))}
                                         </td>     
  <td className="p-2 border text-center">
                                             {item.packages.map((pkg, i) => (
                                                 <div key={i} className="flex flex-col">
-                                                    ₹{pkg.commision}                                                </div>
+                                                    ₹{pkg.commision}</div>
                                             ))}
-                                        </td>                                             <td className="p-2 border text-center">{totalAmt.toFixed(2)}</td>
+                                        </td>                               
+                                                      <td className="p-2 border text-center">{totalAmt.toFixed(2)}</td>
                                         <td className="p-2 border text-center">{totalComm.toFixed(2)}</td>
                                         {/* <td className="p-2 border-l border-t text-center">
                                             <button
