@@ -1,153 +1,169 @@
- <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg">
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        {/* Seller Info */}
-                        <div>
-                            <label className="block font-medium">Name</label>
-                            <input
-                                type="text"
-                                name="name"
-                                value={values.name}
-                                onChange={handleChange}
-                                className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.name && touched.name ? "border-red-500" : "border-gray-300"
-                                    }`}
-                            />
-                        </div>
-                        <div>
-                            <label className="block font-medium">Address</label>
-                            <input
-                                type="text"
-                                name="address"
-                                value={values.address}
-                                onChange={handleChange}
-                                className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.address && touched.address
-                                    ? "border-red-500"
-                                    : "border-gray-300"
-                                    }`}
-                            />
-                        </div>
-
-                        {/* Packages */}
-                        <h2 className="text-xl font-semibold mt-6">Packages</h2>
-                        {values.packages.map((pkg: Package, index: number) => (
-                            <div key={index} className="grid grid-cols-6 gap-3 border p-3 rounded mb-2 relative">
-                                {/* Optional remove button */}
-                                {values.packages.length > 1 && (
-                                    <button
-                                        type="button"
-                                        onClick={() => removePackage(index)}
-                                        className="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold"
-                                    >
-                                        X
-                                    </button>
-                                )}
-
-                                {/* Package Name */}
-                                <input
-                                    type="text"
-                                    placeholder="Package"
-                                    name={`packages[${index}].package`}
-                                    value={pkg.package}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.package && touched.packages?.[index]?.package
-                                            ? "border-red-500"
-                                            : "border-gray-300"
-                                        }`}
-                                />
-
-                                {/* Weight */}
-                                <input
-                                    type="number"
-                                    placeholder="Weight"
-                                    name={`packages[${index}].weight`}
-                                    value={pkg.weight}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.weight && touched.packages?.[index]?.weight
-                                            ? "border-red-500"
-                                            : "border-gray-300"
-                                        }`}
-                                />
-
-                                {/* Rate */}
-                                <input
-                                    type="number"
-                                    placeholder="Rate"
-                                    name={`packages[${index}].rate`}
-                                    value={pkg.rate}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.rate && touched.packages?.[index]?.rate
-                                            ? "border-red-500"
-                                            : "border-gray-300"
-                                        }`}
-                                />
-
-                                {/* Date */}
-                                <input
-                                    type="date"
-                                    name={`packages[${index}].date`}
-                                    value={pkg.date}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.date && touched.packages?.[index]?.date
-                                            ? "border-red-500"
-                                            : "border-gray-300"
-                                        }`}
-                                />
-
-                                {/* Commission */}
-                                <input
-                                    type="number"
-                                    placeholder="Commission"
-                                    name={`packages[${index}].commision`}
-                                    value={pkg.commision}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.commision && touched.packages?.[index]?.commision
-                                            ? "border-red-500"
-                                            : "border-gray-300"
-                                        }`}
-                                />
-
-                                {/* Broker */}
-                                <select
-                                    name={`packages[${index}].broker`}
-                                    value={pkg.broker}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.packages?.[index]?.broker && touched.packages?.[index]?.broker
-                                            ? "border-red-500"
-                                            : "border-gray-300"
-                                        }`}
-                                >
-                                    <option value="">Select Broker</option>
-                                    {brokers.map((b, i) => (
-                                        <option key={i} value={b}>
-                                            {b}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        ))}
-
-
-                        <button
-                            type="button"
-                            onClick={addPackage}
-                            className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
-                        >
-                            + Add Package
-                        </button>
-
-                        {/* Submit */}
-                        <div className="pt-4">
-                            <button
-                                type="submit"
-                                className="bg-green-600 text-white px-6 py-2 rounded shadow hover:bg-green-700"
-                            >
-                                Submit
-                            </button>
-                        </div>
-                    </form>
+  {isLoading ? (
+                <div className="flex items-center justify-center h-64">
+                    <ClipLoader size={100} color="#36d7b7" />
                 </div>
+            ) : (
+
+                (goodsData.length > 0) ? (
+                    
+                
+
+                <div className="overflow-x-auto">
+                    <table className="w-full border-collapse rounded-2xl shadow-md mx-auto overflow-hidden">
+                        <thead className="bg-orange-100 text-orange-800">
+                            <tr>
+                                <th className="px-4 py-2 border w-1/10">Seller Name</th>
+                                <th className="px-4 py-2 border w-1/10">Address</th>
+                                <th className="px-4 py-2 border w-2/8">Packages</th>
+                                <th className="px-4 py-2 border w-1/10">Comm. Amt</th>
+                                <th className="px-4 py-2 border w-1/10">Total Amt</th>
+                                <th className="px-4 py-2 border w-1/12">Action</th>
+
+                                <th className="px-4 py-2 border w-3/8">Payment Details</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {goodsData.map((seller) => (
+                                <tr key={seller._id} className="text-center align-top">
+                                    {/* Seller Info */}
+                                    <td className="px-4 py-2 border text-center align-middle ">{seller.name}</td>
+                                    <td className="px-4 py-2 border text-center align-middle">{seller.address}</td>
+
+                                    {/* Nested table for packages */}
+                                    <td className="px-0 py-0 border">
+                                        <table className="w-full border-collapse">
+                                            <thead className="bg-orange-50">
+                                                <tr>
+                                                    <th className="w-2/8 px-2 py-1 border">Package</th>
+                                                    <th className="w-1/8 px-2 py-1 border">Weight</th>
+                                                    <th className=" w-1/8 px-2 py-1 border">Rate</th>
+                                                    <th className="w-2/8 px-2 py-1 border">Date</th>
+                                                    <th className="w-2/8 px-2 py-1 border">Broker</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {seller.packages.map((pkg:PackageItem) => (
+                                                    <tr key={pkg._id}>
+                                                        <td className="px-2 py-1 border">{pkg.package}</td>
+                                                        <td className="px-2 py-1 border">{pkg.weight}</td>
+                                                        <td className="px-2 py-1 border">₹{pkg.rate}</td>
+                                                        <td className="px-2 py-1 border">
+                                                            {new Date(pkg.date).toISOString().split("T")[0]}
+                                                        </td>
+                                                        <td className="px-2 py-1 border">{pkg.broker.name}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </td>
+
+
+                                    {/* Totals */}
+                                    <td className="px-4 py-2 border text-center align-middle"> ₹{Number(seller.commisionAmount || 0).toFixed(2)}</td>
+                                    <td className="px-4 py-2 border text-center align-middle"> ₹{Number(seller.totalAmount || 0).toFixed(2)}</td>
+
+                                    <td className="px-2 py-1 border align-middle">
+
+                                        <button
+                                            className="px-1 text-blue-500 hover:text-blue-700 cursor-pointer"
+                                            // onClick={() => handleEditSellerDetails(seller)}
+                                        >
+                                            <FiEdit />
+                                        </button>
+                                        <button
+                                            className="px-1 text-red-500 hover:text-red-700 cursor-pointer"
+                                            // onClick={() => handleDeleteSellerDetails(seller._id)}
+                                        >
+                                            <FiTrash2 />
+                                        </button></td>
+                                    {/* nested table for payment */}
+                                    <td className="px-0 py-0 border">
+                                        {seller.payments.length > 0 ? (
+                                            <table className="w-full border-collapse">
+                                                <thead className="bg-orange-50">
+                                                    <tr>
+                                                        <th className="w-2/8 px-2 py-1 border">Amount</th>
+                                                        <th className="w-1/8 px-2 py-1 border">Date</th>
+                                                        <th className=" w-1/8 px-2 py-1 border">Mode</th>
+                                                        <th className="w-2/8 px-2 py-1 border">
+                                                            Action
+
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {seller.payments.map((pyt) => (
+                                                        <tr key={pyt._id}>
+                                                            <td className="px-2 py-1 border">{pyt.amount}</td>
+                                                            <td className="px-2 py-1 border">
+                                                                {new Date(pyt.date).toISOString().split("T")[0]}
+                                                            </td>
+                                                            <td className="px-2 py-1 border">
+                                                                {pyt.paymentType === "BankTransfer" ? "Bank" : pyt.paymentType}
+                                                            </td>
+                                                            <td className="px-2 py-1 border">
+                                                                <button
+                                                                    // onClick={() => handleAddPayment(seller._id)}
+                                                                    className="px-1 text-green-500 hover:text-green-700 cusror-pointer"
+                                                                >
+                                                                    <FiPlus size={20} />
+                                                                </button>
+                                                                <button
+                                                                    className="px-1 text-yellow-500 hover:text-yellow-700 cursor-pointer"
+                                                                    onClick={() => {
+                                                                          if (seller.name && seller.address) {
+
+                                                                        // handleShowPayment(pyt , seller.name , seller.address)
+                                                                    }}}
+                                                                >
+                                                                    <FiEye />
+                                                                </button>
+                                                                <button
+                                                                    className="px-1 text-blue-500 hover:text-blue-700 cursor-pointer"
+                                                                    // onClick={() => handleEditPayment(pyt)}
+                                                                >
+                                                                    <FiEdit />
+                                                                </button>
+                                                                <button
+                                                                    className="px-1 text-red-500 hover:text-red-700 cursor-pointer"
+                                                                    // onClick={() => handleDeletePayment(pyt._id)}
+                                                                >
+                                                                    <FiTrash2 />
+                                                                </button></td>
+                                                        </tr>
+                                                    ))}
+                                                    {/* <tr className=" py-2 align-middle">
+                                                        <button
+                                                            onClick={() => console.log("Add payment")}
+                                                            className="ml-2 flex items-center gap-1 bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded text-sm"
+                                                        >
+                                                            <FiPlus /> Add
+                                                        </button>
+                                                    </tr> */}
+                                                </tbody>
+                                            </table>
+                                        ) : (
+                                            <div className="flex flex-col justify-center items-center h-[80px] gap-2">
+                                                <button
+                                                    // onClick={() => handleAddPayment(seller._id)}
+                                                    className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg"
+                                                >
+                                                    <FiPlus /> Add Payment
+                                                </button>
+
+                                            </div>
+                                        )}
+
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                ):(
+                    <div className="flex justify-center items-center h-[50vh]">
+                    <p className="text-3xl font-bold">Add Seller Good Details</p>
+                    </div>
+                )
+            )}

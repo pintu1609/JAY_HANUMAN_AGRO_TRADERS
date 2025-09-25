@@ -4,7 +4,7 @@ const {
   clientHandler,
 } = require("../../middleware/response-handler");
 const { useErrorHandler } = require("../../middleware/error-handler");  
-const { searchClient } = require("../../quries/clientquries");
+const { searchClient } = require("../../quries/clientgoodsquries");
 
 exports.addClientBuyerGoods = async (req, res,next) => {
   try {
@@ -25,7 +25,17 @@ exports.addClientBuyerGoods = async (req, res,next) => {
 
 exports.getClientBuyerGoods = async (req, res, next) => {
   try {
-    const quries= await searchClient()
+    const {year}=req.query
+    console.log("🚀 ~ year:", year)
+    const filter={}
+     if (year) {
+      
+      const start = new Date(`${year}-01-01`);
+      const end = new Date(`${year}-12-31T23:59:59`);
+      filter["date"] = { $gte: start, $lte: end }; 
+      // ✅ FIXED
+    }
+    const quries= await searchClient(filter)
     const user = await service.getClientGoodsDetails(quries);
     responseHandler(user.data, res, user.message, 200);
   } catch (err) {

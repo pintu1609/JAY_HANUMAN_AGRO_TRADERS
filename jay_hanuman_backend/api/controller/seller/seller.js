@@ -7,6 +7,7 @@ const { useErrorHandler } = require("../../middleware/error-handler");
 const { search } = require("../../quries/sellerquries");
 const { searchSeller } = require("../../quries/brokerquries");
 const { searchBrokerPayment } = require("../../quries/quriespayment");
+const { searchsellergoods } = require("../../quries/sellergoodsquery");
 
 exports.createSellerGood = async (req, res, next) => {
   try {
@@ -25,7 +26,7 @@ exports.createSellerGood = async (req, res, next) => {
   }
 };
 
-exports.getAllSellerGood = async (req, res, next) => {
+exports.getAllSellerGoodWithPayment = async (req, res, next) => {
   try {
     // const filter=req.query;
     // const pagination=req.query
@@ -44,7 +45,7 @@ exports.getAllSellerGood = async (req, res, next) => {
     // Get aggregation pipeline
     const pipeline = search(filter, pagination);
 
-    const user = await service.getAllSeller(pipeline);
+    const user = await service.getAllSellerGoodsWithPayment(pipeline);
     if (user.status === 400) {
       return clientHandler({}, res, user.message, user.status);
     }
@@ -56,6 +57,21 @@ exports.getAllSellerGood = async (req, res, next) => {
   }
 };
 
+
+exports.getAllSellerGood = async (req, res, next) => {
+  try {
+    const quries =  searchsellergoods()
+    const user = await service.getAllSeller(quries);
+    if (user.status === 400) {
+      return clientHandler({}, res, user.message, user.status);
+    }
+    responseHandler(user.data, res, user.message, 200);
+  } catch (err) {
+    console.error(err);
+    useErrorHandler(err, req, res, next);
+    next(err);
+  }
+}
 exports.getSellerGoodById = async (req, res, next) => {
   try {
     const user = await service.getSellerById(req.params.id);

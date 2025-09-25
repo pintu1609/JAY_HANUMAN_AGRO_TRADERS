@@ -56,9 +56,20 @@ const ItemSchema = z.object({
 
  const SellerGoodsItemSchema= z.array(ItemSchema);
 
+ const sellerGoodSchemsDetailsParams = z.array(
+  z.object({
+  _id: z.string(),
+  name: z.string().optional(),
+  commisionAmount: z.number(),
+  address: z.string().optional(),
+  packages: z.array(PackageItemSchema),
+  totalAmount: z.number(),
+  weightCost: z.number(),
+ }))
 
 export {
   PackageItemSchema,
   PaymentItemSchema,
-  SellerGoodsItemSchema
+  SellerGoodsItemSchema,
+  sellerGoodSchemsDetailsParams
 }

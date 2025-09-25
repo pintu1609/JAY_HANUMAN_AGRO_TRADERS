@@ -48,7 +48,7 @@ exports.createSeller = async (body) => {
     };
 };
 
-exports.getAllSeller = async (body) => {
+exports.getAllSellerGoodsWithPayment = async (body) => {
   const sellerData = await dal.aggregate(model, body);
     // console.log("🚀 ~ body:", JSON.stringify(sellerData, null, 2))
     // const users = await dal.find(model);
@@ -66,6 +66,15 @@ exports.getAllSeller = async (body) => {
     };
 };
 
+exports.getAllSeller = async (quries) => {
+    const selleeGoodsData = await dal.aggregate(model, quries);
+    
+    return {
+        message: "Seller Good details fetched successfully",
+        status: 200,
+        data: selleeGoodsData || [],
+    };
+}
 exports.getSellerById = async (id) => {
     const user = await dal.findByID(model, id);
     if (!user) {
@@ -74,6 +83,30 @@ exports.getSellerById = async (id) => {
             status: 400,
         };
     }
+
+    // async function goodDetailswithBroker(user) {
+
+    //   const updatedPackages = [];
+    //       for (const broker of user.packges) {
+    //         const brokerData = await dal.findByID(brokerModel, broker.brokerId);
+    //         updatedPackages.push({
+    //         ...broker,
+    //         brokerId:brokerData ?{
+    //           _id: brokerData._id,
+    //           name: brokerData.name
+    //         } :broker.brokerId,
+              
+    //         })
+    //       }
+
+    //       return {
+    //         ...user,
+    //         packages: updatedPackages
+    //       }
+
+    // }
+    // const goodsdertails = goodDetailswithBroker(user)
+    // console.log("🚀 ~ goodsdertails:", goodsdertails)
     return {
         message: "Seller Good details fetched successfully",
         status: 200,

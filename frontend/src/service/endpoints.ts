@@ -21,6 +21,7 @@ const  ENDPOINTS = {
     SELLERGOODSDETAILSBYBROKERID : '/api/v1/seller/getSellerDetailsByBrokerId/',
 
     //seller good details
+    GET_ALL_SELLER_GOOD_WITH_PAYMENT : '/api/v1/seller/getAllSellerGoodWithPayment/',
     GET_ALL_SELLER_GOOD : '/api/v1/seller/getAllSellerGood/',
     SELLER : '/api/v1/seller/',
     
@@ -32,6 +33,9 @@ const  ENDPOINTS = {
     GET_ALL_CLIENT : '/api/v1/clientdetails/getClient',
     CLIENT : '/api/v1/clientdetails/',
 
+    // client goods details
+
+    CLIENTGOODS:'/api/v1/clientGood/',
 
     // broker Payments
     BROKERPAYMENT:'/api/v1/brokerPayment/',

@@ -69,6 +69,37 @@ const initailSellerGoods = {
     },
   ],
 };
+
+
+const initialClientGoodsDetails = {
+  clientId: "",
+  companyId: "",
+  vehicleNumber: "",
+  packages: [
+    {
+      package: "",
+      weight: 0,
+      rate: 0,
+      calculation: "",
+    },
+  ],
+  sellersDetails: [
+    {
+      sellerId: "",
+      sellerPackages: [
+        {
+          packageId: "",
+          package: "",
+        },
+      ],
+    },
+  ],
+  misleniousCharge: 0,
+  misleniousChargeDescription: "",
+  date: "",
+  billNumber: "",
+
+}
 const registerSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
   email: z.string().email("Enter a valid email address"),
@@ -267,6 +298,63 @@ const sellerGoodsSchema = z
     path: ["name"], // 👈 attaches error to `name` (you could also use `address` or [] for form-level)
   });
 
+  const clientGoodsDetailsSchema = z.object({
+  clientId: z.string().nonempty("Client is required"),
+  companyId: z.string().nonempty("Company is required"),
+  vehicleNumber: z
+    .string()
+    .nonempty("Vehicle number is required")
+    .regex(/^[A-Za-z0-9\s-]+$/, "Invalid vehicle number"),
+  packages: z
+    .array(
+      z.object({
+        package: z.string().nonempty("Package name is required"),
+        weight: z
+          .number().refine((value) => typeof value === 'number', {
+            message: "Weight must be a number",
+            path: ['weight'],
+          })
+          .min(1, "Weight must be greater than 0"),
+        rate: z
+          .number().refine((value) => typeof value === 'number', {
+            message: "Rate must be a number",
+            path: ['rate'],
+          })
+          .min(1, "Rate must be greater than 0"),
+        calculation: z.string().nonempty("Calculation is required"),
+      })
+    )
+    .min(1, "At least one package is required"),
+  sellersDetails: z
+    .array(
+      z.object({
+        sellerId: z.string().nonempty("Seller is required"),
+        sellerPackages: z
+          .array(
+            z.object({
+              packageId: z.string().nonempty("Package is required"),
+              package: z.string().nonempty("Package name is required"),
+            })
+          )
+          .min(1, "At least one seller package is required"),
+      })
+    )
+    .min(1, "At least one seller is required"),
+  misleniousCharge: z
+    .number().refine((value) => typeof value === 'number', {
+    message: "Charge must be a number",
+    path: ['misleniousCharge'],
+  })
+    .min(0, "Charge cannot be negative")
+    .optional(),
+  misleniousChargeDescription: z
+    .string()
+    .max(200, "Description must be under 200 characters")
+    .optional(),
+  date: z.string().nonempty("Date is required"),
+  billNumber: z.string().nonempty("Bill number is required"),
+});
+
 export {
   initialLogin,
   loginSchema,
@@ -283,4 +371,6 @@ export {
   clientSchema,
   initailSellerGoods,
   sellerGoodsSchema,
+  initialClientGoodsDetails,
+  clientGoodsDetailsSchema
 };

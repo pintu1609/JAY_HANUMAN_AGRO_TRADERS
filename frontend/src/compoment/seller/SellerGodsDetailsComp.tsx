@@ -5,7 +5,7 @@
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { FiEdit, FiTrash2, FiEye, FiPlus } from "react-icons/fi";
-import { useDeleteSellerGood, useGetSellerGoodsDetails } from "@/hook/sellergoodsdetails";
+import { useDeleteSellerGood, useGetSellerGoodsDetailsWithPayment } from "@/hook/sellergoodsdetails";
 import { PackageItem, PaymentItem, PaymentItemdetais, SellerGoodsDetailsParams, SellerGoodsParams, updateSellerParams } from "@/types/sellerDetails/sellerparam";
 import CreateSellerPayment from "@/compoment/seller/SellerPayment/CreateSellerPayment";
 import UpdateSellerPayment from "@/compoment/seller/SellerPayment/UpdateSellerPayment";
@@ -13,6 +13,7 @@ import { useDeleteSellerPayment } from "@/hook/sellerpayment";
 import ShowPaymentDetails from "@/compoment/PaymentComp/showPayment/ShowPayment";
 import CreateSeller from "@/compoment/seller/SellerDetails/CreateSeller/CreateSeller";
 import UpdateSeller from "@/compoment/seller/SellerDetails/UpdateSeller/UpdateSeller";
+
 
 export default function SellerGoodsDetailsComp({currentYear}:any) {
     const [openSellerModal, setOpenSellerModal] = useState(false);
@@ -31,7 +32,7 @@ export default function SellerGoodsDetailsComp({currentYear}:any) {
 
     const [paymentDetailsData, setPaymentDetailsData] = useState<null | PaymentItemdetais>(null)
 
-    const { data: sellerRes, isLoading, refetch } = useGetSellerGoodsDetails(currentYear);
+    const { data: sellerRes, isLoading, refetch } = useGetSellerGoodsDetailsWithPayment(currentYear);
     const { mutate: mutateDelete, isPending: isDeleting } = useDeleteSellerGood(refetch);
     const { mutate: mutateSellerPaymentDelete, isPending: isDeletingSellerPayment } = useDeleteSellerPayment(refetch);
 

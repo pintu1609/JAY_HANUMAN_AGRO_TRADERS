@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {createSellerGood,getAllSellerGood,getSellerGoodById,updateSellerGood,deleteSellerGood, sellerDetailsByBrokerId} = require("../../controller/seller/seller")
+const {createSellerGood,getAllSellerGoodWithPayment,getSellerGoodById,updateSellerGood,deleteSellerGood, sellerDetailsByBrokerId, getAllSellerGood} = require("../../controller/seller/seller")
 
 const SellerValidation=require("../../validation/seller/seller"); 
 const  validate  = require("../../middleware/validate");
@@ -8,6 +8,10 @@ const { verifyToken, authorizeRole } = require("../../middleware/authroization")
 router
     .route("/")
     .post(verifyToken, authorizeRole("Admin","User"), validate(SellerValidation.sellerSchema), createSellerGood);
+router
+    .route("/getAllSellerGoodWithPayment")
+    .get(verifyToken, authorizeRole("Admin","User"), getAllSellerGoodWithPayment);
+
 router
     .route("/getAllSellerGood")
     .get(verifyToken, authorizeRole("Admin","User"), getAllSellerGood);
