@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { initialLogin, loginSchema } from "@/validation";
 import { toFormikValidationSchema } from "zod-formik-adapter";
@@ -10,8 +10,11 @@ import { AxiosError } from 'axios';
 import { ZodError } from "zod";
 import { BeatLoader } from "react-spinners";
 import { LoginParams } from "@/types/register/loginparam";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function Login() {
+    const [showPassword, setShowPassword] = useState(false);
+  
 
   const router = useRouter();
 const {
@@ -108,12 +111,12 @@ if(error instanceof AxiosError) {
             
           </div>
 
-          <div>
+          <div className="relative">
             <label className="block text-gray-700 font-medium mb-2">
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password" // ✅ added
               value={values.password}
               onChange={handleChange}
@@ -123,6 +126,12 @@ if(error instanceof AxiosError) {
               }`}
               placeholder="Enter your password"
             />
+             <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-13 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+            {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}  </button>
           
           </div>
 
