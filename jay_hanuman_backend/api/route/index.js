@@ -12,6 +12,7 @@ const CompanyDetails = require("./companydetail/companydetails");
 const client = require("./client/clientdetails");
 const wareHouse=require("./seller/warehouse")
 const clientGood=require("./ClientBuyerGoods/ClientBuyerGoods")
+const clientGoodPayment=require('./ClientBuyerGoods/clientgoodspayment')
 
 
 app.use("/register", registerUser);
@@ -24,5 +25,6 @@ app.use("/companydetails", CompanyDetails);
 app.use("/clientdetails",client)
 app.use("/wareHouseDetails",wareHouse)
 app.use("/clientGood",clientGood)
+app.use("/clientGoodsPayment",clientGoodPayment)
 
 module.exports = app;
