@@ -27,6 +27,14 @@ interface CreateClientGood {
     date: string;
     billNumber: string;
 }
+
+
+// update client parma
+
+interface UpdateClientGood{
+    payload:CreateClientGood;
+    id:string
+}
    
 // for client goods response
 interface PackageGoods {
@@ -79,4 +87,4 @@ interface ClientGoodsItemParams {
     date: string;
     billNumber: string;
 }
-export { CreateClientGood, ClientGoodsItemParams };
+export { CreateClientGood, ClientGoodsItemParams, UpdateClientGood };

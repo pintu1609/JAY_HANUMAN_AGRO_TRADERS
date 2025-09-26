@@ -114,7 +114,7 @@ export default function ClientGoodsComp({
                 </button>
 
                 <div className="w-full max-w-3xl bg-white shadow-lg rounded-2xl p-8 max-h-[80vh] overflow-y-auto">
-                    <h1 className="text-2xl font-bold text-center text-orange-700 mb-6 underline underline-offset-4">
+                    <h1 className="text-2xl font-bold text-center text-orange-700 mb-6 underline underline-offset-8">
                         🕉️ {mode === "update" ? "Update Client Goods" : "Create Client Goods"}
                     </h1>
 
@@ -391,7 +391,7 @@ export default function ClientGoodsComp({
                                 <input
                                     type="text"
                                     name="misleniousChargeDescription"
-                                    value={values.misleniousChargeDescription}
+                                    value={values.misleniousChargeDescription || ""}
                                     onChange={handleChange}
                                     className={`w-full h-[42px] px-4 border rounded-lg outline-none text-gray-700 ${errors.misleniousChargeDescription && touched.misleniousChargeDescription
                                         ? "border-red-500"

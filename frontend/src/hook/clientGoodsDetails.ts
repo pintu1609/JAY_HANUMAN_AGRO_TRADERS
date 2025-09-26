@@ -2,12 +2,12 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/service/axiosinstance";
 import ENDPOINTS from "@/service/endpoints";
 import { z } from "zod";
-import { CreateClientGood } from "@/types/clientGoods/clientgoods";
+import { CreateClientGood, UpdateClientGood } from "@/types/clientGoods/clientgoods";
 import { ClientGoodsItemSchema } from "@/validation/client";
 
 
 
-// fetch all client details
+// create client details
 
 const fetchCreateClientGoods = async (params: CreateClientGood) => {
   console.log("🚀 ~ fetchCreateBrokerPaymnet ~ params:", params)
@@ -50,7 +50,7 @@ const useCreateClientGood = () => {
 };
 
 
-// create client goods details
+// fetch all client goods details
 
 const fetchClientGoodsDetails = async (year?:number) => {
   const {data } = await axiosInstance({
@@ -116,8 +116,50 @@ const useDeleteClientGood = (onSuccess?: () => void) => {
   });
 };
 
+// update client details
+const fetchUpdateClientGoods = async (params: UpdateClientGood) => {
+  console.log("🚀 ~ fetchCreateBrokerPaymnet ~ params:", params)
+  // if (!params.misleniousCharge){
+  //   delete params.misleniousCharge
+  // }
+  if (!params.payload.misleniousChargeDescription){
+    delete params.payload.misleniousChargeDescription
+  }
+
+  
+
+  const { data } = await axiosInstance({
+    method: "put",
+    url: `${ENDPOINTS.CLIENTGOODS}${params.id}`, //ENDPOINTS.CLIENTGOODS,
+    data: params.payload,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  console.log("🚀 ~ fetchRegister ~ data:", data);
+
+  const statusSchema = z.number().optional();
+  const messageSchema = z.string().optional();
+
+  const status = statusSchema.parse(data.status);
+  const message = messageSchema.parse(data.message);
+
+  
+
+  return { status, message};
+};
+
+const useUpdateClientGood = () => {
+  return useMutation({
+    mutationKey: ["useUpdateClientGood"],
+    mutationFn: (params: UpdateClientGood) => fetchUpdateClientGoods(params),
+  });
+};
+
 export {
     useCreateClientGood,
     useGetClientGoodsDetails,
-    useDeleteClientGood
+    useDeleteClientGood,
+    useUpdateClientGood
 }

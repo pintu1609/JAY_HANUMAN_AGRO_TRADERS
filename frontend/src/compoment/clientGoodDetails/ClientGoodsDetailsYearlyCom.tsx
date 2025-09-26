@@ -8,12 +8,15 @@ import { FiEdit, FiTrash2, FiEye, FiPlus } from "react-icons/fi";
 import CreateClientGoods from "@/compoment/clientGoodDetails/clientGoodsDetails/createClientGoods/CreateClientGoods";
 import { useDeleteClientGood, useGetClientGoodsDetails } from "@/hook/clientGoodsDetails";
 import { ClientGoodsItemParams } from "@/types/clientGoods/clientgoods";
+import UpdateClientGoods from "./clientGoodsDetails/updateClientGoods/UpdateClientGoods";
 
 
 export default function ClientGoodsDetailsYearlyComp({ currentYear }: any) {
     const [openClientModal, setOpenClientModal] = useState(false);
     const { data: clientRes, isLoading, refetch } = useGetClientGoodsDetails(currentYear);
     const { mutate: mutateDelete, isPending: isDeleting } = useDeleteClientGood(refetch);
+    const [openUpdateClientModal, setOpenUpdateClientModal] = useState(false);
+    const [updateClientData, setUpdateClientData] = useState<ClientGoodsItemParams | null>(null);
 
     const ClientGoodsData: ClientGoodsItemParams[] = clientRes?.data || [];
     console.log("🚀 ~ SellerDetails ~ goodsData:", ClientGoodsData)
@@ -27,6 +30,11 @@ export default function ClientGoodsDetailsYearlyComp({ currentYear }: any) {
         if (confirm("Are you sure you want to delete this good?")) {
             mutateDelete(id);
         }
+    };
+
+    const handleEditClientDetails = (client: ClientGoodsItemParams) => {
+        setUpdateClientData(client);
+        setOpenUpdateClientModal(true);
     };
 
     return (
@@ -126,7 +134,7 @@ export default function ClientGoodsDetailsYearlyComp({ currentYear }: any) {
 
                                             <button
                                                 className="px-1 text-blue-500 hover:text-blue-700 cursor-pointer"
-                                            // onClick={() => handleEditSellerDetails(seller)}
+                                            onClick={() => handleEditClientDetails(seller)}
                                             >
                                                 <FiEdit />
                                             </button>
@@ -151,6 +159,10 @@ export default function ClientGoodsDetailsYearlyComp({ currentYear }: any) {
             {openClientModal && (
                 <CreateClientGoods onClose={() => setOpenClientModal(false)} onSuccess={refetch}
                 />
+            )}
+
+            {openUpdateClientModal && updateClientData && (
+                <UpdateClientGoods clientGoodData={updateClientData} onClose={() => setOpenUpdateClientModal(false)} onSuccess={refetch}  />
             )}
         </div>
     );
