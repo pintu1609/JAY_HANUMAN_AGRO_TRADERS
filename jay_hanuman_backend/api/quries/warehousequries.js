@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { wareHouse } = require("../controller/seller/warehouse");
 exports.searchWareHouseGoods = (filter, pagination) => {
   const { page = 1, limit = 10 } = pagination; // default pagination values
   const skip = (page - 1) * limit;
