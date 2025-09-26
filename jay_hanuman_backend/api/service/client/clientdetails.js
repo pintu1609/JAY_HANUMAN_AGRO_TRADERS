@@ -82,6 +82,10 @@ exports.getAllClient = async () => {
 
 exports.getClientById = async (id) => {
   const clientDetails = await dal.findByID(model, id);
+  const companydetail= await dal.findByID(companymodel, clientDetails.companyName);
+
+  clientDetails.companyName=companydetail
+
 
   if (!clientDetails) {
     return {

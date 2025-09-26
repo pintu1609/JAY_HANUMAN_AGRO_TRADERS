@@ -52,10 +52,21 @@ const useCreateClientGood = () => {
 
 // fetch all client goods details
 
-const fetchClientGoodsDetails = async (year?:number) => {
+const fetchClientGoodsDetails = async (clientId?:string,year?:number) => {
+  let url = `${ENDPOINTS.CLIENTGOODS}getAllClientBuyerGood`;
+  if (clientId) {
+    url += `/${clientId}`;
+  }
+  const queryParams: string[] = [];
+  if (year) {
+    queryParams.push(`year=${year}`);
+  }
+  if (queryParams.length > 0) {
+    url += `?${queryParams.join("&")}`;
+  }
   const {data } = await axiosInstance({
     method: "get",
-    url: `${ENDPOINTS.CLIENTGOODS}getAllClientBuyerGood?year=${year}`,
+    url: url,
     headers: { "Content-Type": "application/json" },
   });
   const statusSchema = z.number().optional();
@@ -73,10 +84,10 @@ const fetchClientGoodsDetails = async (year?:number) => {
 
 
 
-const useGetClientGoodsDetails = (year?:number) => {
+const useGetClientGoodsDetails = ({clientId,year}: {clientId?:string,year?:number}) => {
   return useQuery({
-    queryKey: ["useGetClientGoodsDetails",year ],
-    queryFn: () => fetchClientGoodsDetails(year),
+    queryKey: ["useGetClientGoodsDetails",clientId,year ],
+    queryFn: () => fetchClientGoodsDetails(clientId,year),
   });
 };
 

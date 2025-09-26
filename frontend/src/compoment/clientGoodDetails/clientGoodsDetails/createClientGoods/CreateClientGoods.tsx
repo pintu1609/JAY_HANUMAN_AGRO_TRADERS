@@ -9,10 +9,12 @@ import { useCreateClientGood } from "@/hook/clientGoodsDetails";
 
 interface Props {
     //   paymentData:any
+    clientedit?:boolean
+    clientId?:string | undefined
     onClose: () => void;
     onSuccess: () => void;
 }
-export default function CreateClientGoods({onClose,onSuccess}:Props) {
+export default function CreateClientGoods({clientedit,clientId,onClose,onSuccess}:Props) {
     const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateClientGood();
 
       const {
@@ -25,9 +27,12 @@ export default function CreateClientGoods({onClose,onSuccess}:Props) {
     setFieldValue,
     resetForm,
   } = useFormik({
-    initialValues: initialClientGoodsDetails,
+    initialValues: {...initialClientGoodsDetails,
+      clientId:clientId ?? ""
+    },
     validationSchema: toFormikValidationSchema(clientGoodsDetailsSchema),
     validateOnChange: true,
+    enableReinitialize: true,
     onSubmit: async (values) => {
       try {
       
@@ -68,6 +73,7 @@ export default function CreateClientGoods({onClose,onSuccess}:Props) {
     isPending={isPending}
 setFieldValue={setFieldValue}    
     mode="create"
+    clientedit={clientedit}
     
     
     /></div>)

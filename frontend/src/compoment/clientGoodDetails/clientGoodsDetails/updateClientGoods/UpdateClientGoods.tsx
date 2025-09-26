@@ -9,12 +9,13 @@ import { ClientGoodsItemParams, UpdateClientGood } from "@/types/clientGoods/cli
 
 
 interface Props {
+    clientedit?:boolean
     clientGoodData: ClientGoodsItemParams
     //   paymentData:any
     onClose: () => void;
     onSuccess: () => void;
 }
-export default function UpdateClientGoods({ clientGoodData, onClose, onSuccess }: Props) {
+export default function UpdateClientGoods({clientedit, clientGoodData, onClose, onSuccess }: Props) {
     const { mutateAsync, isPending, isSuccess, isError, data, error } = useUpdateClientGood();
 
     const {
@@ -94,6 +95,7 @@ export default function UpdateClientGoods({ clientGoodData, onClose, onSuccess }
             isPending={isPending}
             setFieldValue={setFieldValue}
             mode="update"
+            clientedit={clientedit}
 
 
         /></div>)

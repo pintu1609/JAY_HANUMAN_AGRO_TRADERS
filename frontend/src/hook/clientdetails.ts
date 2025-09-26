@@ -52,6 +52,53 @@ const useGetAllClientDetails = () => {
   });
 };
 
+// get clint by id
+const fetchAllClientDetailsById = async (id: string) => {
+  const {data } = await axiosInstance({
+    method: "get",
+    url: `${ENDPOINTS.GET_CLIENT_BY_ID}/${id}`,
+    headers: { "Content-Type": "application/json" },
+  });
+  const statusSchema = z.number().optional();
+  const messageSchema = z.string().optional();
+  const status = statusSchema.parse(data.status);
+  const message = messageSchema.parse(data.message);
+  
+  console.log("🚀 ~ client ~ data:", data)
+
+  const dataSchema = z.object({
+     _id: z.string(),
+      userId: z.string(),
+      name: z.string(),
+      email: z.string().optional(),
+      phone: z.array(z.string()),
+      address: z.string(),
+      companyName: z.object({
+        _id: z.string(),
+        name: z.string(),
+        companyName: z.string(),
+        email: z.string().optional(),
+        phone: z.array(z.string()),
+        address: z.string(),
+        gst: z.string().optional(),
+        pan: z.string().optional(),
+      }).optional().nullable(),
+      createdAt: z.string(),
+      updatedAt: z.string(),
+    });
+    
+    // const userData = z.array(dataSchema);
+    const retData = dataSchema.parse(data.data);
+    console.log("🚀 ~ client ~ retData:", retData)
+    return { status, message, data: retData };
+  };
+
+const useGetAllClientDetailsById = (id: string) => {
+  return useQuery({
+    queryKey: ["useGetAllClientDetailsById",id],
+    queryFn: () => fetchAllClientDetailsById(id),
+  });
+};
 
 const deletClientDetails = async (id: string) => {
   const { data } = await axiosInstance({
@@ -178,4 +225,4 @@ const useUpdateClient = () => {
   });
 };
 
-export {useGetAllClientDetails,useDeleteClientDetails, useCreateClient, useUpdateClient}
+export {useGetAllClientDetails,useDeleteClientDetails, useCreateClient, useUpdateClient, useGetAllClientDetailsById}

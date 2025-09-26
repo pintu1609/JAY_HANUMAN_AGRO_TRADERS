@@ -10,6 +10,9 @@ router
   .post(verifyToken, authorizeRole("Admin","User"), validate(ClientBuyerGoodValidation.ClientBuyerGoodsSchema), addClientBuyerGoods);
 router
   .route("/getAllClientBuyerGood")
+  .get(verifyToken,authorizeRole("Admin","User"), getClientBuyerGoods ); 
+  router
+  .route("/getAllClientBuyerGood/:id")
   .get(verifyToken,authorizeRole("Admin","User"), getClientBuyerGoods );   
   
 router

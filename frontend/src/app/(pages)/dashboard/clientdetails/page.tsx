@@ -43,6 +43,9 @@ setOpenCreateClient(true);
     const clientData: ClientDetailsType[] = data?.data || [];
     console.log("🚀 ~ ClientDetails ~ clientData:", clientData)
 
+    const handleClick = (id: string) => {
+        router.push(`/dashboard/clientdetails/${id}`);
+    }
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -88,6 +91,7 @@ setOpenCreateClient(true);
                 {clientData.map((client) => (
                     <div
                         key={client._id}
+                        onClick={() => handleClick(client._id)}
                         className="bg-white shadow-md rounded-xl p-6 relative hover:shadow-lg transition"
                     >
                         <div className="flex justify-between items-center mb-4">
@@ -95,11 +99,13 @@ setOpenCreateClient(true);
                                 <span className="font-semibold">Name:</span>{client.name}</h2>
                             <div className="flex space-x-2">
                                 <button className="text-blue-600 hover:text-blue-800 cursor-pointer"
-                                    onClick={() => handleUpdateClient(client)}>
+                                    onClick={(e) => { e.stopPropagation();
+                                     handleUpdateClient(client)}}>
                                     <Pencil size={18} />
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(client._id)}
+                                    onClick={(e) =>{e.stopPropagation();
+                                         handleDelete(client._id)}}
                                     className={`text-red-600 hover:text-red-800 cursor-pointer ${isPending ? "cursor-not-allowed" : ""}`}
                                 >
                                     <Trash2 size={18} />

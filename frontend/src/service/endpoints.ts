@@ -32,6 +32,7 @@ const  ENDPOINTS = {
     // cllient details
     GET_ALL_CLIENT : '/api/v1/clientdetails/getClient',
     CLIENT : '/api/v1/clientdetails/',
+    GET_CLIENT_BY_ID : '/api/v1/clientdetails/getClientById',
 
     // client goods details
 

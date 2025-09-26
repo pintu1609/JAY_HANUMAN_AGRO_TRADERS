@@ -11,9 +11,9 @@ import { ClientGoodsItemParams } from "@/types/clientGoods/clientgoods";
 import UpdateClientGoods from "./clientGoodsDetails/updateClientGoods/UpdateClientGoods";
 
 
-export default function ClientGoodsDetailsYearlyComp({ currentYear }: any) {
+export default function ClientGoodsDetailsYearlyComp({clientedit,clientId, currentYear }: {clientedit?:boolean,clientId?: string |undefined, currentYear: number}) {
     const [openClientModal, setOpenClientModal] = useState(false);
-    const { data: clientRes, isLoading, refetch } = useGetClientGoodsDetails(currentYear);
+    const { data: clientRes, isLoading, refetch } = useGetClientGoodsDetails({clientId:clientId, year:currentYear});
     const { mutate: mutateDelete, isPending: isDeleting } = useDeleteClientGood(refetch);
     const [openUpdateClientModal, setOpenUpdateClientModal] = useState(false);
     const [updateClientData, setUpdateClientData] = useState<ClientGoodsItemParams | null>(null);
@@ -37,17 +37,31 @@ export default function ClientGoodsDetailsYearlyComp({ currentYear }: any) {
         setOpenUpdateClientModal(true);
     };
 
+    const handleCreateGoodPayment = () => {
+        // setOpenClientModal(true);
+        console.log("handleCreateGoodPayment")
+    };
+
     return (
         <div className="p-6 bg-orange-50 min-h-screen space-y-6">
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-2xl font-bold text-orange-700 mb-4">
                     Year {currentYear} Goods
                 </h1>
+                <div className="flex gap-2">
+
+               
                 <button className="bg-orange-600 hover:bg-orange-700 text-white rounded-lg px-4 py-2"
                     onClick={() => handleCreateGood()}
                 >
                     + Add Good
                 </button>
+                {clientId && <button className="bg-orange-600 hover:bg-orange-700 text-white rounded-lg px-2 py-2"
+                    onClick={() => handleCreateGoodPayment()}
+                >
+                    + Add Payment
+                </button>}
+                 </div>
             </div>
 
             {isLoading ? (
@@ -64,15 +78,13 @@ export default function ClientGoodsDetailsYearlyComp({ currentYear }: any) {
                         <table className="w-full border-collapse rounded-2xl shadow-md mx-auto overflow-hidden">
                             <thead className="bg-orange-100 text-orange-800">
                                 <tr>
+                                    <th className="px-4 py-2 border ">Bill No.</th>
                                     <th className="px-4 py-2 border ">Client Name</th>
                                     <th className="px-4 py-2 border ">Company NAME</th>
                                     <th className="px-4 py-2 border ">Vehicle No.</th>
                                     <th className="px-4 py-2 border ">Package</th>
-                                    {/* <th className="px-4 py-2 border ">Weight</th>
-                                <th className="px-4 py-2 border ">Rate</th> */}
                                     <th className="px-4 py-2 border ">Total Amt</th>
                                     <th className="px-4 py-2 border ">Date</th>
-                                    <th className="px-4 py-2 border ">Bill No.</th>
                                     <th className="px-4 py-2 border ">Action</th>
 
                                 </tr>
@@ -82,6 +94,8 @@ export default function ClientGoodsDetailsYearlyComp({ currentYear }: any) {
                                 {ClientGoodsData.map((seller) => (
                                     <tr key={seller._id} className="text-center align-top">
                                         {/* Seller Info */}
+                                                                                <td className="px-4 py-2 border text-center align-middle">{seller.billNumber}</td>
+
                                         <td className="px-4 py-2 border text-center align-middle ">{seller.client?.name}</td>
                                         <td className="px-4 py-2 border text-center align-middle">{seller.company?.companyName}</td>
                                         <td className="px-4 py-2 border text-center align-middle">{seller.vehicleNumber}</td>
@@ -115,7 +129,6 @@ export default function ClientGoodsDetailsYearlyComp({ currentYear }: any) {
                                         </td>
                                         <td className="px-4 py-2 border text-center align-middle"> ₹{Number(seller.clientAmount || 0).toFixed(2)}</td>
                                         <td className="px-4 py-2 border text-center align-middle">{new Date(seller.date).toISOString().split("T")[0]}</td>
-                                        <td className="px-4 py-2 border text-center align-middle">{seller.billNumber}</td>
 
 
                                         {/* Nested table for packages */}
@@ -157,12 +170,12 @@ export default function ClientGoodsDetailsYearlyComp({ currentYear }: any) {
                 )
             )}
             {openClientModal && (
-                <CreateClientGoods onClose={() => setOpenClientModal(false)} onSuccess={refetch}
+                <CreateClientGoods clientedit={clientedit} clientId={clientId} onClose={() => setOpenClientModal(false)} onSuccess={refetch}
                 />
             )}
 
             {openUpdateClientModal && updateClientData && (
-                <UpdateClientGoods clientGoodData={updateClientData} onClose={() => setOpenUpdateClientModal(false)} onSuccess={refetch}  />
+                <UpdateClientGoods  clientedit={clientedit} clientGoodData={updateClientData} onClose={() => setOpenUpdateClientModal(false)} onSuccess={refetch}  />
             )}
         </div>
     );

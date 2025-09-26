@@ -36,6 +36,7 @@ interface Props {
     setFieldValue: any;
     isPending: boolean;
     mode: string;
+    clientedit?:boolean
 }
 
 export default function ClientGoodsComp({
@@ -49,6 +50,7 @@ export default function ClientGoodsComp({
     setFieldValue,
     isPending,
     mode,
+    clientedit,
 }: Props) {
     const addPackage = () => {
         const newPackage = { package: "", weight: 0, rate: 0, calculation: "" };
@@ -128,8 +130,10 @@ export default function ClientGoodsComp({
                                     value={values.clientId}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    disabled={clientedit ? true : false}
+
                                     className={`w-full h-[42px] px-4 border rounded-lg outline-none text-gray-700 ${errors.clientId && touched.clientId ? "border-red-500" : "border-gray-300"
-                                        }`}
+                                        } ${clientedit ? "bg-gray-200 cursor-not-allowed" : ""}`}
                                 >
                                     <option value="">Select Client</option>
                                     {client?.data?.map((b, i) => (
