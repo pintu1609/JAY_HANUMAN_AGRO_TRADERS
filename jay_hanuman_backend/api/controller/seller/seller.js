@@ -30,7 +30,7 @@ exports.getAllSellerGoodWithPayment = async (req, res, next) => {
   try {
     // const filter=req.query;
     // const pagination=req.query
-    const { page = 1, limit = 10,year } = req.query;
+    const { page = 1, limit = 10, year } = req.query;
 
     const filter = {}; // Add any filters from req.query if needed
     const pagination = { page: parseInt(page), limit: parseInt(limit) };
@@ -38,7 +38,7 @@ exports.getAllSellerGoodWithPayment = async (req, res, next) => {
     if (year) {
       const start = new Date(`${year}-01-01`);
       const end = new Date(`${year}-12-31T23:59:59`);
-      filter["packages.date"] = { $gte: start, $lte: end }; 
+      filter["packages.date"] = { $gte: start, $lte: end };
       // ✅ FIXED
     }
 
@@ -57,10 +57,9 @@ exports.getAllSellerGoodWithPayment = async (req, res, next) => {
   }
 };
 
-
 exports.getAllSellerGood = async (req, res, next) => {
   try {
-    const quries =  searchsellergoods()
+    const quries = searchsellergoods();
     const user = await service.getAllSeller(quries);
     if (user.status === 400) {
       return clientHandler({}, res, user.message, user.status);
@@ -71,7 +70,7 @@ exports.getAllSellerGood = async (req, res, next) => {
     useErrorHandler(err, req, res, next);
     next(err);
   }
-}
+};
 exports.getSellerGoodById = async (req, res, next) => {
   try {
     const user = await service.getSellerById(req.params.id);
@@ -141,10 +140,13 @@ exports.sellerDetailsByBrokerId = async (req, res, next) => {
       };
     }
 
-
     const pagination = {};
     const quries = await searchSeller(filter, pagination, brockerId);
-    const quriespayment = await searchBrokerPayment(filterPayment, pagination, brockerId);
+    const quriespayment = await searchBrokerPayment(
+      filterPayment,
+      pagination,
+      brockerId
+    );
 
     const sellerDetails = await service.sellerDetailsByBrokerId(
       quries,
@@ -160,7 +162,11 @@ exports.sellerDetailsByBrokerId = async (req, res, next) => {
       );
     }
     responseHandler(
-      { data: sellerDetails.data, payment:sellerDetails.brokerPayments ,totalCount: sellerDetails.totalCount, },
+      {
+        data: sellerDetails.data,
+        payment: sellerDetails.brokerPayments,
+        totalCount: sellerDetails.totalCount,
+      },
       res,
       sellerDetails.message,
       200

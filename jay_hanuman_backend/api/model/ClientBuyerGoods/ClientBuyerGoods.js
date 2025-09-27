@@ -6,7 +6,6 @@ const PackageSchema = new Schema({
   weight: { type: Number, required: true }, // e.g., 40
   rate: { type: Number, required: true }, // e.g., rate per unit
   calculation: { type: String, required: true }, // e.g., "Quantal"
-
 });
 
 const ClientGoodsSchema = new Schema(
@@ -29,21 +28,21 @@ const ClientGoodsSchema = new Schema(
     vehicleNumber: { type: String, required: true },
     packages: [PackageSchema], // array of packages
     sellersDetails: [
-    {
-      sellerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Seller",
-        required: true,
-      },
-      sellerPackages: [
-        {
-          packageId: { type: mongoose.Schema.Types.ObjectId, ref: "Seller" }, // could reference Seller.packages
-          package: { type: String, required: true },
-          sellerAmount: { type: Number },
+      {
+        sellerId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Seller",
+          required: true,
         },
-      ],
-    },
-  ],
+        sellerPackages: [
+          {
+            packageId: { type: mongoose.Schema.Types.ObjectId, ref: "Seller" }, // could reference Seller.packages
+            package: { type: String, required: true },
+            sellerAmount: { type: Number },
+          },
+        ],
+      },
+    ],
     misleniousCharge: { type: Number, required: true },
     misleniousChargeDescription: { type: String },
     date: { type: Date, default: Date.now },

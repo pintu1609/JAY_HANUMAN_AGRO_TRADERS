@@ -4,20 +4,15 @@ const {
   clientHandler,
 } = require("../../middleware/response-handler");
 const { useErrorHandler } = require("../../middleware/error-handler");
-const e = require("express");
 
-exports.addClient= async (req, res, next)=>{
-    try {
-        const body=req.body
-        const userId = req.user.id;
-        console.log("🚀 ~ userId:", userId)
-        
-        body.userId=userId;
-        console.log("🚀 ~ body:", body)
-        
-    const clientdetail= await service.createClient(body)
+exports.addClient = async (req, res, next) => {
+  try {
+    const body = req.body;
+    const userId = req.user.id;
+    body.userId = userId;
+    const clientdetail = await service.createClient(body);
 
-   if (clientdetail.status === 400) {
+    if (clientdetail.status === 400) {
       return clientHandler({}, res, clientdetail.message, clientdetail.status);
     }
     responseHandler(clientdetail.data, res, clientdetail.message, 200);
@@ -28,13 +23,11 @@ exports.addClient= async (req, res, next)=>{
   }
 };
 
+exports.geAllclientdetails = async (req, res, next) => {
+  try {
+    const clientdetail = await service.getAllClient();
 
-exports.geAllclientdetails= async (req, res, next)=>{
-    try {
-       
-    const clientdetail= await service.getAllClient()
-
-   if (clientdetail.status === 400) {
+    if (clientdetail.status === 400) {
       return clientHandler({}, res, clientdetail.message, clientdetail.status);
     }
     responseHandler(clientdetail.data, res, clientdetail.message, 200);
@@ -45,15 +38,15 @@ exports.geAllclientdetails= async (req, res, next)=>{
   }
 };
 
-exports.updateClient= async (req, res, next)=>{
-    try {
-        const body=req.body
-        const userId=req.user.id;
-        body.userId=userId;
-        const id=req.params.id;
-    const clientdetail= await service.updateClientDetails(id,body)
+exports.updateClient = async (req, res, next) => {
+  try {
+    const body = req.body;
+    const userId = req.user.id;
+    body.userId = userId;
+    const id = req.params.id;
+    const clientdetail = await service.updateClientDetails(id, body);
 
-   if (clientdetail.status != 200) {
+    if (clientdetail.status != 200) {
       return clientHandler({}, res, clientdetail.message, 400);
     }
     responseHandler(clientdetail.data, res, clientdetail.message, 200);
@@ -64,12 +57,12 @@ exports.updateClient= async (req, res, next)=>{
   }
 };
 
-exports.getClientById= async (req, res, next)=>{
-    try {
-        const id=req.params.id;
-    const clientdetail= await service.getClientById(id)
+exports.getClientById = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const clientdetail = await service.getClientById(id);
 
-   if (clientdetail.status != 200) {
+    if (clientdetail.status != 200) {
       return clientHandler({}, res, clientdetail.message, 400);
     }
     responseHandler(clientdetail.data, res, clientdetail.message, 200);
@@ -78,14 +71,14 @@ exports.getClientById= async (req, res, next)=>{
     useErrorHandler(err, req, res, next);
     next(err);
   }
-   }
+};
 
-exports.deleteClient= async (req, res, next)=>{
-    try {
-        const id=req.params.id;
-    const clientdetail= await service.deleteClient(id)
+exports.deleteClient = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const clientdetail = await service.deleteClient(id);
 
-   if (clientdetail.status != 200) {
+    if (clientdetail.status != 200) {
       return clientHandler(clientdetail?.data, res, clientdetail.message, 400);
     }
     responseHandler(clientdetail.data, res, clientdetail.message, 200);

@@ -2,19 +2,15 @@ const dal = require("../../helper/dal");
 const model = require("../../model/ClientBuyerGoods/clientgoodspayment");
 const clientModel = require("../../model/client/clientdetails");
 exports.create = async (body) => {
-  
+  const clientDetails = await dal.findByID(clientModel, body.clientId);
 
-
-  const clientDetails=await dal.findByID(clientModel,body.clientId)
-
-  if(!clientDetails){
-    return{
-        status:400,
-        message:"Client Details not Found"
-    }
+  if (!clientDetails) {
+    return {
+      status: 400,
+      message: "Client Details not Found",
+    };
   }
 
-  
   const clientGoodsGoodsPayment = await dal.create(model, body);
   return {
     message: "Client Goods Payment created successfully",
@@ -32,14 +28,13 @@ exports.update = async (id, body) => {
     };
   }
 
-  const clientDetails= await dal.findByID(clientModel,body.clientId)
-  
+  const clientDetails = await dal.findByID(clientModel, body.clientId);
 
-  if(!clientDetails){
-    return{
-        status:400,
-        message:"Client Details not Found"
-    }
+  if (!clientDetails) {
+    return {
+      status: 400,
+      message: "Client Details not Found",
+    };
   }
 
   const updateClientGoods = await dal.findOneAndReplace(
@@ -58,7 +53,9 @@ exports.update = async (id, body) => {
 };
 
 exports.delete = async (id) => {
-  const deleteClientGoodsPayment = await dal.findOneAndDelete(model, { _id: id });
+  const deleteClientGoodsPayment = await dal.findOneAndDelete(model, {
+    _id: id,
+  });
   if (!deleteClientGoodsPayment) {
     return {
       message: "Client Buyer Goods not found",
@@ -72,9 +69,7 @@ exports.delete = async (id) => {
 };
 
 exports.getClientGoodsPaymentDetails = async (quries) => {
-  console.log("🚀 ~ quries:", quries)
   const getClientGoodsPayment = await dal.aggregate(model, quries);
-  console.log("🚀 ~ getClientGoodsPayment:", getClientGoodsPayment)
   return {
     message: "Client Goods Payment fetched successfully",
     status: 200,

@@ -1,5 +1,4 @@
 const Joi = require("joi");
-// const { basePaymentValidation, accountDetailsSchema } = require("../common/common");
 
 const accountDetailsSchema = Joi.object({
   accountHolderName: Joi.string().required(),
@@ -36,13 +35,6 @@ const sellerPaymentValidation = Joi.object({
     otherwise: accountDetailsSchema.required(),
   }),
 });
-
-//  const sellerPaymentValidation = Joi.object({
-//  sellerId: Joi.string().required(),
-//  ...basePaymentValidation
-
-//  })
-
 
 module.exports = {
   sellerPaymentValidation,

@@ -35,7 +35,9 @@ const paymentBaseFields = {
   chequeNumber: {
     type: String,
     required: function () {
-      return this.paymentType === "Cheque" || this.paymentType === "BankTransfer";
+      return (
+        this.paymentType === "Cheque" || this.paymentType === "BankTransfer"
+      );
     },
   },
   fromAccount: {

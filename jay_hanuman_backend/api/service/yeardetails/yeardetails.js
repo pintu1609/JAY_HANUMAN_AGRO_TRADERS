@@ -1,16 +1,15 @@
-const dal =require("../../helper/dal")
-const model= require("../../model/yeardetails/yeardetails")
+const dal = require("../../helper/dal");
+const model = require("../../model/yeardetails/yeardetails");
 
-exports.createYear=async( userId)=>{
+exports.createYear = async (userId) => {
+  if (!userId) {
+    return {
+      status: 400,
+      message: "userId not found",
+    };
+  }
 
-    if(!userId){
-        return{
-            status:400,
-            message:"userId not found"
-        }
-    }
-
-    const startYear=2020;
+  const startYear = 2020;
   const years = await dal.find(model);
 
   let newYear;
@@ -21,43 +20,41 @@ exports.createYear=async( userId)=>{
     const maxYear = Math.max(...years.map((y) => y.year));
     newYear = maxYear + 1;
   }
- const data = {
+  const data = {
     userId,
     year: newYear,
   };
 
+  const year = await dal.create(model, data);
 
-    const year=await dal.create(model,data)
+  return {
+    status: 200,
+    message: "Year created Sucessfully",
+    data: year,
+  };
+};
 
-    return{
-        status:200,
-        message:"Year created Sucessfully",
-        data:year
-    }
+exports.deleteYear = async (id) => {
+  const deleteYearData = await dal.findOneAndDelete(model, { _id: id });
 
-}
+  if (!deleteYearData) {
+    return {
+      status: 400,
+      message: "year not found",
+    };
+  }
+  return {
+    status: 200,
+    message: "Year Deleted Successsfully",
+  };
+};
 
-exports.deleteYear= async(id)=>{
-    const deleteYearData=await dal.findOneAndDelete(model,{_id:id})
+exports.getAllYear = async () => {
+  const yearData = await dal.find(model);
 
-    if(!deleteYearData){
-        return{
-            status:400,
-            message:"year not found"
-        }
-    }
-    return{
-        status:200,
-        message:"Year Deleted Successsfully"
-    }
-}
-
-exports.getAllYear=async()=>{
-    const yearData=await dal.find(model)
-    
-    return{
-        status:200,
-        message:"Year Fetched Successfully",
-        data:yearData || []
-    }
-}
+  return {
+    status: 200,
+    message: "Year Fetched Successfully",
+    data: yearData || [],
+  };
+};

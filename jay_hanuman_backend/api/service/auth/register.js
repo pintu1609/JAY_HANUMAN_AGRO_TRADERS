@@ -70,10 +70,12 @@ exports.loginUser = async (body) => {
   };
 };
 
-exports.getAllUser=async()=>{
+exports.getAllUser = async () => {
   const users = await dal.find(registerModel);
-  const usersWithoutPassword = users.map(user => {
-    const { password, ...userWithoutPassword } = user.toObject ? user.toObject() : user;
+  const usersWithoutPassword = users.map((user) => {
+    const { password, ...userWithoutPassword } = user.toObject
+      ? user.toObject()
+      : user;
     return userWithoutPassword;
   });
   return {
@@ -81,11 +83,11 @@ exports.getAllUser=async()=>{
     status: 200,
     data: usersWithoutPassword,
   };
-}
+};
 
-exports.getUserById=async(id)=>{
-  const user = await dal.findByID(registerModel,id);
-  if(!user){
+exports.getUserById = async (id) => {
+  const user = await dal.findByID(registerModel, id);
+  if (!user) {
     return {
       message: "User not found",
       status: 200,
@@ -99,35 +101,45 @@ exports.getUserById=async(id)=>{
     status: 200,
     data: user,
   };
-}
+};
 
-exports.updateUser=async(id,body)=>{
-  const user = await dal.findByID(registerModel,id);
-  if(!user){
+exports.updateUser = async (id, body) => {
+  const user = await dal.findByID(registerModel, id);
+  if (!user) {
     return {
       message: "User not found",
       status: 400,
     };
   }
-  const existingEmail = await dal.findOne(registerModel, { email: body.email ,_id: { $ne: id } });
+  const existingEmail = await dal.findOne(registerModel, {
+    email: body.email,
+    _id: { $ne: id },
+  });
   if (existingEmail) {
     return {
       message: "Email already exists",
       status: 400,
     };
   }
-  const existingPhone = await dal.findOne(registerModel, { phone: body.phone ,_id: { $ne: id } });
+  const existingPhone = await dal.findOne(registerModel, {
+    phone: body.phone,
+    _id: { $ne: id },
+  });
   if (existingPhone) {
     return {
       message: "Phone number already exists",
       status: 400,
     };
   }
-  if(body.password){
+  if (body.password) {
     const password = await bcrypt.hash(body.password, 10);
     body.password = password;
   }
-  const updatedUser = await dal.findOneAndUpdate(registerModel,{_id:id},body);
+  const updatedUser = await dal.findOneAndUpdate(
+    registerModel,
+    { _id: id },
+    body
+  );
   const userWithoutPassword = updatedUser.toObject();
   delete userWithoutPassword.password;
   return {
@@ -135,20 +147,20 @@ exports.updateUser=async(id,body)=>{
     status: 200,
     data: userWithoutPassword,
   };
-}
+};
 
-exports.deleteUser=async(id)=>{
-  const user = await dal.findByID(registerModel,id);
-  if(!user){
+exports.deleteUser = async (id) => {
+  const user = await dal.findByID(registerModel, id);
+  if (!user) {
     return {
       message: "User not found",
       status: 400,
     };
   }
-  await dal.findOneAndDelete(registerModel,{_id:id});
+  await dal.findOneAndDelete(registerModel, { _id: id });
   return {
     message: "User deleted successfully",
     status: 200,
     data: {},
   };
-}
+};

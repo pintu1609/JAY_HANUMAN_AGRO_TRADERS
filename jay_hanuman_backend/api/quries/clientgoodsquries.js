@@ -4,7 +4,8 @@ exports.searchClient = (filter = {}, pagination = {}) => {
   const skip = (page - 1) * limit;
 
   // Base match stage (optional)
-  const matchStage = (filter && Object.keys(filter).length > 0) ? [{ $match: filter }] : [];
+  const matchStage =
+    filter && Object.keys(filter).length > 0 ? [{ $match: filter }] : [];
 
   // Faceted aggregation for data + totalCount
   const paginatedQuery = [
@@ -43,19 +44,17 @@ exports.searchClient = (filter = {}, pagination = {}) => {
               companyId: 0,
             },
           },
-          
-
 
           { $sort: { createdAt: -1 } },
           { $skip: skip },
-          { $limit: limit }
+          { $limit: limit },
         ],
         totalCount: [
           ...matchStage,
-          { $count: "count" } // count **after filtering**
-        ]
-      }
-    }
+          { $count: "count" }, // count **after filtering**
+        ],
+      },
+    },
   ];
 
   return paginatedQuery;

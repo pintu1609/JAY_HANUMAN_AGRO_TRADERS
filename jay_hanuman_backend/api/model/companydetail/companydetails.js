@@ -11,7 +11,7 @@ const companyDetailsSchema = new Schema(
     name: {
       type: String,
       required: true,
-    },  
+    },
     companyName: {
       type: String,
       required: true,
@@ -20,7 +20,7 @@ const companyDetailsSchema = new Schema(
     email: {
       type: String,
       unique: true,
-      sparse: true 
+      sparse: true,
     },
 
     phone: [
@@ -36,11 +36,11 @@ const companyDetailsSchema = new Schema(
     },
     gst: {
       type: String,
-      sparse: true 
+      sparse: true,
     },
     pan: {
       type: String,
-      sparse: true 
+      sparse: true,
     },
   },
   { timestamps: true }

@@ -2,7 +2,7 @@ const model = require("../../model/broker/broker");
 const dal = require("../../helper/dal");
 
 /**
- * Update a broker
+ * Create a broker
  */
 exports.createBroker = async (body) => {
   const existingPhone = await dal.findOne(model, { phone: body.phone });
@@ -105,4 +105,3 @@ exports.deleteBroker = async (id) => {
     data: deletedBroker,
   };
 };
-

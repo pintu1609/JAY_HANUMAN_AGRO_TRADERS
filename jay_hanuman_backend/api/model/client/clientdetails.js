@@ -15,10 +15,10 @@ const clientDetailsSchema = new Schema(
     email: {
       type: String,
       unique: true,
-      sparse: true 
+      sparse: true,
     },
 
-    phone:  [
+    phone: [
       {
         type: String,
         required: true,
@@ -35,8 +35,6 @@ const clientDetailsSchema = new Schema(
       required: true,
       ref: "CompanyDetails",
     },
-    
-    
   },
   { timestamps: true }
 );

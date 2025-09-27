@@ -22,7 +22,6 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const body = req.body;
-    console.log("🚀 ~ body:", body)
     const user = await service.loginUser(body);
 
     if (user.status === 400) {
@@ -59,12 +58,11 @@ exports.UserById = async (req, res, next) => {
     useErrorHandler(err, req, res, next);
     next(err);
   }
-}
+};
 exports.updateUser = async (req, res, next) => {
   try {
     const body = req.body;
-    console.log("🚀 ~ body:", body)
-    const user = await service.updateUser(req.params.id,body);
+    const user = await service.updateUser(req.params.id, body);
     if (user.status !== 200) {
       return clientHandler({}, res, user.message, user.status);
     }

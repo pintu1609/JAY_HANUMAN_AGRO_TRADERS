@@ -29,7 +29,7 @@ exports.search = (filter, pagination) => {
               amount: 1,
               date: 1,
               paymentType: 1,
-              chequeNumber:1,
+              chequeNumber: 1,
               fromAccount: 1,
               toAccount: 1,
             },
@@ -45,7 +45,7 @@ exports.search = (filter, pagination) => {
         from: "brokers", // broker collection
         localField: "packages.broker",
         foreignField: "_id",
-         pipeline: [
+        pipeline: [
           {
             $project: {
               _id: 1,
@@ -70,7 +70,7 @@ exports.search = (filter, pagination) => {
         // name: { $first: "$name" },
         // address: { $first: "$address" },
         name: { $first: { $ifNull: ["$name", "-"] } },
-address: { $first: { $ifNull: ["$address", "-"] } },
+        address: { $first: { $ifNull: ["$address", "-"] } },
         totalAmount: { $first: "$totalAmount" },
         commisionAmount: { $first: "$commisionAmount" },
         weightCost: { $first: "$weightCost" },

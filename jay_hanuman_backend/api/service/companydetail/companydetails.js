@@ -3,10 +3,10 @@ const dal = require("../../helper/dal");
 
 exports.createCompany = async (body) => {
   const rawCompanyName = body.companyName || "";
-const companyName = rawCompanyName.trim();
+  const companyName = rawCompanyName.trim();
 
   const findCompanyName = await dal.findOne(model, {
-    companyName:  { $regex: new RegExp(`^${companyName}$`, "i") },
+    companyName: { $regex: new RegExp(`^${companyName}$`, "i") },
   });
   if (findCompanyName) {
     return {
@@ -50,9 +50,9 @@ const companyName = rawCompanyName.trim();
     }
   }
 
-  
-  const companydetail = await dal.create(model, {...body,
-    companyName:companyName
+  const companydetail = await dal.create(model, {
+    ...body,
+    companyName: companyName,
   });
   return {
     status: 200,
@@ -72,8 +72,7 @@ exports.updateCompanyDetails = async (id, body) => {
   }
 
   const rawCompanyName = body.companyName || "";
-const companyName = rawCompanyName.trim();
-
+  const companyName = rawCompanyName.trim();
 
   const findCompanyName = await dal.findOne(model, {
     companyName: { $regex: new RegExp(`^${companyName}$`, "i") },
@@ -109,27 +108,36 @@ const companyName = rawCompanyName.trim();
       message: "Phone number already exists",
     };
   }
-if (body.gst){
-  const findgst = await dal.findOne(model, { gst: body.gst, _id: { $ne: id } });
-  if (findgst) {
-    return {
-      status: 400,
-      message: "GST already exists",
-    };
+  if (body.gst) {
+    const findgst = await dal.findOne(model, {
+      gst: body.gst,
+      _id: { $ne: id },
+    });
+    if (findgst) {
+      return {
+        status: 400,
+        message: "GST already exists",
+      };
+    }
   }
-}
-  if(body.pan){
-  const findpan = await dal.findOne(model, { pan: body.pan, _id: { $ne: id } });
-  if (findpan) {
-    return {
-      status: 400,
-      message: "PAN already exists",
-    };
+  if (body.pan) {
+    const findpan = await dal.findOne(model, {
+      pan: body.pan,
+      _id: { $ne: id },
+    });
+    if (findpan) {
+      return {
+        status: 400,
+        message: "PAN already exists",
+      };
+    }
   }
-  }
-  const companydetail = await dal.findOneAndUpdate(model, { _id: id }, {...body,
-    companyName:companyName
-  },{ new: true } );
+  const companydetail = await dal.findOneAndUpdate(
+    model,
+    { _id: id },
+    { ...body, companyName: companyName },
+    { new: true }
+  );
   return {
     status: 200,
     message: "Company details updated Successfully",

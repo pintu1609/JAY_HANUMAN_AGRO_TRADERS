@@ -5,13 +5,12 @@ const {
 } = require("../../middleware/response-handler");
 const { useErrorHandler } = require("../../middleware/error-handler");
 
-exports.addYear= async (req, res, next)=>{
-    try {
-        
-        const userId=req.user.id;
-    const year= await service.createYear(userId)
+exports.addYear = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const year = await service.createYear(userId);
 
-   if (year.status === 400) {
+    if (year.status === 400) {
       return clientHandler({}, res, year.message, year.status);
     }
     responseHandler(year.data, res, year.message, 200);
@@ -22,13 +21,12 @@ exports.addYear= async (req, res, next)=>{
   }
 };
 
+exports.deleteYear = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const year = await service.deleteYear(id);
 
-exports.deleteYear= async (req, res, next)=>{
-    try {
-        const id=req.params.id;
-    const year= await service.deleteYear(id)
-
-   if (year.status != 200) {
+    if (year.status != 200) {
       return clientHandler({}, res, year.message, 400);
     }
     responseHandler(year.data, res, year.message, 200);
@@ -39,13 +37,11 @@ exports.deleteYear= async (req, res, next)=>{
   }
 };
 
+exports.getAllYear = async (req, res, next) => {
+  try {
+    const year = await service.getAllYear();
 
-exports.getAllYear= async (req, res, next)=>{
-    try {
-       
-    const year= await service.getAllYear()
-
-   if (year.status === 400) {
+    if (year.status === 400) {
       return clientHandler({}, res, year.message, year.status);
     }
     responseHandler(year.data, res, year.message, 200);

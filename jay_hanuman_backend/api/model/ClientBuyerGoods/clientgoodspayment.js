@@ -10,7 +10,7 @@ const clientGoodsPaymnet = new Schema({
   clientId: {
     type: Schema.Types.ObjectId,
     require: true,
-    ref:'ClientDetails'
+    ref: "ClientDetails",
   },
   amount: {
     type: Number,
@@ -46,4 +46,4 @@ const clientGoodsPaymnet = new Schema({
   },
 });
 
-module.exports=mongoose.model("clientGoodPayment",clientGoodsPaymnet)
+module.exports = mongoose.model("clientGoodPayment", clientGoodsPaymnet);

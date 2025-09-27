@@ -1,6 +1,4 @@
 const Joi = require("joi");
-const broker = require("../../model/broker/broker");
-// const { basePaymentValidation, accountDetailsSchema } = require("../common/common");
 
 const accountDetailsSchema = Joi.object({
   accountHolderName: Joi.string().required(),
@@ -37,13 +35,6 @@ const brokerPaymentValidation = Joi.object({
     otherwise: accountDetailsSchema.required(),
   }),
 });
-
-//  const sellerPaymentValidation = Joi.object({
-//  sellerId: Joi.string().required(),
-//  ...basePaymentValidation
-
-//  })
-
 
 module.exports = {
   brokerPaymentValidation,

@@ -7,7 +7,6 @@ const accountDetailsSchema = Joi.object({
 });
 
 const basePaymentValidation = Joi.object({
-//   sellerId: Joi.string().required(),
   amount: Joi.number().positive().required(),
   date: Joi.date().required(),
   paymentType: Joi.string()

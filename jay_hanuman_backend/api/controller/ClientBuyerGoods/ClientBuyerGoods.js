@@ -3,11 +3,11 @@ const {
   responseHandler,
   clientHandler,
 } = require("../../middleware/response-handler");
-const { useErrorHandler } = require("../../middleware/error-handler");  
+const { useErrorHandler } = require("../../middleware/error-handler");
 const { searchClient } = require("../../quries/clientgoodsquries");
 const { default: mongoose } = require("mongoose");
 
-exports.addClientBuyerGoods = async (req, res,next) => {
+exports.addClientBuyerGoods = async (req, res, next) => {
   try {
     const body = req.body;
     const userId = req.user.id;
@@ -26,22 +26,20 @@ exports.addClientBuyerGoods = async (req, res,next) => {
 
 exports.getClientBuyerGoods = async (req, res, next) => {
   try {
-    const clientId=req.params.id
-    const {year}=req.query
-    console.log("🚀 ~ year:", year)
-    const filter={}
+    const clientId = req.params.id;
+    const { year } = req.query;
+    const filter = {};
     if (year) {
-      
       const start = new Date(`${year}-01-01`);
       const end = new Date(`${year}-12-31T23:59:59`);
-      filter["date"] = { $gte: start, $lte: end }; 
+      filter["date"] = { $gte: start, $lte: end };
       // ✅ FIXED
     }
-    
+
     if (clientId) {
       filter.clientId = new mongoose.Types.ObjectId(clientId);
     }
-    const quries= await searchClient(filter)
+    const quries = await searchClient(filter);
     const user = await service.getClientGoodsDetails(quries);
     responseHandler(user.data, res, user.message, 200);
   } catch (err) {
@@ -80,4 +78,4 @@ exports.deleteClientBuyerGoods = async (req, res, next) => {
     useErrorHandler(err, req, res, next);
     next(err);
   }
-};  
+};

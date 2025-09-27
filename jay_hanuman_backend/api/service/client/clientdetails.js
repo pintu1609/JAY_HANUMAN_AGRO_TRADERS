@@ -4,7 +4,6 @@ const { required } = require("joi");
 const companymodel = require("../../model/companydetail/companydetails");
 
 exports.createClient = async (body) => {
-
   if (body.email) {
     const findEmail = await dal.findOne(model, { email: body.email });
     if (findEmail) {
@@ -15,15 +14,13 @@ exports.createClient = async (body) => {
     }
   }
 
-  const findPhone = await dal.findOne(model, {  phone: { $in: body.phone }});
+  const findPhone = await dal.findOne(model, { phone: { $in: body.phone } });
   if (findPhone) {
     return {
       status: 400,
       message: "Phone number already exists",
     };
   }
-
-  
 
   const clientDetail = await dal.create(model, body);
   return {
@@ -34,12 +31,11 @@ exports.createClient = async (body) => {
 };
 
 exports.updateClientDetails = async (id, body) => {
-
   if (body.email) {
-    const findEmail = await dal.findOne(
-      model,
-      { email: body.email , _id: { $ne: id } },
-    );
+    const findEmail = await dal.findOne(model, {
+      email: body.email,
+      _id: { $ne: id },
+    });
     if (findEmail) {
       return {
         status: 400,
@@ -48,15 +44,17 @@ exports.updateClientDetails = async (id, body) => {
     }
   }
 
-   const findPhone = await dal.findOne(model, {  phone: { $in: body.phone }, _id: { $ne: id } });
- 
+  const findPhone = await dal.findOne(model, {
+    phone: { $in: body.phone },
+    _id: { $ne: id },
+  });
+
   if (findPhone) {
     return {
       status: 400,
       message: "Phone number already exists",
     };
   }
-
 
   const clientDetail = await dal.findOneAndUpdate(model, { _id: id }, body, {
     new: true,
@@ -69,23 +67,24 @@ exports.updateClientDetails = async (id, body) => {
 };
 
 exports.getAllClient = async () => {
-  const clientDetail = await dal.findAndPopulate(model,{}, {}, {}, {}, ["companyName"]);
-  console.log("🚀 ~ clientDetail:", clientDetail)
-  // const CompanyDetails= await dal.findByID(companymodel, id);
-  console.log("🚀 ~ clientDetail:", clientDetail)
+  const clientDetail = await dal.findAndPopulate(model, {}, {}, {}, {}, [
+    "companyName",
+  ]);
   return {
     status: 200,
     message: "Client Details Fetched Successfully",
-    data: clientDetail ||[],
+    data: clientDetail || [],
   };
 };
 
 exports.getClientById = async (id) => {
   const clientDetails = await dal.findByID(model, id);
-  const companydetail= await dal.findByID(companymodel, clientDetails.companyName);
+  const companydetail = await dal.findByID(
+    companymodel,
+    clientDetails.companyName
+  );
 
-  clientDetails.companyName=companydetail
-
+  clientDetails.companyName = companydetail;
 
   if (!clientDetails) {
     return {

@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 
 exports.searchBrokerPayment = (filter, pagination, brokerId) => {
-  console.log("🚀 ~ filter:", filter)
-  console.log("🚀 ~ brokerId:", brokerId)
   const { page = 1, limit = 10 } = pagination; // default pagination values
   const skip = (page - 1) * limit;
 

@@ -26,7 +26,7 @@ exports.updateBroker = async (req, res, next) => {
     const body = req.body;
     const userId = req.user.id;
     body.userId = userId;
-    const user = await service.updateBroker(body,req.params.id);
+    const user = await service.updateBroker(body, req.params.id);
     if (user.status === 400) {
       return clientHandler({}, res, user.message, user.status);
     }
@@ -37,7 +37,6 @@ exports.updateBroker = async (req, res, next) => {
     next(err);
   }
 };
-
 
 exports.getAllBroker = async (req, res, next) => {
   try {
@@ -53,7 +52,6 @@ exports.getAllBroker = async (req, res, next) => {
   }
 };
 
-
 exports.getBrokerById = async (req, res, next) => {
   try {
     const user = await service.getBrokerById(req.params.id);
@@ -68,7 +66,6 @@ exports.getBrokerById = async (req, res, next) => {
   }
 };
 
-
 exports.deleteBroker = async (req, res, next) => {
   try {
     const user = await service.deleteBroker(req.params.id);
@@ -82,4 +79,3 @@ exports.deleteBroker = async (req, res, next) => {
     next(err);
   }
 };
-
