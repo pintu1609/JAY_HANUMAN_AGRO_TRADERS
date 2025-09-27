@@ -135,11 +135,13 @@ exports.update = async (id, body) => {
 
     return total + ((Number(pkg.package) * pkg.weight) / multiplier) * pkg.rate;
   }, 0);
+  console.log("🚀 ~ subtotalamount:", subtotalamount)
 
-  const sellerAmount = subtotalamount + body.misleniousCharge;
+  const clientAmount = subtotalamount + body.misleniousCharge;
+  console.log("🚀 ~ sellerAmount:", clientAmount)
   const goodsData = {
     ...body,
-    sellerAmount,
+    clientAmount,
   };
   console.log("🚀 ~ goodsData:", goodsData);
 
@@ -174,6 +176,7 @@ exports.delete = async (id) => {
 
 exports.getClientGoodsDetails = async (quries) => {
   const getClientGoods = await dal.aggregate(model, quries);
+  console.log("🚀 ~ getClientGoods:", JSON.stringify(getClientGoods))
   return {
     message: "Client Buyer Goods fetched successfully",
     status: 200,

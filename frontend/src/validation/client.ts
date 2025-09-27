@@ -17,6 +17,7 @@ const sellerSchema=z.object({
             _id: z.string(),
             packageId: z.string(),
             package: z.string(),
+            sellerAmount: z.number(),
         })
     )
     })

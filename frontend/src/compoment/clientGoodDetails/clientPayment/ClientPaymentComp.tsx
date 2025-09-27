@@ -37,7 +37,7 @@ export default function ClientPaymentDetailsForm({clientedit, onClose, values, e
         </button>
                 <div className="w-full max-w-3xl bg-white shadow-lg rounded-2xl p-8 max-h-[80vh] overflow-y-auto">
 
-        <h2 className="text-xl font-bold text-orange-700 mb-4 text-center">
+        <h2 className="text-xl font-bold text-orange-700 mb-4 text-center underline underline-offset-8">
          {mode === "update" ? "Update Payment Details" : "Add Payment Details"}
         </h2>
 

@@ -13,7 +13,17 @@ interface UpdateClientPayment {
     id:string
 }
 
+interface ClientPaymentItemParams {
+    _id: string;
+    amount: number;
+    date: string;
+    paymentType: string;
+    chequeNumber?: string | null;
+    accountNumber?: string | null;
+}
+
 export  {
     CreateClientPayment,
-    UpdateClientPayment
+    UpdateClientPayment,
+    ClientPaymentItemParams
 }

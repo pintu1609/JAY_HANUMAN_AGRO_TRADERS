@@ -4,6 +4,7 @@ import ENDPOINTS from "@/service/endpoints";
 import { z } from "zod";
 import { CreateSellerPayment, UpdateSellerPayment } from "@/types/sellerDetails/sellerparam";
 import { CreateClientPayment, UpdateClientPayment } from "@/types/clientGoods/cientpayment";
+import { ClientGoodsPaymentSchema } from "@/validation/clientpayment";
 
 
 // delete seller payment
@@ -147,4 +148,45 @@ const useUpdateClientPayment = () => {
 };
 
 
-export {useDeleteClientPayment,useCreateClientPayment, useUpdateClientPayment}
+
+// FETCH client payment by client id
+const fetchClientGoodsPaymentDetails = async (clientId?:string,year?:number) => {
+  let url = `${ENDPOINTS.CLIENTGOODSPAYMENT}getAllClientGoodsPayment`;
+  if (clientId) {
+    url += `/${clientId}`;
+  }
+  const queryParams: string[] = [];
+  if (year) {
+    queryParams.push(`year=${year}`);
+  }
+  if (queryParams.length > 0) {
+    url += `?${queryParams.join("&")}`;
+  }
+  const {data } = await axiosInstance({
+    method: "get",
+    url: url,
+    headers: { "Content-Type": "application/json" },
+  });
+  const statusSchema = z.number().optional();
+  const messageSchema = z.string().optional();
+  const status = statusSchema.parse(data.status);
+  const message = messageSchema.parse(data.message);
+  
+  console.log("🚀 ~ fetchAllCompanyDetails ~ data:", data)
+
+    const retData = ClientGoodsPaymentSchema.parse(data.data?.[0].data);
+    console.log("🚀 ~ fetchSellerGoodsByBrokerId ~ retData:", retData)
+
+    return { status, message, data: retData};
+  };
+
+
+
+const useGetClientGoodsPaymentDetails = ({clientId,year}: {clientId?:string,year?:number}) => {
+  return useQuery({
+    queryKey: ["useGetClientGoodsPaymentDetails",clientId,year ],
+    queryFn: () => fetchClientGoodsPaymentDetails(clientId,year),
+  });
+};
+
+export {useDeleteClientPayment,useCreateClientPayment, useUpdateClientPayment, useGetClientGoodsPaymentDetails};

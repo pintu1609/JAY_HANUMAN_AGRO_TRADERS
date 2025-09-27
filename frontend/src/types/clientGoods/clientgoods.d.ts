@@ -49,6 +49,7 @@ interface SellerPackageGoodsParam {
     _id: string;
     packageId: string;
     package: string;
+    sellerAmount: number;
 }
 interface SellerDetailsGoodsParam {
     _id: string;
