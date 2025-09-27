@@ -6,6 +6,8 @@ import { useFormik } from "formik";
 import { useEffect } from "react";
 import { useUpdateSellerPayment } from "@/hook/sellerpayment";
 import { PaymentItem } from "@/types/sellerDetails/sellerparam";
+import { AxiosError } from "axios";
+import { ZodError } from "zod";
 
 
 interface Props {
@@ -65,9 +67,18 @@ export default function UpdateSellerPayment({ paymentdata, onClose, onSuccess }:
             onSuccess();
         }
 
-        if (isError && error) {
-            toast.error(error.message ?? "Something went wrong!");
-        }
+        if (isError) {
+      if (error instanceof AxiosError) {
+        toast.error(error?.response?.data?.message);
+
+      } else if (error instanceof ZodError) {
+        toast.error(error?.message);
+      } else {
+        toast.error("Something went wrong");
+        console.log("Error:", error);
+
+      }
+    }
 
     }, [isSuccess, isError, data, error, resetForm, onClose]);
 
