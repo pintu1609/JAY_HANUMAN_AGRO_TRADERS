@@ -9,6 +9,7 @@ import CreateClientGoods from "@/compoment/clientGoodDetails/clientGoodsDetails/
 import { useDeleteClientGood, useGetClientGoodsDetails } from "@/hook/clientGoodsDetails";
 import { ClientGoodsItemParams } from "@/types/clientGoods/clientgoods";
 import UpdateClientGoods from "./clientGoodsDetails/updateClientGoods/UpdateClientGoods";
+import CreateClientPayment from "./clientPayment/createClientPayment/CreateClientPayment";
 
 
 export default function ClientGoodsDetailsYearlyComp({clientedit,clientId, currentYear }: {clientedit?:boolean,clientId?: string |undefined, currentYear: number}) {
@@ -17,6 +18,9 @@ export default function ClientGoodsDetailsYearlyComp({clientedit,clientId, curre
     const { mutate: mutateDelete, isPending: isDeleting } = useDeleteClientGood(refetch);
     const [openUpdateClientModal, setOpenUpdateClientModal] = useState(false);
     const [updateClientData, setUpdateClientData] = useState<ClientGoodsItemParams | null>(null);
+
+    const [openCreateClientPaymentModal, setopenCreateClientPaymentModal] = useState(false)
+    
 
     const ClientGoodsData: ClientGoodsItemParams[] = clientRes?.data || [];
     console.log("🚀 ~ SellerDetails ~ goodsData:", ClientGoodsData)
@@ -38,8 +42,7 @@ export default function ClientGoodsDetailsYearlyComp({clientedit,clientId, curre
     };
 
     const handleCreateGoodPayment = () => {
-        // setOpenClientModal(true);
-        console.log("handleCreateGoodPayment")
+        setopenCreateClientPaymentModal(true)
     };
 
     return (
@@ -176,6 +179,11 @@ export default function ClientGoodsDetailsYearlyComp({clientedit,clientId, curre
 
             {openUpdateClientModal && updateClientData && (
                 <UpdateClientGoods  clientedit={clientedit} clientGoodData={updateClientData} onClose={() => setOpenUpdateClientModal(false)} onSuccess={refetch}  />
+            )}
+
+            {openCreateClientPaymentModal && (
+                <CreateClientPayment clientedit={clientedit} clientId={clientId} onClose={() => setopenCreateClientPaymentModal(false)} onSuccess={refetch} />
+                
             )}
         </div>
     );

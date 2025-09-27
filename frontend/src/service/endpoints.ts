@@ -37,6 +37,8 @@ const  ENDPOINTS = {
     // client goods details
 
     CLIENTGOODS:'/api/v1/clientGood/',
+    // clientgoods payment detials
+    CLIENTGOODSPAYMENT:'/api/v1/clientGoodsPayment/',
 
     // broker Payments
     BROKERPAYMENT:'/api/v1/brokerPayment/',

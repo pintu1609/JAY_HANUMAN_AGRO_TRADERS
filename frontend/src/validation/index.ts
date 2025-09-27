@@ -36,6 +36,7 @@ const intialPayment = {
   toAccount: { accountHolderName: "", accountNumber: "", ifscCode: "" },
 };
 
+
 const initialCompany = {
   name: "",
   companyName: "",
@@ -71,6 +72,7 @@ const initailSellerGoods = {
 };
 
 
+
 const initialClientGoodsDetails = {
   clientId: "",
   companyId: "",
@@ -100,6 +102,15 @@ const initialClientGoodsDetails = {
   billNumber: "",
 
 }
+
+const intialClientPayment = {
+  clientId: "",
+  amount: 0,
+  date: "",
+  paymentType: "Cash",
+  chequeNumber: "",
+  accountNumber: "",
+};
 const registerSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
   email: z.string().email("Enter a valid email address"),
@@ -355,6 +366,38 @@ const sellerGoodsSchema = z
   billNumber: z.string().nonempty("Bill number is required"),
 });
 
+const clientPaymentSchema = z.object({
+  clientId: z.string().nonempty("Client is required"),
+  amount: z.number().min(1, "Amount is required"),
+  date: z.string().nonempty("Date is required"),
+  paymentType: z.enum(["Cash", "Cheque", "BankTransfer", "PhonePe"]),
+  chequeNumber: z.string().optional(),
+  accountNumber: z.string().optional(),
+
+  
+}).superRefine((data, ctx) => {
+  // ✅ If Cheque or BankTransfer → Cheque Number required
+  if (data.paymentType === "Cheque") {
+    if (!data.chequeNumber) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Cheque number is required",
+        path: ["chequeNumber"],
+      });
+    }
+  }
+
+  if (data.paymentType === "BankTransfer" || data.paymentType === "PhonePe" || data.paymentType === "Cheque") {
+    if (!data.accountNumber) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Account number is required",
+        path: ["accountNumber"],
+      });
+    }
+  }
+});
+
 export {
   initialLogin,
   loginSchema,
@@ -372,5 +415,7 @@ export {
   initailSellerGoods,
   sellerGoodsSchema,
   initialClientGoodsDetails,
-  clientGoodsDetailsSchema
+  clientGoodsDetailsSchema,
+  intialClientPayment,
+  clientPaymentSchema
 };
