@@ -42,7 +42,7 @@ exports.update = async (id, body) => {
     }
   }
 
-  const updateClientGoods = await dal.findOneAndUpdate(
+  const updateClientGoods = await dal.findOneAndReplace(
     model,
     { _id: id },
     body,

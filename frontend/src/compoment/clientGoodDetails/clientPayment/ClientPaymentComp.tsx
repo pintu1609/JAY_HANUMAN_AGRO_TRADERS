@@ -133,7 +133,7 @@ export default function ClientPaymentDetailsForm({clientedit, onClose, values, e
           )}
 
              {/* Account Number (only if phonepay/BankTransfer) */}
-          {(values.paymentType === "PhonePe" || values.paymentType === "BankTransfer" || values.paymentType === "Cheque" ) && (
+          {(values.paymentType !="Cash" ) && (
             <div>
               <label className="block text-gray-700 font-medium mb-2">Account Number</label>
               <input

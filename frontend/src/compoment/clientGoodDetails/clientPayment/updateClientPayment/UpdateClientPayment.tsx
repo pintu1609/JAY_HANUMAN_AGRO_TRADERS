@@ -26,6 +26,7 @@ export default function UpdateClientPayment({clientedit,clientId,clientPaymentDa
     handleBlur,
     handleChange,
     handleSubmit,
+    setFieldValue,
     resetForm,
   } = useFormik({
     initialValues: {
@@ -33,8 +34,8 @@ export default function UpdateClientPayment({clientedit,clientId,clientPaymentDa
         amount:clientPaymentData.amount ?? 0,
         date: new Date(clientPaymentData.date).toISOString().split("T")[0] || "",
         paymentType:clientPaymentData.paymentType ?? "Cash",
-        chequeNumber:clientPaymentData.chequeNumber ?? "",
-        accountNumber:clientPaymentData.accountNumber ?? "",
+        chequeNumber:clientPaymentData.chequeNumber || "",
+        accountNumber:clientPaymentData.accountNumber || "",
      
     },
     validationSchema: toFormikValidationSchema(clientPaymentSchema),
@@ -69,7 +70,16 @@ export default function UpdateClientPayment({clientedit,clientId,clientPaymentDa
 
   }, [isSuccess, isError, data, error, resetForm, onClose]);
 
-  
+   useEffect(() => {
+        if (values.paymentType === "Cash") {
+            setFieldValue("chequeNumber", "");
+            setFieldValue("accountNumber", "");
+        }
+         if (values.paymentType === "PhonePe" || values.paymentType=== "BankTransfer") {
+            setFieldValue("chequeNumber", "");
+        }
+        
+    }, [values.paymentType]);
     return(
     
     <div><ClientPaymentDetailsForm onClose={onClose} 

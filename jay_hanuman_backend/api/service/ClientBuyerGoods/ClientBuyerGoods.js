@@ -145,7 +145,7 @@ exports.update = async (id, body) => {
   };
   console.log("🚀 ~ goodsData:", goodsData);
 
-  const updateClientGoods = await dal.findOneAndUpdate(
+  const updateClientGoods = await dal.findOneAndReplace(
     model,
     { _id: id },
     goodsData,
