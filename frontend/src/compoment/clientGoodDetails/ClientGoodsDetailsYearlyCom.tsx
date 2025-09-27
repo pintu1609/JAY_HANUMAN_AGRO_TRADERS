@@ -4,13 +4,12 @@
 
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
-import { FiEdit, FiTrash2, FiEye, FiPlus } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiEye } from "react-icons/fi";
 import CreateClientGoods from "@/compoment/clientGoodDetails/clientGoodsDetails/createClientGoods/CreateClientGoods";
 import { useDeleteClientGood, useGetClientGoodsDetails } from "@/hook/clientGoodsDetails";
 import { ClientGoodsItemParams } from "@/types/clientGoods/clientgoods";
 import UpdateClientGoods from "./clientGoodsDetails/updateClientGoods/UpdateClientGoods";
 import CreateClientPayment from "./clientPayment/createClientPayment/CreateClientPayment";
-import { is } from "zod/locales";
 import { useDeleteClientPayment, useGetClientGoodsPaymentDetails } from "@/hook/clientpayment";
 import { ClientPaymentItemParams } from "@/types/clientGoods/cientpayment";
 import UpdateClientPayment from "./clientPayment/updateClientPayment/UpdateClientPayment";
@@ -33,7 +32,6 @@ export default function ClientGoodsDetailsYearlyComp({ clientedit, clientId, cur
 
     const ClientGoodsData: ClientGoodsItemParams[] = clientRes?.data || [];
     const ClientPaymentData: ClientPaymentItemParams[] = clientPaymentSchema?.data || [];
-    console.log("🚀 ~ ClientGoodsDetailsYearlyComp ~ ClientPaymentData:", ClientPaymentData)
 
 
 
@@ -125,11 +123,11 @@ export default function ClientGoodsDetailsYearlyComp({ clientedit, clientId, cur
 
                                             <tbody>
                                                 {ClientGoodsData.map((seller) => {
-                                                    const totalSellerAmount =  seller.sellersDetails.reduce((sAcc, sellerpkg) => {
-                                                            const packageTotal = sellerpkg.sellerPackages.reduce((pAcc, pkg) => pAcc + (pkg.sellerAmount || 0), 0);
-                                                            return sAcc + packageTotal;
-                                                        }, 0);
-                                                        ;
+                                                    const totalSellerAmount = seller.sellersDetails.reduce((sAcc, sellerpkg) => {
+                                                        const packageTotal = sellerpkg.sellerPackages.reduce((pAcc, pkg) => pAcc + (pkg.sellerAmount || 0), 0);
+                                                        return sAcc + packageTotal;
+                                                    }, 0);
+                                                    ;
                                                     return (
 
 
@@ -217,10 +215,6 @@ export default function ClientGoodsDetailsYearlyComp({ clientedit, clientId, cur
                                                         {/* <th className="p-3 border">Cheque No.</th> */}
                                                         <th className="px-2 py-2 border">Account No.</th>
                                                         <th className="px-2 py-2 border">Action</th>
-
-
-
-
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -266,19 +260,6 @@ export default function ClientGoodsDetailsYearlyComp({ clientedit, clientId, cur
 
                                                 </tbody>
 
-                                                {/* <tfoot>
-                                            <tr className="bg-orange-100 text-orange-900 font-semibold text-sm">
-                                                <td colSpan={4} className="p-2 border text-center">
-                                                    Total Payment:
-
-                                                    ₹
-                                                    {sellerData?.payment
-                                                        ?.reduce((sum, p) => sum + p.amount, 0)
-                                                        .toFixed(2)}
-                                                </td>
-
-                                            </tr>
-                                        </tfoot> */}
                                             </table>
 
                                         </td>

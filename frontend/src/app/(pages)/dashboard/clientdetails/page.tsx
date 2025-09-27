@@ -32,7 +32,7 @@ export default function ClientDetails() {
 
 
     const handleCreateClient = () => {
-setOpenCreateClient(true);
+        setOpenCreateClient(true);
     };
 
     const handleUpdateClient = (data: ClientDetailsType) => {
@@ -41,7 +41,6 @@ setOpenCreateClient(true);
     }
 
     const clientData: ClientDetailsType[] = data?.data || [];
-    console.log("🚀 ~ ClientDetails ~ clientData:", clientData)
 
     const handleClick = (id: string) => {
         router.push(`/dashboard/clientdetails/${id}`);
@@ -99,13 +98,17 @@ setOpenCreateClient(true);
                                 <span className="font-semibold">Name:</span>{client.name}</h2>
                             <div className="flex space-x-2">
                                 <button className="text-blue-600 hover:text-blue-800 cursor-pointer"
-                                    onClick={(e) => { e.stopPropagation();
-                                     handleUpdateClient(client)}}>
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleUpdateClient(client)
+                                    }}>
                                     <Pencil size={18} />
                                 </button>
                                 <button
-                                    onClick={(e) =>{e.stopPropagation();
-                                         handleDelete(client._id)}}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleDelete(client._id)
+                                    }}
                                     className={`text-red-600 hover:text-red-800 cursor-pointer ${isPending ? "cursor-not-allowed" : ""}`}
                                 >
                                     <Trash2 size={18} />
@@ -155,29 +158,29 @@ setOpenCreateClient(true);
                             </p>
 
                         </div>
- {client.companyName?.gst && (
-<div className="flex items-top justify-start mt-2 gap-1">
-                            <p className="flex-shrink-0 text-gray-700">
-                                <span className="font-semibold">GST No.:</span>
-                            </p>
-                            <p className="flex flex-wrap break-words text-gray-700">
-                                {client.companyName?.gst}
-                            </p>
+                        {client.companyName?.gst && (
+                            <div className="flex items-top justify-start mt-2 gap-1">
+                                <p className="flex-shrink-0 text-gray-700">
+                                    <span className="font-semibold">GST No.:</span>
+                                </p>
+                                <p className="flex flex-wrap break-words text-gray-700">
+                                    {client.companyName?.gst}
+                                </p>
 
-                        </div>)}
+                            </div>)}
                         {/* Action buttons */}
 
                     </div>
                 ))}
             </div>
-                {
-                    openCreateClient && 
-            <CreateClient onClose={() => setOpenCreateClient(false)} onSuccess={refetch} />
-                }
+            {
+                openCreateClient &&
+                <CreateClient onClose={() => setOpenCreateClient(false)} onSuccess={refetch} />
+            }
 
-                {openUpdateClient && updateClientData &&
-                    <UpdateClient onClose={() => setopenUpdateClient(false)} onSuccess={refetch} clientData={updateClientData}/>
-                }
+            {openUpdateClient && updateClientData &&
+                <UpdateClient onClose={() => setopenUpdateClient(false)} onSuccess={refetch} clientData={updateClientData} />
+            }
         </div>
     );
 }

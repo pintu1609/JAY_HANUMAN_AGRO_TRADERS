@@ -9,13 +9,11 @@ import { PaymentItem } from "@/types/sellerDetails/sellerparam";
 
 
 interface Props {
-    paymentdata:PaymentItem
+    paymentdata: PaymentItem
     onClose: () => void;
     onSuccess: () => void;
 }
-export default function UpdateSellerPayment({paymentdata, onClose, onSuccess }: Props) {
-    console.log("🚀 ~ UpdateSellerPayment ~ paymentdata:", paymentdata)
-    console.log("🚀 ~ UpdateBrokerPayment ~ paymentdata:", paymentdata)
+export default function UpdateSellerPayment({ paymentdata, onClose, onSuccess }: Props) {
     const { mutateAsync, isPending, isSuccess, isError, data, error } = useUpdateSellerPayment();
 
     const {
@@ -58,9 +56,6 @@ export default function UpdateSellerPayment({paymentdata, onClose, onSuccess }: 
             }
         },
     });
-        console.log("🚀 ~ UpdateSellerPayment ~ errors:", errors)
-        console.log("🚀 ~ UpdateSellerPayment ~ values:", values)
-    
 
     useEffect(() => {
         if (isSuccess && data) {
@@ -82,10 +77,7 @@ export default function UpdateSellerPayment({paymentdata, onClose, onSuccess }: 
             setFieldValue("fromAccount", { accountHolderName: "", accountNumber: "", ifscCode: "" });
             setFieldValue("toAccount", { accountHolderName: "", accountNumber: "", ifscCode: "" });
         }
-        //  else if (values.paymentType === "Cheque" || values.paymentType === "PhonePe") {
-        //     setFieldValue("fromAccount", { ifscCode: "" });
-        //     setFieldValue("toAccount", { ifscCode: "" });
-        // }
+
     }, [values.paymentType]);
 
 
@@ -93,15 +85,15 @@ export default function UpdateSellerPayment({paymentdata, onClose, onSuccess }: 
 
         <div>
             <PaymentDetailsForm onClose={onClose}
-            values={values}
-            errors={errors}
-            touched={touched}
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-            handleSubmit={handleSubmit}
-            isPending={isPending}
-            mode="update"
+                values={values}
+                errors={errors}
+                touched={touched}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                handleSubmit={handleSubmit}
+                isPending={isPending}
+                mode="update"
 
 
-        /></div>)
+            /></div>)
 }

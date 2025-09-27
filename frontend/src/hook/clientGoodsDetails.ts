@@ -2,23 +2,18 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/service/axiosinstance";
 import ENDPOINTS from "@/service/endpoints";
 import { z } from "zod";
-import { CreateClientGood, UpdateClientGood } from "@/types/clientGoods/clientgoods";
+import {
+  CreateClientGood,
+  UpdateClientGood,
+} from "@/types/clientGoods/clientgoods";
 import { ClientGoodsItemSchema } from "@/validation/client";
-
-
 
 // create client details
 
 const fetchCreateClientGoods = async (params: CreateClientGood) => {
-  console.log("🚀 ~ fetchCreateBrokerPaymnet ~ params:", params)
-  // if (!params.misleniousCharge){
-  //   delete params.misleniousCharge
-  // }
-  if (!params.misleniousChargeDescription){
-    delete params.misleniousChargeDescription
+  if (!params.misleniousChargeDescription) {
+    delete params.misleniousChargeDescription;
   }
-
-  
 
   const { data } = await axiosInstance({
     method: "post",
@@ -29,17 +24,11 @@ const fetchCreateClientGoods = async (params: CreateClientGood) => {
     },
   });
 
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
-
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-
-  
-
-  return { status, message};
+  return { status, message };
 };
 
 const useCreateClientGood = () => {
@@ -49,10 +38,9 @@ const useCreateClientGood = () => {
   });
 };
 
-
 // fetch all client goods details
 
-const fetchClientGoodsDetails = async (clientId?:string,year?:number) => {
+const fetchClientGoodsDetails = async (clientId?: string, year?: number) => {
   let url = `${ENDPOINTS.CLIENTGOODS}getAllClientBuyerGood`;
   if (clientId) {
     url += `/${clientId}`;
@@ -64,7 +52,7 @@ const fetchClientGoodsDetails = async (clientId?:string,year?:number) => {
   if (queryParams.length > 0) {
     url += `?${queryParams.join("&")}`;
   }
-  const {data } = await axiosInstance({
+  const { data } = await axiosInstance({
     method: "get",
     url: url,
     headers: { "Content-Type": "application/json" },
@@ -73,46 +61,38 @@ const fetchClientGoodsDetails = async (clientId?:string,year?:number) => {
   const messageSchema = z.string().optional();
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-  
-  console.log("🚀 ~ fetchAllCompanyDetails ~ data:", data)
-
-    const retData = ClientGoodsItemSchema.parse(data.data?.[0].data);
-    console.log("🚀 ~ fetchSellerGoodsByBrokerId ~ retData:", retData)
-
-    return { status, message, data: retData};
-  };
-
-
-
-const useGetClientGoodsDetails = ({clientId,year}: {clientId?:string,year?:number}) => {
-  return useQuery({
-    queryKey: ["useGetClientGoodsDetails",clientId,year ],
-    queryFn: () => fetchClientGoodsDetails(clientId,year),
-  });
+  const retData = ClientGoodsItemSchema.parse(data.data?.[0].data);
+  return { status, message, data: retData };
 };
 
+const useGetClientGoodsDetails = ({
+  clientId,
+  year,
+}: {
+  clientId?: string;
+  year?: number;
+}) => {
+  return useQuery({
+    queryKey: ["useGetClientGoodsDetails", clientId, year],
+    queryFn: () => fetchClientGoodsDetails(clientId, year),
+  });
+};
 
 // delete client goods details
 
 const deletClientGood = async (id: string) => {
   const { data } = await axiosInstance({
     method: "delete",
-      url: `${ENDPOINTS.CLIENTGOODS}${id}`,
+    url: `${ENDPOINTS.CLIENTGOODS}${id}`,
     headers: {
       "Content-Type": "application/json",
     },
   });
 
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
-
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-
-
-
 
   return { status, message };
 };
@@ -129,15 +109,10 @@ const useDeleteClientGood = (onSuccess?: () => void) => {
 
 // update client details
 const fetchUpdateClientGoods = async (params: UpdateClientGood) => {
-  console.log("🚀 ~ fetchCreateBrokerPaymnet ~ params:", params)
-  // if (!params.misleniousCharge){
-  //   delete params.misleniousCharge
-  // }
-  if (!params.payload.misleniousChargeDescription){
-    delete params.payload.misleniousChargeDescription
-  }
 
-  
+  if (!params.payload.misleniousChargeDescription) {
+    delete params.payload.misleniousChargeDescription;
+  }
 
   const { data } = await axiosInstance({
     method: "put",
@@ -148,17 +123,12 @@ const fetchUpdateClientGoods = async (params: UpdateClientGood) => {
     },
   });
 
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
-
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
 
-  
-
-  return { status, message};
+  return { status, message };
 };
 
 const useUpdateClientGood = () => {
@@ -169,8 +139,8 @@ const useUpdateClientGood = () => {
 };
 
 export {
-    useCreateClientGood,
-    useGetClientGoodsDetails,
-    useDeleteClientGood,
-    useUpdateClientGood
-}
+  useCreateClientGood,
+  useGetClientGoodsDetails,
+  useDeleteClientGood,
+  useUpdateClientGood,
+};

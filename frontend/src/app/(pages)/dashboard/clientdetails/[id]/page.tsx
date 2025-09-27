@@ -19,7 +19,6 @@ export default function SellersGoodsDetails() {
         setCurrentYearAdd(year);
     };
     const { data: clientData, isLoading } = useGetAllClientDetailsById(id)
-    console.log("🚀 ~ SellersGoodsDetails ~ clientData:", clientData)
 
     return <div className="p-6 bg-orange-50 min-h-screen ">
         <div className="grid grid-cols-3 items-center mb-6">
@@ -109,6 +108,6 @@ export default function SellersGoodsDetails() {
             </div>
         </div>
 
-        <ClientGoodsDetailsYearlyComp  clientedit={true} clientId={id} currentYear={currentYearAdd} />
+        <ClientGoodsDetailsYearlyComp clientedit={true} clientId={id} currentYear={currentYearAdd} />
     </div>;
 }

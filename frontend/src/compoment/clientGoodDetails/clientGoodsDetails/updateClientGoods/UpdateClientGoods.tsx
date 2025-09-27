@@ -9,13 +9,13 @@ import { ClientGoodsItemParams, UpdateClientGood } from "@/types/clientGoods/cli
 
 
 interface Props {
-    clientedit?:boolean
+    clientedit?: boolean
     clientGoodData: ClientGoodsItemParams
     //   paymentData:any
     onClose: () => void;
     onSuccess: () => void;
 }
-export default function UpdateClientGoods({clientedit, clientGoodData, onClose, onSuccess }: Props) {
+export default function UpdateClientGoods({ clientedit, clientGoodData, onClose, onSuccess }: Props) {
     const { mutateAsync, isPending, isSuccess, isError, data, error } = useUpdateClientGood();
 
     const {
@@ -65,9 +65,7 @@ export default function UpdateClientGoods({clientedit, clientGoodData, onClose, 
             }
         },
     });
-    console.log("🚀 ~ CreateSeller ~ errors:", errors)
-    console.log("🚀 ~ CreateSeller ~ values:", values)
-
+   
     useEffect(() => {
         if (isSuccess && data) {
             toast.success(data.message ?? "Broker payment created successfully");

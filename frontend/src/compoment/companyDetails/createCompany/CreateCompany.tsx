@@ -3,18 +3,20 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import { initialCompany,
-  companySchema } from "@/validation";
+import {
+  initialCompany,
+  companySchema
+} from "@/validation";
 import { useFormik } from "formik";
 import { useCreateCompany } from "@/hook/companydetails";
 
 
-interface Props{
-    onClose:()=>void
-    onSuccess:()=>void
+interface Props {
+  onClose: () => void
+  onSuccess: () => void
 }
-export default function CreateCompany ({onClose,onSuccess}:Props) {
-    const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateCompany();
+export default function CreateCompany({ onClose, onSuccess }: Props) {
+  const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateCompany();
 
   const {
     values,
@@ -26,7 +28,7 @@ export default function CreateCompany ({onClose,onSuccess}:Props) {
     resetForm,
     setFieldValue
   } = useFormik({
-    initialValues:initialCompany,
+    initialValues: initialCompany,
     validationSchema: toFormikValidationSchema(companySchema),
     onSubmit: async (values) => {
       try {
@@ -54,7 +56,7 @@ export default function CreateCompany ({onClose,onSuccess}:Props) {
       }
     }
   }, [isSuccess, isError, data, error, resetForm, onClose, onSuccess]);
-   const addPhone = () => {
+  const addPhone = () => {
     setFieldValue("phone", [...values.phone, ""]);
   };
 
@@ -62,16 +64,16 @@ export default function CreateCompany ({onClose,onSuccess}:Props) {
     const updated = values.phone.filter((_: string, i: number) => i !== index);
     setFieldValue("phone", updated);
   };
-return(
+  return (
     <div>
-        <CompanyComp 
+      <CompanyComp
         onClose={onClose} values={values} errors={errors} touched={touched} handleChange={handleChange} handleBlur={handleBlur} handleSubmit={handleSubmit}
         isPending={isPending}
         mode="create"
         addPhone={addPhone}
         removePhone={removePhone}
-        />
+      />
 
     </div>
-    )
+  )
 }

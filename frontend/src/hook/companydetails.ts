@@ -16,8 +16,6 @@ const fetchAllCompanyDetails = async () => {
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
   
-  console.log("🚀 ~ fetchAllCompanyDetails ~ data:", data)
-
   const dataSchema = z.object({
      _id: z.string(),
      userId: z.string(),
@@ -34,7 +32,6 @@ const fetchAllCompanyDetails = async () => {
     
     const userData = z.array(dataSchema);
     const retData = userData.parse(data.data);
-    console.log("🚀 ~ fetchAllCompanyDetails ~ retData:", retData)
     return { status, message, data: retData };
   };
 
@@ -55,17 +52,10 @@ const deletCompanyDetails = async (id: string) => {
     },
   });
 
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
-
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-
-
-
-
   return { status, message };
 };
 
@@ -101,25 +91,10 @@ const fetchCreateCompany = async (params: CompanyParams) => {
     },
   });
 
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
-
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-
-  // const dataSchema = z.object({
-  //   // token: z.string(),
-  //   // refreshToken: z.string(),
-  //   name: z.string(),
-  //   email: z.string(),
-  //   // phone: z.string(),
-  //   role: z.string(),
-  // });
-
-  // const retData = dataSchema.parse(data.data);
-
   return { status, message};
 };
 
@@ -154,25 +129,10 @@ const fetchUpdateCompany = async ({payload,id}: UpdateCompanyParams) => {
     },
   });
 
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
-
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-
-  // const dataSchema = z.object({
-  //   // token: z.string(),
-  //   // refreshToken: z.string(),
-  //   name: z.string(),
-  //   email: z.string(),
-  //   // phone: z.string(),
-  //   role: z.string(),
-  // });
-
-  // const retData = dataSchema.parse(data.data);
-
   return { status, message};
 };
 

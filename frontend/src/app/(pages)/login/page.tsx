@@ -13,11 +13,11 @@ import { LoginParams } from "@/types/register/loginparam";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function Login() {
-    const [showPassword, setShowPassword] = useState(false);
-  
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const router = useRouter();
-const {
+  const {
     data,
     mutateAsync,
     isPending,
@@ -37,30 +37,27 @@ const {
   } = useFormik({
     initialValues: initialLogin,
     validationSchema: toFormikValidationSchema(loginSchema),
-    onSubmit: async(values) => {
+    onSubmit: async (values) => {
       const payload: LoginParams = {
         email: values.email,
         password: values.password,
       };
       try {
- const response = await mutateAsync(payload); 
-     } catch (error) {
+        const response = await mutateAsync(payload);
+      } catch (error) {
         console.error("Error during login:", error);
       }
     },
   });
 
- 
+
   useEffect(() => {
     if (isSuccess && data) {
-      const { status, message} = data;
-      console.log("Success message:", message);
+      const { status, message } = data;
       toast.success(message ?? "Login successful !!");
 
       if (status === 200) {
         resetForm();
-        // cookies.set('accessToken', data?.data?.accessToken)
-        // cookies.set('refreshToken', data?.data?.refreshToken)
         localStorage.setItem('accessToken', data?.token)
         localStorage.setItem('name', data?.data?.name)
         router.push("/dashboard");
@@ -68,21 +65,19 @@ const {
     }
 
     if (isError) {
-if(error instanceof AxiosError) {
-  toast.error(error?.response?.data?.message);
-  console.log("Error:", error);
-  
-} else if (error instanceof ZodError) {
-  toast.error(error?.message);
-  console.log("Error:", error);
-}else {
-  toast.error("Something went wrong");
-  console.log("Error:", error);
+      if (error instanceof AxiosError) {
+        toast.error(error?.response?.data?.message);
 
-}
+      } else if (error instanceof ZodError) {
+        toast.error(error?.message);
+      } else {
+        toast.error("Something went wrong");
+        console.log("Error:", error);
+
+      }
 
 
-     
+
     }
   }, [isSuccess, isError, data, error, resetForm]);
 
@@ -103,12 +98,11 @@ if(error instanceof AxiosError) {
               value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`w-full px-4 py-2 border rounded-lg  outline-none ${
-                errors.email && touched.email ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`w-full px-4 py-2 border rounded-lg  outline-none ${errors.email && touched.email ? "border-red-500" : "border-gray-300"
+                }`}
               placeholder="Enter your email"
             />
-            
+
           </div>
 
           <div className="relative">
@@ -121,18 +115,17 @@ if(error instanceof AxiosError) {
               value={values.password}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`w-full px-4 py-2 border rounded-lg outline-none ${
-                errors.password && touched.password ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`w-full px-4 py-2 border rounded-lg outline-none ${errors.password && touched.password ? "border-red-500" : "border-gray-300"
+                }`}
               placeholder="Enter your password"
             />
-             <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-13 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-              >
-            {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}  </button>
-          
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-13 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            >
+              {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}  </button>
+
           </div>
 
           <button
@@ -140,8 +133,8 @@ if(error instanceof AxiosError) {
             className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 rounded-lg transition duration-200 cursor-pointer"
           >
             {
-              isPending ? <BeatLoader size={8} color="white" />:
-              "Login"
+              isPending ? <BeatLoader size={8} color="white" /> :
+                "Login"
             }
           </button>
         </form>

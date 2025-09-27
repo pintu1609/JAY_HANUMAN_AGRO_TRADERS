@@ -3,7 +3,6 @@
 import { BeatLoader } from "react-spinners";
 import { X } from "lucide-react";
 import { AiFillCloseCircle, AiOutlinePlus } from "react-icons/ai";
-import { useGetAllBrokerDetails } from "@/hook/brokerdetails";
 import { useGetAllClientDetails } from "@/hook/clientdetails";
 import { useGetAllCompanyDetails } from "@/hook/companydetails";
 import { useGetSellerGoodsDetails } from "@/hook/sellergoodsdetails";
@@ -36,7 +35,7 @@ interface Props {
     setFieldValue: any;
     isPending: boolean;
     mode: string;
-    clientedit?:boolean
+    clientedit?: boolean
 }
 
 export default function ClientGoodsComp({
@@ -95,14 +94,11 @@ export default function ClientGoodsComp({
 
         setFieldValue("sellersDetails", updatedSellers);
     };
-    const { data: brokers } = useGetAllBrokerDetails();
 
     const { data: client } = useGetAllClientDetails();
     const { data: company } = useGetAllCompanyDetails();
     const { data: sellerDetails } = useGetSellerGoodsDetails();
 
-    // const { data: sellerpackage } = useGetSellerGoodsDetailsById(values.sellerDetails[0].sellerId);
-    // console.log("🚀 ~ ClientGoodsComp ~ sellerpackage:", sellerpackage)
 
     return (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
@@ -235,15 +231,15 @@ export default function ClientGoodsComp({
 
                                     <select
                                         name={`packages[${index}].calculation`}
-                                            value={pkg.calculation}
-                                            onChange={handleChange}
-                                            className={`w-full py-2 px-4 border rounded-lg outline-none text-gray-700  ${errors.packages?.[index]?.calculation && touched.packages?.[index]?.calculation ? "border-red-500" : "border-gray-300"
-                                                }`}                                >
-                                            <option value="">Select Cal. Method</option>
-                                            <option value="Weight">Weight</option>
-                                            <option value="Quantal">Quantal</option>
-                                            
-                                        </select>
+                                        value={pkg.calculation}
+                                        onChange={handleChange}
+                                        className={`w-full py-2 px-4 border rounded-lg outline-none text-gray-700  ${errors.packages?.[index]?.calculation && touched.packages?.[index]?.calculation ? "border-red-500" : "border-gray-300"
+                                            }`}                                >
+                                        <option value="">Select Cal. Method</option>
+                                        <option value="Weight">Weight</option>
+                                        <option value="Quantal">Quantal</option>
+
+                                    </select>
                                 </div>
 
                                 {values.packages.length > 1 && (
@@ -314,11 +310,11 @@ export default function ClientGoodsComp({
                                                     value={sp.packageId}
                                                     onChange={handleChange}
                                                     className={`w-full h-[42px] px-4 border rounded-lg outline-none text-gray-700 mb-3 ${errors.sellersDetails?.[sIndex]?.sellerPackages?.[spIndex]?.packageId && touched.sellersDetails?.[sIndex]?.sellerPackages?.[spIndex]?.packageId ? "border-red-500" : "border-gray-300"
-                                                        }`}                            
-                                                            >
+                                                        }`}
+                                                >
                                                     <option value="">Select Package</option>
-                                                    
-                                                  {selectedSeller?.packages?.map((p: any, i: number) => (
+
+                                                    {selectedSeller?.packages?.map((p: any, i: number) => (
                                                         <option key={i} value={p._id}>
                                                             {p.package} | Rate: {p.rate}
                                                         </option>

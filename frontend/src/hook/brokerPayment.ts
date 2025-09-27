@@ -1,9 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/service/axiosinstance";
 import ENDPOINTS from "@/service/endpoints";
-// import { LoginParams,RegisterParams, UpdateRegisterUser } from "@/types/register/loginparam";
 import { z } from "zod";
-import { BrokerParams, UpdateBrokerParams } from "@/types/brokerdetails/broker.param";
 import { Payment, UpdatePayment } from "@/types/brokerdetails/brokerpayment";
 
 
@@ -16,18 +14,10 @@ const deletBrokerPayment = async (id: string) => {
       "Content-Type": "application/json",
     },
   });
-
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
-
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-
-
-
-
   return { status, message };
 };
 
@@ -45,7 +35,6 @@ const useDeleteBrokerPayment = (onSuccess?: () => void) => {
 //. CREATE BROKER PAYMENT
 
 const fetchCreateBrokerPaymnet = async (params: Payment) => {
-  console.log("🚀 ~ fetchCreateBrokerPaymnet ~ params:", params)
   if (!params.chequeNumber){
     delete params.chequeNumber
   }
@@ -85,24 +74,10 @@ if (params.fromAccount?.ifscCode?.trim() === "") {
     },
   });
 
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
-
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-
-  // const dataSchema = z.object({
-  //   // token: z.string(),
-  //   // refreshToken: z.string(),
-  //   name: z.string(),
-  //   email: z.string(),
-  //   // phone: z.string(),
-  //   role: z.string(),
-  // });
-
-  // const retData = dataSchema.parse(data.data);
 
   return { status, message};
 };
@@ -157,24 +132,11 @@ if (payload.fromAccount?.ifscCode?.trim() === "") {
     },
   });
 
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
 
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-
-  // const dataSchema = z.object({
-  //   // token: z.string(),
-  //   // refreshToken: z.string(),
-  //   name: z.string(),
-  //   email: z.string(),
-  //   // phone: z.string(),
-  //   role: z.string(),
-  // });
-
-  // const retData = dataSchema.parse(data.data);
 
   return { status, message};
 };

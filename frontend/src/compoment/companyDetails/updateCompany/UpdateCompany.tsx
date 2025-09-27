@@ -3,20 +3,22 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import { initialCompany,
-  companySchema } from "@/validation";
+import {
+  initialCompany,
+  companySchema
+} from "@/validation";
 import { useFormik } from "formik";
-import {  useUpdateCompany } from "@/hook/companydetails";
+import { useUpdateCompany } from "@/hook/companydetails";
 import { CompanyDetailsType } from "@/types/companydetails/companyparam";
 
 
-interface Props{
-    onClose:()=>void
-    onSuccess:()=>void
-    updateCompanyData:CompanyDetailsType 
+interface Props {
+  onClose: () => void
+  onSuccess: () => void
+  updateCompanyData: CompanyDetailsType
 }
-export default function UpdateCompany ({onClose,onSuccess,updateCompanyData}:Props) {
-    const { mutateAsync, isPending, isSuccess, isError, data, error } = useUpdateCompany();
+export default function UpdateCompany({ onClose, onSuccess, updateCompanyData }: Props) {
+  const { mutateAsync, isPending, isSuccess, isError, data, error } = useUpdateCompany();
 
   const {
     values,
@@ -28,12 +30,12 @@ export default function UpdateCompany ({onClose,onSuccess,updateCompanyData}:Pro
     resetForm,
     setFieldValue
   } = useFormik({
-    initialValues:{
-        ...updateCompanyData,
-        email:updateCompanyData.email || "",
-         phone: updateCompanyData.phone && updateCompanyData.phone.length > 0 ? updateCompanyData.phone : [""],
-        gst:updateCompanyData.gst || "",
-        pan:updateCompanyData.pan || ""
+    initialValues: {
+      ...updateCompanyData,
+      email: updateCompanyData.email || "",
+      phone: updateCompanyData.phone && updateCompanyData.phone.length > 0 ? updateCompanyData.phone : [""],
+      gst: updateCompanyData.gst || "",
+      pan: updateCompanyData.pan || ""
     },
     validationSchema: toFormikValidationSchema(companySchema),
     onSubmit: async (values) => {
@@ -75,16 +77,16 @@ export default function UpdateCompany ({onClose,onSuccess,updateCompanyData}:Pro
     setFieldValue("phone", updated);
   };
 
-return(
+  return (
     <div>
-        <CompanyComp 
+      <CompanyComp
         onClose={onClose} values={values} errors={errors} touched={touched} handleChange={handleChange} handleBlur={handleBlur} handleSubmit={handleSubmit}
         isPending={isPending}
         mode="update"
         addPhone={addPhone}
         removePhone={removePhone}
-     />
+      />
 
     </div>
-    )
+  )
 }

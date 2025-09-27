@@ -34,7 +34,6 @@ export default function BrokerYearlyReportComp({ id, currentYear, onClose, addBr
     const { mutateAsync, isPending } = useDeleteBrokerPayment(refetch)
 
     const sellerData: SellerGoodsParams | undefined = data?.data
-    console.log("🚀 ~ BrokerYearlyReportComp ~ sellerData:", sellerData)
 
     const handleshowPackageDetails = (packageData: SellerGoodsItem) => {
         setPackageDetails(packageData)

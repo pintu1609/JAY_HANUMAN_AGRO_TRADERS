@@ -2,20 +2,21 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import { 
+import {
   initialClient,
-  clientSchema} from "@/validation";
+  clientSchema
+} from "@/validation";
 import { useFormik } from "formik";
 import ClientDetailsComp from "../ClientDetailsComp";
 import { useCreateClient } from "@/hook/clientdetails";
 
 
-interface Props{
-    onClose:()=>void
-    onSuccess:()=>void
+interface Props {
+  onClose: () => void
+  onSuccess: () => void
 }
-export default function CreateClient ({onClose,onSuccess}:Props) {
-    const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateClient();
+export default function CreateClient({ onClose, onSuccess }: Props) {
+  const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateClient();
 
   const {
     values,
@@ -27,7 +28,7 @@ export default function CreateClient ({onClose,onSuccess}:Props) {
     resetForm,
     setFieldValue
   } = useFormik({
-    initialValues:initialClient,
+    initialValues: initialClient,
     validationSchema: toFormikValidationSchema(clientSchema),
     onSubmit: async (values) => {
       try {
@@ -38,8 +39,6 @@ export default function CreateClient ({onClose,onSuccess}:Props) {
       }
     },
   });
-    console.log("🚀 ~ CreateClient ~ errors:", errors)
-    console.log("🚀 ~ CreateClient ~ values:", values)
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -66,16 +65,16 @@ export default function CreateClient ({onClose,onSuccess}:Props) {
     const updated = values.phone.filter((_: string, i: number) => i !== index);
     setFieldValue("phone", updated);
   };
-return(
+  return (
     <div>
-        <ClientDetailsComp
+      <ClientDetailsComp
         onClose={onClose} values={values} errors={errors} touched={touched} handleChange={handleChange} handleBlur={handleBlur} handleSubmit={handleSubmit}
         isPending={isPending}
         mode="create"
         addPhone={addPhone}
         removePhone={removePhone}
-        />
+      />
 
     </div>
-    )
+  )
 }

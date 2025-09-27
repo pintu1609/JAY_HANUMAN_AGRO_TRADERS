@@ -14,7 +14,6 @@ interface Props {
     paymentdata: PaymentItem
 }
 export default function UpdateBrokerPayment({ onClose, onSuccess, paymentdata }: Props) {
-    console.log("🚀 ~ UpdateBrokerPayment ~ paymentdata:", paymentdata)
     const { mutateAsync, isPending, isSuccess, isError, data, error } = useUpdateBrokerPayment();
 
     const {
@@ -57,9 +56,6 @@ export default function UpdateBrokerPayment({ onClose, onSuccess, paymentdata }:
             }
         },
     });
-        console.log("🚀 ~ UpdateBrokerPayment ~ values:", values)
-        console.log("🚀 ~ UpdateBrokerPayment ~ errors:", errors)
-    
 
     useEffect(() => {
         if (isSuccess && data) {
@@ -80,7 +76,7 @@ export default function UpdateBrokerPayment({ onClose, onSuccess, paymentdata }:
             setFieldValue("chequeNumber", "");
             setFieldValue("fromAccount", { accountHolderName: "", accountNumber: "", ifscCode: "" });
             setFieldValue("toAccount", { accountHolderName: "", accountNumber: "", ifscCode: "" });
-        } 
+        }
         // else if (values.paymentType === "Cheque" || values.paymentType === "PhonePe") {
         //     setFieldValue("fromAccount", { ifscCode: "" });
         //     setFieldValue("toAccount", { ifscCode: "" });

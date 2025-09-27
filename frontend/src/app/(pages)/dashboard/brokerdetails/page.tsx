@@ -31,11 +31,11 @@ export default function Broker() {
 
     const brokersData: BrokerDetailsType[] = data?.data || [];
 
-    const handleCreateBroker=()=>{
-setCreateBroker(true)
+    const handleCreateBroker = () => {
+        setCreateBroker(true)
     }
 
-    const handleUpdateBroker=(updateData:BrokerDetailsType)=>{
+    const handleUpdateBroker = (updateData: BrokerDetailsType) => {
         setbrokerData({
             id: updateData._id,
             name: updateData.name,
@@ -109,14 +109,18 @@ setCreateBroker(true)
                                         <span className="font-semibold">Name:</span>{broker.name}</h2>
                                     <div className="flex space-x-2">
                                         <button className="text-blue-600 hover:text-blue-800 cursor-pointer"
-                                        onClick={(e) => { e.stopPropagation();
-                                                 handleUpdateBroker(broker)}}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleUpdateBroker(broker)
+                                            }}
                                         >
                                             <Pencil size={18} />
                                         </button>
                                         <button
-                                            onClick={(e) => { e.stopPropagation();
-                                                 handleDelete(broker._id)}}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleDelete(broker._id)
+                                            }}
                                             className={`text-red-600 hover:text-red-800 cursor-pointer ${isPending ? "cursor-not-allowed" : ""}`}
                                         >
                                             <Trash2 size={18} />
@@ -124,8 +128,8 @@ setCreateBroker(true)
                                     </div>
 
                                 </div>
-                                <p className="text-gray-600">     
-                                 <span className="font-semibold">Email:</span>{broker.email}</p>
+                                <p className="text-gray-600">
+                                    <span className="font-semibold">Email:</span>{broker.email}</p>
 
                                 <p className="mt-2 text-gray-700">
                                     <span className="font-semibold">Phone:</span> {broker.phone}
@@ -149,12 +153,12 @@ setCreateBroker(true)
             </div>
 
             {createBroker &&
-                <CreateBroker onClose={() => setCreateBroker(false)} onSuccess={refetch}/>
+                <CreateBroker onClose={() => setCreateBroker(false)} onSuccess={refetch} />
 
             }
 
             {updateBroker && brokerData &&
-            <UpdateBroker onClose={() => setUpdateBroker(false)} onSuccess={refetch} brokerData={brokerData} />}
+                <UpdateBroker onClose={() => setUpdateBroker(false)} onSuccess={refetch} brokerData={brokerData} />}
         </div>
     );
 }

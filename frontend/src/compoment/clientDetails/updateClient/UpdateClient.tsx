@@ -2,22 +2,23 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
-import { 
+import {
   initialClient,
-  clientSchema} from "@/validation";
+  clientSchema
+} from "@/validation";
 import { useFormik } from "formik";
 import ClientDetailsComp from "../ClientDetailsComp";
 import { useUpdateClient } from "@/hook/clientdetails";
 import { ClientDetailsType } from "@/types/clientdetails/clientdetails";
 
 
-interface Props{
-    onClose:()=>void
-    onSuccess:()=>void
-    clientData:ClientDetailsType
+interface Props {
+  onClose: () => void
+  onSuccess: () => void
+  clientData: ClientDetailsType
 }
-export default function UpdateClient ({onClose,onSuccess,clientData}:Props) {
-    const { mutateAsync, isPending, isSuccess, isError, data, error } = useUpdateClient();
+export default function UpdateClient({ onClose, onSuccess, clientData }: Props) {
+  const { mutateAsync, isPending, isSuccess, isError, data, error } = useUpdateClient();
 
   const {
     values,
@@ -29,11 +30,11 @@ export default function UpdateClient ({onClose,onSuccess,clientData}:Props) {
     resetForm,
     setFieldValue
   } = useFormik({
-    initialValues:{
-        ...clientData,
-        email:clientData.email || "",
-        phone: clientData.phone && clientData.phone.length > 0 ? clientData.phone : [""],
-        companyName: clientData.companyName?._id || ""
+    initialValues: {
+      ...clientData,
+      email: clientData.email || "",
+      phone: clientData.phone && clientData.phone.length > 0 ? clientData.phone : [""],
+      companyName: clientData.companyName?._id || ""
     },
     validationSchema: toFormikValidationSchema(clientSchema),
     onSubmit: async (values) => {
@@ -49,8 +50,6 @@ export default function UpdateClient ({onClose,onSuccess,clientData}:Props) {
       }
     },
   });
-    console.log("🚀 ~ UpdateClient ~ errors:", errors)
-    console.log("🚀 ~ UpdateClient ~ values:", values)
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -76,16 +75,16 @@ export default function UpdateClient ({onClose,onSuccess,clientData}:Props) {
     const updated = values.phone.filter((_: string, i: number) => i !== index);
     setFieldValue("phone", updated);
   };
-return(
+  return (
     <div>
-        <ClientDetailsComp
+      <ClientDetailsComp
         onClose={onClose} values={values} errors={errors} touched={touched} handleChange={handleChange} handleBlur={handleBlur} handleSubmit={handleSubmit}
         isPending={isPending}
         mode="update"
         addPhone={addPhone}
         removePhone={removePhone}
-        />
+      />
 
     </div>
-    )
+  )
 }

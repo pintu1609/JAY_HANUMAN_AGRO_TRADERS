@@ -8,7 +8,6 @@ interface Props {
 }
 
 export default function ShowPaymentDetails({ paymentData, onClose }: Props) {
-  console.log("🚀 ~ ShowPaymentDetails ~ paymentData:", paymentData)
   return (
     <div className="fixed inset-0 bg-black/30 flex items-start justify-center z-50 overflow-auto pt-20 px-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative max-h-[80vh] overflow-y-auto">
@@ -25,17 +24,17 @@ export default function ShowPaymentDetails({ paymentData, onClose }: Props) {
         <h2 className="text-2xl font-extrabold text-orange-700 mb-6 text-center underline underline-offset-8">
           Payment Details
         </h2>
-{(paymentData?.name || paymentData?.address) && (
-  <div className="flex flex-col  gap-2">
-    <p className="text-gray-700 font-semibold ">Name:
-     <span className="text-orange-600 font-semibold "> {paymentData?.name}</span> 
-    </p>
-     <p className="text-gray-700 font-semibold ">Address:
-     <span className="text-orange-600 font-semibold "> {paymentData?.address}</span> 
-    </p>
-  </div>
-)}
-    <hr className="my-4 border-t-2 border-orange-300" />
+        {(paymentData?.name || paymentData?.address) && (
+          <div className="flex flex-col  gap-2">
+            <p className="text-gray-700 font-semibold ">Name:
+              <span className="text-orange-600 font-semibold "> {paymentData?.name}</span>
+            </p>
+            <p className="text-gray-700 font-semibold ">Address:
+              <span className="text-orange-600 font-semibold "> {paymentData?.address}</span>
+            </p>
+          </div>
+        )}
+        <hr className="my-4 border-t-2 border-orange-300" />
 
 
 
@@ -74,10 +73,10 @@ export default function ShowPaymentDetails({ paymentData, onClose }: Props) {
               <p className="text-orange-600 font-medium ">{paymentData.fromAccount.accountNumber}</p>
             </div>
             {paymentData?.fromAccount?.ifscCode && (
-            <div className="flex gap-2 items-center">
-              <p className="text-gray-700 font-semibold text-lg">IFSC Code:</p>
-              <p className="text-orange-600 font-medium ">{paymentData?.fromAccount?.ifscCode}</p>
-            </div>
+              <div className="flex gap-2 items-center">
+                <p className="text-gray-700 font-semibold text-lg">IFSC Code:</p>
+                <p className="text-orange-600 font-medium ">{paymentData?.fromAccount?.ifscCode}</p>
+              </div>
 
             )}
           </div>
@@ -95,13 +94,13 @@ export default function ShowPaymentDetails({ paymentData, onClose }: Props) {
               <p className="text-gray-700 font-semibold text-lg ">Account Number:</p>
               <p className="text-orange-600 font-medium ">{paymentData.toAccount.accountNumber}</p>
             </div>
-                        {paymentData?.toAccount?.ifscCode && (
+            {paymentData?.toAccount?.ifscCode && (
 
-            <div className="flex gap-2 items-center">
-              <p className="text-gray-700 font-semibold text-lg ">IFSC Code:</p>
-              <p className="text-orange-600 font-medium ">{paymentData?.toAccount?.ifscCode}</p>
-            </div>
-                        )}
+              <div className="flex gap-2 items-center">
+                <p className="text-gray-700 font-semibold text-lg ">IFSC Code:</p>
+                <p className="text-orange-600 font-medium ">{paymentData?.toAccount?.ifscCode}</p>
+              </div>
+            )}
           </div>
         )}
 

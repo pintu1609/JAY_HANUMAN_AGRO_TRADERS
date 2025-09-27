@@ -12,8 +12,7 @@ import UpdateCompany from "@/compoment/companyDetails/updateCompany/UpdateCompan
 
 export default function User() {
     const router = useRouter();
-    //   const [openUpdateUser, setOpenUpdateUser] = useState(false);
-    //   const [userData, setUserData] = useState({});
+
     const [openCreateComapny, setOpenCreateComapny] = useState(false)
     const [openUpdateCompany, setOpenUpdateCompany] = useState(false)
     const [updateCompanyData, setUpdateCompanyData] = useState<null | CompanyDetailsType>(null)
@@ -30,19 +29,18 @@ export default function User() {
 
     };
 
-    const handleCreateCompany =()=>{
-setOpenCreateComapny(true)
+    const handleCreateCompany = () => {
+        setOpenCreateComapny(true)
     }
 
-      const handleUpdateCompany = (data: CompanyDetailsType) => {
+    const handleUpdateCompany = (data: CompanyDetailsType) => {
         setUpdateCompanyData(data)
         setOpenUpdateCompany(true)
-        
-      };
+
+    };
 
 
     const companyData: CompanyDetailsType[] = data?.data || []; // adapt according to your API response
-    console.log("🚀 ~ User ~ companyData:", companyData)
 
     return (
         <div className="p-6 bg-orange-50 min-h-screen">
@@ -59,7 +57,7 @@ setOpenCreateComapny(true)
                     Company Details Management
                 </h1>
                 <button
-                    onClick={()=>handleCreateCompany()}
+                    onClick={() => handleCreateCompany()}
                     className="flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 cursor-pointer"
                 >
                     <UserPlus size={18} /> Add Company
@@ -116,20 +114,20 @@ setOpenCreateComapny(true)
 
                                         <td className="px-6 py-4 border-r">{com.email ? com.email : "-"}</td>
                                         <td className="px-6 py-4 border-r">
-                                              {com.phone?.map((phone, index) => (
+                                            {com.phone?.map((phone, index) => (
 
-                                            <span key={index}>
-                                                {phone}
-                                                {index !== com.phone.length - 1 && ", "}
-                                            </span>
-                                        ))}
+                                                <span key={index}>
+                                                    {phone}
+                                                    {index !== com.phone.length - 1 && ", "}
+                                                </span>
+                                            ))}
                                         </td>
                                         <td className="px-6 py-4 border-r">{com.address}</td>
                                         <td className="px-6 py-4  border-r">{com.gst ? com.gst : "-"}</td>
                                         <td className="px-6 py-4 border-r">{com.pan ? com.pan : "-"}</td>
                                         <td className="px-6 py-4 text-right space-x-3">
                                             <button
-                                                  onClick={() => handleUpdateCompany(com)}
+                                                onClick={() => handleUpdateCompany(com)}
                                                 className="text-blue-600 hover:text-blue-800 cursor-pointer"
                                             >
                                                 <Pencil size={18} />
@@ -156,12 +154,12 @@ setOpenCreateComapny(true)
 
             )}
             {openCreateComapny &&
-            <CreateCompany onClose={() => setOpenCreateComapny(false)} onSuccess={refetch} />
+                <CreateCompany onClose={() => setOpenCreateComapny(false)} onSuccess={refetch} />
             }
 
             {
-  openUpdateCompany && updateCompanyData &&<UpdateCompany onClose={() => setOpenUpdateCompany(false)} onSuccess={refetch} updateCompanyData={updateCompanyData} />
-}
+                openUpdateCompany && updateCompanyData && <UpdateCompany onClose={() => setOpenUpdateCompany(false)} onSuccess={refetch} updateCompanyData={updateCompanyData} />
+            }
 
         </div>
 

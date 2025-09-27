@@ -2,30 +2,25 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/service/axiosinstance";
 import ENDPOINTS from "@/service/endpoints";
 import { z } from "zod";
-import { CreateSellerPayment, UpdateSellerPayment } from "@/types/sellerDetails/sellerparam";
-
+import {
+  CreateSellerPayment,
+  UpdateSellerPayment,
+} from "@/types/sellerDetails/sellerparam";
 
 // delete seller payment
 const deletSellerPayment = async (id: string) => {
   const { data } = await axiosInstance({
     method: "delete",
-      url: `${ENDPOINTS.SELLERPAYMENT}${id}`,
+    url: `${ENDPOINTS.SELLERPAYMENT}${id}`,
     headers: {
       "Content-Type": "application/json",
     },
   });
 
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
-
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-
-
-
-
   return { status, message };
 };
 
@@ -39,13 +34,11 @@ const useDeleteSellerPayment = (onSuccess?: () => void) => {
   });
 };
 
-
 //. CREATE seller PAYMENT
 
 const fetchCreateSellerPaymnet = async (params: CreateSellerPayment) => {
-  console.log("🚀 ~ fetchCreateBrokerPaymnet ~ params:", params)
-  if (!params.chequeNumber){
-    delete params.chequeNumber
+  if (!params.chequeNumber) {
+    delete params.chequeNumber;
   }
 
   if (
@@ -56,7 +49,7 @@ const fetchCreateSellerPaymnet = async (params: CreateSellerPayment) => {
   ) {
     delete params.fromAccount;
   }
-if (params.fromAccount?.ifscCode?.trim() === "") {
+  if (params.fromAccount?.ifscCode?.trim() === "") {
     delete params.fromAccount.ifscCode;
   }
 
@@ -83,41 +76,29 @@ if (params.fromAccount?.ifscCode?.trim() === "") {
     },
   });
 
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
-
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-
-  // const dataSchema = z.object({
-  //   // token: z.string(),
-  //   // refreshToken: z.string(),
-  //   name: z.string(),
-  //   email: z.string(),
-  //   // phone: z.string(),
-  //   role: z.string(),
-  // });
-
-  // const retData = dataSchema.parse(data.data);
-
-  return { status, message};
+  return { status, message };
 };
 
 const useCreateSellerPayment = () => {
   return useMutation({
     mutationKey: ["useCreateSellerPayment"],
-    mutationFn: (params: CreateSellerPayment) => fetchCreateSellerPaymnet(params),
+    mutationFn: (params: CreateSellerPayment) =>
+      fetchCreateSellerPaymnet(params),
   });
 };
 
 // update seller payment
 
-const fetchUpdateSellerPayment = async ({payload,id}: UpdateSellerPayment) => {
-
-  if (!payload.chequeNumber){
-    delete payload.chequeNumber
+const fetchUpdateSellerPayment = async ({
+  payload,
+  id,
+}: UpdateSellerPayment) => {
+  if (!payload.chequeNumber) {
+    delete payload.chequeNumber;
   }
 
   if (
@@ -128,7 +109,7 @@ const fetchUpdateSellerPayment = async ({payload,id}: UpdateSellerPayment) => {
   ) {
     delete payload.fromAccount;
   }
-if (payload.fromAccount?.ifscCode?.trim() === "") {
+  if (payload.fromAccount?.ifscCode?.trim() === "") {
     delete payload.fromAccount.ifscCode;
   }
 
@@ -155,34 +136,23 @@ if (payload.fromAccount?.ifscCode?.trim() === "") {
     },
   });
 
-  console.log("🚀 ~ fetchRegister ~ data:", data);
-
   const statusSchema = z.number().optional();
   const messageSchema = z.string().optional();
-
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
-
-  // const dataSchema = z.object({
-  //   // token: z.string(),
-  //   // refreshToken: z.string(),
-  //   name: z.string(),
-  //   email: z.string(),
-  //   // phone: z.string(),
-  //   role: z.string(),
-  // });
-
-  // const retData = dataSchema.parse(data.data);
-
-  return { status, message};
+  return { status, message };
 };
 
 const useUpdateSellerPayment = () => {
   return useMutation({
     mutationKey: ["useUpdateSellerPayment"],
-    mutationFn: ({payload,id}: UpdateSellerPayment) => fetchUpdateSellerPayment({payload,id}),
+    mutationFn: ({ payload, id }: UpdateSellerPayment) =>
+      fetchUpdateSellerPayment({ payload, id }),
   });
 };
 
-
-export {useDeleteSellerPayment,useCreateSellerPayment, useUpdateSellerPayment}
+export {
+  useDeleteSellerPayment,
+  useCreateSellerPayment,
+  useUpdateSellerPayment,
+};

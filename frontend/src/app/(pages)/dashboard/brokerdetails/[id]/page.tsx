@@ -14,23 +14,14 @@ export default function BrokerDetails() {
     const params = useParams();
     const id = params?.id as string;
     const router = useRouter();
-        const currentYear = new Date().getFullYear();
+    const currentYear = new Date().getFullYear();
 
     const [currentYearAdd, setCurrentYearAdd] = useState(currentYear);
 
     const { data, isLoading, isError, error } = useGetBrokerDetails(id as string);
     const [addBrokerPayment, setAddBrokerPayment] = useState(false)
 
-    // const handleDelete = async (id: string) => {
-    //     if (confirm("Are you sure you want to delete this broker?")) {
-    //         try {
-    //             await mutateAsync(id);
-    //             toast.success("Broker deleted successfully");
-    //         } catch (err) {
-    //             toast.error("Failed to delete broker");
-    //         }
-    //     }
-    // };
+
 
     const AddBrokerPayment = () => {
         setAddBrokerPayment(true)
@@ -158,7 +149,7 @@ export default function BrokerDetails() {
             </div>
 
             <div className="p-6 w-full">
-                {currentYearAdd && <BrokerYearlyReportComp id={id} currentYear={currentYearAdd} onClose={() => setAddBrokerPayment(false)} addBrokerPayment={addBrokerPayment}  />}
+                {currentYearAdd && <BrokerYearlyReportComp id={id} currentYear={currentYearAdd} onClose={() => setAddBrokerPayment(false)} addBrokerPayment={addBrokerPayment} />}
             </div>
 
             {/* <div>

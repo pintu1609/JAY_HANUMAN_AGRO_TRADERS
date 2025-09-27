@@ -8,16 +8,16 @@ import { useCreateClientGood } from "@/hook/clientGoodsDetails";
 
 
 interface Props {
-    //   paymentData:any
-    clientedit?:boolean
-    clientId?:string | undefined
-    onClose: () => void;
-    onSuccess: () => void;
+  //   paymentData:any
+  clientedit?: boolean
+  clientId?: string | undefined
+  onClose: () => void;
+  onSuccess: () => void;
 }
-export default function CreateClientGoods({clientedit,clientId,onClose,onSuccess}:Props) {
-    const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateClientGood();
+export default function CreateClientGoods({ clientedit, clientId, onClose, onSuccess }: Props) {
+  const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateClientGood();
 
-      const {
+  const {
     values,
     errors,
     touched,
@@ -27,25 +27,24 @@ export default function CreateClientGoods({clientedit,clientId,onClose,onSuccess
     setFieldValue,
     resetForm,
   } = useFormik({
-    initialValues: {...initialClientGoodsDetails,
-      clientId:clientId ?? ""
+    initialValues: {
+      ...initialClientGoodsDetails,
+      clientId: clientId ?? ""
     },
     validationSchema: toFormikValidationSchema(clientGoodsDetailsSchema),
     validateOnChange: true,
     enableReinitialize: true,
     onSubmit: async (values) => {
       try {
-      
+
         mutateAsync(values);
-        
+
       } catch (err) {
         toast.error("Something went wrong!");
       }
     },
   });
-    console.log("🚀 ~ CreateSeller ~ errors:", errors)
-    console.log("🚀 ~ CreateSeller ~ values:", values)
-   
+
   useEffect(() => {
     if (isSuccess && data) {
       toast.success(data.message ?? "Broker payment created successfully");
@@ -60,23 +59,23 @@ export default function CreateClientGoods({clientedit,clientId,onClose,onSuccess
 
   }, [isSuccess, isError, data, error, resetForm, onClose]);
 
-  
-    return(
-    
-    <div><ClientGoodsComp onClose={onClose} 
-    values={values}
-    errors={errors}
-    touched={touched}
-    handleChange={handleChange}
-    handleBlur={handleBlur}
-    handleSubmit={handleSubmit}
-    isPending={isPending}
-setFieldValue={setFieldValue}    
-    mode="create"
-    clientedit={clientedit}
-    
-    
+
+  return (
+
+    <div><ClientGoodsComp onClose={onClose}
+      values={values}
+      errors={errors}
+      touched={touched}
+      handleChange={handleChange}
+      handleBlur={handleBlur}
+      handleSubmit={handleSubmit}
+      isPending={isPending}
+      setFieldValue={setFieldValue}
+      mode="create"
+      clientedit={clientedit}
+
+
     /></div>)
-   
-    
+
+
 }

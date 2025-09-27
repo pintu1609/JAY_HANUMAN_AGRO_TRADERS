@@ -1,24 +1,22 @@
-import PaymentDetailsForm from "@/compoment/PaymentComp/PaymentComp";
 import { intialClientPayment, clientPaymentSchema } from "@/validation";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
 import { useEffect } from "react";
-import { useCreateSellerPayment } from "@/hook/sellerpayment";
 import { useCreateClientPayment } from "@/hook/clientpayment";
 import ClientPaymentDetailsForm from "../ClientPaymentComp";
 
 
 interface Props {
-    clientedit?:boolean
-      clientId?:string
-    onClose: () => void;
-    onSuccess: () => void;
+  clientedit?: boolean
+  clientId?: string
+  onClose: () => void;
+  onSuccess: () => void;
 }
-export default function CreateClientPayment({clientedit,clientId,onClose,onSuccess}:Props) {
-    const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateClientPayment();
+export default function CreateClientPayment({ clientedit, clientId, onClose, onSuccess }: Props) {
+  const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateClientPayment();
 
-      const {
+  const {
     values,
     errors,
     touched,
@@ -27,17 +25,18 @@ export default function CreateClientPayment({clientedit,clientId,onClose,onSucce
     handleSubmit,
     resetForm,
   } = useFormik({
-    initialValues: {...intialClientPayment,
-      clientId:clientId ?? ""
+    initialValues: {
+      ...intialClientPayment,
+      clientId: clientId ?? ""
     },
     validationSchema: toFormikValidationSchema(clientPaymentSchema),
     validateOnChange: true,
     onSubmit: async (values) => {
-        // const payload = { ...values ,};
+      // const payload = { ...values ,};
       try {
-      
+
         mutateAsync(values);
-        
+
       } catch (err) {
         toast.error("Something went wrong!");
       }
@@ -58,20 +57,20 @@ export default function CreateClientPayment({clientedit,clientId,onClose,onSucce
 
   }, [isSuccess, isError, data, error, resetForm, onClose]);
 
-  
-    return(
-    
-    <div><ClientPaymentDetailsForm onClose={onClose} 
-    values={values}
-    errors={errors}
-    touched={touched}
-    handleChange={handleChange}
-    handleBlur={handleBlur}
-    handleSubmit={handleSubmit}
-    isPending={isPending}
-    mode="create"
-    clientedit={clientedit}
-    
-    
+
+  return (
+
+    <div><ClientPaymentDetailsForm onClose={onClose}
+      values={values}
+      errors={errors}
+      touched={touched}
+      handleChange={handleChange}
+      handleBlur={handleBlur}
+      handleSubmit={handleSubmit}
+      isPending={isPending}
+      mode="create"
+      clientedit={clientedit}
+
+
     /></div>)
 }

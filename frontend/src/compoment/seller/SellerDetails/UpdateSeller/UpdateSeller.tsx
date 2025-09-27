@@ -3,20 +3,20 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
 import { useEffect } from "react";
-import {  useUpdateSellerGoods } from "@/hook/sellergoodsdetails";
+import { useUpdateSellerGoods } from "@/hook/sellergoodsdetails";
 import SellerGoodsComp from "../SellerComp";
-import {  updateSellerParams } from "@/types/sellerDetails/sellerparam";
+import { updateSellerParams } from "@/types/sellerDetails/sellerparam";
 
 
 interface Props {
-      sellerData:updateSellerParams
-    onClose: () => void;
-    onSuccess: () => void;
+  sellerData: updateSellerParams
+  onClose: () => void;
+  onSuccess: () => void;
 }
-export default function UpdateSeller({sellerData,onClose,onSuccess}:Props) {
-    const { mutateAsync, isPending, isSuccess, isError, data, error } = useUpdateSellerGoods();
+export default function UpdateSeller({ sellerData, onClose, onSuccess }: Props) {
+  const { mutateAsync, isPending, isSuccess, isError, data, error } = useUpdateSellerGoods();
 
-      const {
+  const {
     values,
     errors,
     touched,
@@ -30,21 +30,19 @@ export default function UpdateSeller({sellerData,onClose,onSuccess}:Props) {
     validationSchema: toFormikValidationSchema(sellerGoodsSchema),
     validateOnChange: true,
     onSubmit: async (values) => {
-        const payload={
-            payload:values,
-            id:sellerData._id
-        }
+      const payload = {
+        payload: values,
+        id: sellerData._id
+      }
       try {
-      
+
         mutateAsync(payload);
-        
+
       } catch (err) {
         toast.error("Something went wrong!");
       }
     },
   });
-    console.log("🚀 ~ CreateSeller ~ errors:", errors)
-    console.log("🚀 ~ CreateSeller ~ values:", values)
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -60,22 +58,22 @@ export default function UpdateSeller({sellerData,onClose,onSuccess}:Props) {
 
   }, [isSuccess, isError, data, error, resetForm, onClose]);
 
-  
-    return(
-    
-    <div><SellerGoodsComp onClose={onClose} 
-    values={values}
-    errors={errors}
-    touched={touched}
-    handleChange={handleChange}
-    handleBlur={handleBlur}
-    handleSubmit={handleSubmit}
-    isPending={isPending}
-setFieldValue={setFieldValue}    
-    mode="update"
-    
-    
+
+  return (
+
+    <div><SellerGoodsComp onClose={onClose}
+      values={values}
+      errors={errors}
+      touched={touched}
+      handleChange={handleChange}
+      handleBlur={handleBlur}
+      handleSubmit={handleSubmit}
+      isPending={isPending}
+      setFieldValue={setFieldValue}
+      mode="update"
+
+
     /></div>)
-   
-    
+
+
 }

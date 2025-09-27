@@ -8,14 +8,14 @@ import { useCreateSellerPayment } from "@/hook/sellerpayment";
 
 
 interface Props {
-      paymentData:any
-    onClose: () => void;
-    onSuccess: () => void;
+  paymentData: any
+  onClose: () => void;
+  onSuccess: () => void;
 }
-export default function CreateSellerPayment({paymentData,onClose,onSuccess}:Props) {
-    const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateSellerPayment();
+export default function CreateSellerPayment({ paymentData, onClose, onSuccess }: Props) {
+  const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateSellerPayment();
 
-      const {
+  const {
     values,
     errors,
     touched,
@@ -28,11 +28,11 @@ export default function CreateSellerPayment({paymentData,onClose,onSuccess}:Prop
     validationSchema: toFormikValidationSchema(paymentSchema),
     validateOnChange: true,
     onSubmit: async (values) => {
-        const payload = { ...values ,sellerId:paymentData.sellerId};
+      const payload = { ...values, sellerId: paymentData.sellerId };
       try {
-      
+
         mutateAsync(payload);
-        
+
       } catch (err) {
         toast.error("Something went wrong!");
       }
@@ -53,19 +53,19 @@ export default function CreateSellerPayment({paymentData,onClose,onSuccess}:Prop
 
   }, [isSuccess, isError, data, error, resetForm, onClose]);
 
-  
-    return(
-    
-    <div><PaymentDetailsForm onClose={onClose} 
-    values={values}
-    errors={errors}
-    touched={touched}
-    handleChange={handleChange}
-    handleBlur={handleBlur}
-    handleSubmit={handleSubmit}
-    isPending={isPending}
-    mode="create"
-    
-    
+
+  return (
+
+    <div><PaymentDetailsForm onClose={onClose}
+      values={values}
+      errors={errors}
+      touched={touched}
+      handleChange={handleChange}
+      handleBlur={handleBlur}
+      handleSubmit={handleSubmit}
+      isPending={isPending}
+      mode="create"
+
+
     /></div>)
 }

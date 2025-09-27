@@ -8,14 +8,14 @@ import toast from "react-hot-toast";
 import { useCreateBroker } from "@/hook/brokerdetails";
 import BrokerComp from "../BrokerComp";
 
-interface Props{
-    onClose:()=>void
-    onSuccess:()=>void
+interface Props {
+  onClose: () => void
+  onSuccess: () => void
 }
 
-export default function CreateBroker({onClose,onSuccess}:Props) {
+export default function CreateBroker({ onClose, onSuccess }: Props) {
 
-    const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateBroker();
+  const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateBroker();
 
   const {
     values,
@@ -26,7 +26,7 @@ export default function CreateBroker({onClose,onSuccess}:Props) {
     handleSubmit,
     resetForm,
   } = useFormik({
-    initialValues:initialBroker,
+    initialValues: initialBroker,
     validationSchema: toFormikValidationSchema(createBrokerSchema),
     onSubmit: async (values) => {
       try {
@@ -56,9 +56,9 @@ export default function CreateBroker({onClose,onSuccess}:Props) {
   }, [isSuccess, isError, data, error, resetForm, onClose, onSuccess]);
 
 
-    return <div>
-        <BrokerComp onClose={onClose} values={values} errors={errors} touched={touched} handleChange={handleChange} handleBlur={handleBlur} handleSubmit={handleSubmit}
-        isPending={isPending}
-        mode="create"/>
-    </div>;
+  return <div>
+    <BrokerComp onClose={onClose} values={values} errors={errors} touched={touched} handleChange={handleChange} handleBlur={handleBlur} handleSubmit={handleSubmit}
+      isPending={isPending}
+      mode="create" />
+  </div>;
 }

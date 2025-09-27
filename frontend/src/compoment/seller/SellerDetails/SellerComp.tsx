@@ -12,7 +12,7 @@ interface Package {
     date: string;
     commision: number;
     broker: string;
-    wareHouse:boolean
+    wareHouse: boolean
 }
 
 interface Props {
@@ -41,15 +41,11 @@ export default function SellerGoodsComp({
     mode,
 }: Props) {
     const addPackage = () => {
-        const newPackage = { package: "", weight: 0, rate: 0, date: "", commision: 0, broker: "" ,WareHouse:false};
+        const newPackage = { package: "", weight: 0, rate: 0, date: "", commision: 0, broker: "", WareHouse: false };
         setFieldValue("packages", [...values.packages, newPackage]);
 
     };
     const { data: brokers } = useGetAllBrokerDetails()
-    console.log("🚀 ~ SellerGoodsComp ~ brokers:", brokers)
-
-    // const brokers = ["Broker A", "Broker B", "Broker C"]; // sample brokers
-
 
     const removePackage = (index: number) => {
         const updated = values.packages.filter((_: any, i: number) => i !== index);
@@ -204,11 +200,11 @@ export default function SellerGoodsComp({
                                     {/*</select> */}
 
                                     <div className="flex items-center gap-2">
-                                        
+
                                         <input
                                             type="checkbox"
                                             checked={pkg.wareHouse || false}
-                                             name={`packages[${index}].wareHouse`} 
+                                            name={`packages[${index}].wareHouse`}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             className="toggle-checkbox"

@@ -8,14 +8,14 @@ import { useEffect } from "react";
 
 
 interface Props {
-    onClose: () => void;
-    brokerId:string
-    onSuccess: () => void;
+  onClose: () => void;
+  brokerId: string
+  onSuccess: () => void;
 }
-export default function CreateBrokerPayment({onClose ,brokerId,onSuccess}:Props) {
-    const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateBrokerPayment();
+export default function CreateBrokerPayment({ onClose, brokerId, onSuccess }: Props) {
+  const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateBrokerPayment();
 
-      const {
+  const {
     values,
     errors,
     touched,
@@ -28,11 +28,11 @@ export default function CreateBrokerPayment({onClose ,brokerId,onSuccess}:Props)
     validationSchema: toFormikValidationSchema(paymentSchema),
     validateOnChange: true,
     onSubmit: async (values) => {
-        const payload = { ...values ,brokerId:brokerId};
+      const payload = { ...values, brokerId: brokerId };
       try {
-      
+
         mutateAsync(payload);
-        
+
       } catch (err) {
         toast.error("Something went wrong!");
       }
@@ -53,19 +53,19 @@ export default function CreateBrokerPayment({onClose ,brokerId,onSuccess}:Props)
 
   }, [isSuccess, isError, data, error, resetForm, onClose]);
 
-  
-    return(
-    
-    <div><PaymentDetailsForm onClose={onClose} 
-    values={values}
-    errors={errors}
-    touched={touched}
-    handleChange={handleChange}
-    handleBlur={handleBlur}
-    handleSubmit={handleSubmit}
-    isPending={isPending}
-    mode="create"
-    
-    
+
+  return (
+
+    <div><PaymentDetailsForm onClose={onClose}
+      values={values}
+      errors={errors}
+      touched={touched}
+      handleChange={handleChange}
+      handleBlur={handleBlur}
+      handleSubmit={handleSubmit}
+      isPending={isPending}
+      mode="create"
+
+
     /></div>)
 }
