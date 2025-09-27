@@ -28,7 +28,7 @@ const fetchSellerGoodsDetailsWithPayment = async ({
   const message = messageSchema.parse(data.message);
   const retData = SellerGoodsItemSchema.parse(data.data.data[0].data);
 
-  return { status, message, data: retData };
+  return { status, message, data: retData, totalCount: data.data.data[0].totalCount, grandTotalSellerAmount:data.data.data[0].grandTotalSeller, grandTotalSellerPayment:data.data.data[0].grandTotalSellerPayment };
 };
 
 const useGetSellerGoodsDetailsWithPayment = (year: number) => {

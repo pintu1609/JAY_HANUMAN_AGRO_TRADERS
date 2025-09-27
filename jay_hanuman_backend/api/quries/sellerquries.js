@@ -1,6 +1,7 @@
 exports.search = (filter, pagination) => {
   const { page = 1, limit = 10 } = pagination; // default pagination values
   const skip = (page - 1) * limit;
+
   const baseQuery = [
     {
       $match: {
@@ -14,14 +15,10 @@ exports.search = (filter, pagination) => {
     {
       $lookup: {
         from: "sellerpayments", // The target collection
-        localField: "_id", // The field from the current collection
-        foreignField: "sellerId", // The field from the target collection
+        localField: "_id",
+        foreignField: "sellerId",
         pipeline: [
-          {
-            $sort: {
-              createdAt: -1, // Sort based on createdAt field
-            },
-          },
+          { $sort: { createdAt: -1 } },
           {
             $project: {
               _id: 1,
@@ -35,24 +32,18 @@ exports.search = (filter, pagination) => {
             },
           },
         ],
-        as: "payments", // array of payments
+        as: "payments",
       },
     },
-    // for broker details
+
+    // For broker details
     { $unwind: { path: "$packages", preserveNullAndEmptyArrays: true } },
     {
       $lookup: {
-        from: "brokers", // broker collection
+        from: "brokers",
         localField: "packages.broker",
         foreignField: "_id",
-        pipeline: [
-          {
-            $project: {
-              _id: 1,
-              name: 1,
-            },
-          },
-        ],
+        pipeline: [{ $project: { _id: 1, name: 1 } }],
         as: "brokerDetails",
       },
     },
@@ -63,12 +54,10 @@ exports.search = (filter, pagination) => {
       },
     },
 
-    // 🔹 Group back to keep packages array intact
+    // 🔹 Group back
     {
       $group: {
         _id: "$_id",
-        // name: { $first: "$name" },
-        // address: { $first: "$address" },
         name: { $first: { $ifNull: ["$name", "-"] } },
         address: { $first: { $ifNull: ["$address", "-"] } },
         totalAmount: { $first: "$totalAmount" },
@@ -85,22 +74,108 @@ exports.search = (filter, pagination) => {
         name: 1,
         address: 1,
         totalAmount: 1,
-        commisionAmount: 1, // Corrected field name
+        commisionAmount: 1,
         weightCost: 1,
         packages: 1,
         payments: 1,
+        createdAt: 1,
       },
     },
     { $sort: { createdAt: -1 } },
   ];
+
+  // const paginatedQuery = [
+  //   {
+  //     $facet: {
+  //       data: [...dataQuery, { $skip: skip }, { $limit: limit }],
+  //      totalCount: [
+  //       ...baseQuery,
+  //       { $count: "count" }
+  //     ],
+  //       grandTotals: [
+  //         ...dataQuery,
+  //         {
+  //           $group: {
+  //             _id: null,
+  //             grandTotalSeller: { $sum: "$totalAmount" },
+  //             grandTotalSellerPayment: {
+  //               $sum: {
+  //                 $sum: {
+  //                   $map: {
+  //                     input: "$payments",
+  //                     as: "p",
+  //                     in: "$$p.amount",
+  //                   },
+  //                 },
+  //               },
+  //             },
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   },
+  //   {
+  //   $project: {
+  //     grandTotalSeller: 1,
+  //     grandTotalSellerPayment: 1,
+  //   },
+  // },
+  // ];
+
   const paginatedQuery = [
-    {
-      $facet: {
-        data: [...dataQuery, { $skip: skip }, { $limit: limit }],
-        totalCount: [{ $count: "count" }],
-      },
+  {
+    $facet: {
+      data: [...dataQuery, { $skip: skip }, { $limit: limit }],
+      totalCount: [...baseQuery, { $count: "count" }],
+      grandTotals: [
+        ...dataQuery,
+        {
+          $group: {
+            _id: null,
+            grandTotalSeller: { $sum: "$totalAmount" },
+            grandTotalSellerPayment: {
+              $sum: {
+                $sum: {
+                  $map: {
+                    input: "$payments",
+                    as: "p",
+                    in: "$$p.amount",
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            grandTotalSeller: 1,
+            grandTotalSellerPayment: 1,
+          },
+        },
+      ],
     },
-  ];
+  },
+  {
+    $addFields: {
+      // flatten grandTotals[0] → grandTotalSeller & grandTotalSellerPayment
+      grandTotalSeller: { $arrayElemAt: ["$grandTotals.grandTotalSeller", 0] },
+      grandTotalSellerPayment: {
+        $arrayElemAt: ["$grandTotals.grandTotalSellerPayment", 0],
+      },
+      totalCount: { $ifNull: [{ $arrayElemAt: ["$totalCount.count", 0] }, 0] },
+    },
+  },
+  {
+    $project: {
+      data: 1,
+      totalCount: 1,
+      grandTotalSeller: 1,
+      grandTotalSellerPayment: 1,
+    },
+  },
+];
+
 
   return paginatedQuery;
 };

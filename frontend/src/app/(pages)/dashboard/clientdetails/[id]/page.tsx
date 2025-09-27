@@ -21,7 +21,7 @@ export default function SellersGoodsDetails() {
     const { data: clientData, isLoading } = useGetAllClientDetailsById(id)
 
     return <div className="p-6 bg-orange-50 min-h-screen ">
-        <div className="grid grid-cols-3 items-center mb-6">
+        <div className="grid grid-cols-3 items-center mb-2">
             <button
                 onClick={() => router.back()}
                 className="flex items-center gap-2 text-orange-700 hover:text-orange-900 font-semibold cursor-pointer"

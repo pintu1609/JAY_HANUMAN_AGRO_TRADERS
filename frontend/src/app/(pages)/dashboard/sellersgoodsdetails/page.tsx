@@ -44,6 +44,8 @@ export default function SellersGoodsDetails() {
             </div>
         </div>
 
+        
+
         <SellerGoodsDetailsComp currentYear={currentYearAdd} />
     </div>;
 }
