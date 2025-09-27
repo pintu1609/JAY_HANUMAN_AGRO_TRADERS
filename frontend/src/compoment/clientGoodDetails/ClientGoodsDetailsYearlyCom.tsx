@@ -69,6 +69,25 @@ export default function ClientGoodsDetailsYearlyComp({ clientedit, clientId, cur
 
     return (
         <div className="p-6 bg-orange-50 min-h-screen space-y-6">
+            <div className="flex justify-between gap-6 mb-4 text-lg font-semibold text-orange-800 bg-white p-4 rounded-lg shadow-md">
+  <div>
+    Total Goods Amount:{" "}
+    <span className="text-orange-600">₹{clientRes?.grandTotalClientAmount?.toFixed(2)}</span>
+  </div>
+  {clientId && (
+  <div>
+    Total Payment:{" "}
+    <span className="text-green-600">₹{clientPaymentSchema?.grandTotalClientPayment?.toFixed(2)}</span>
+  </div>
+  )}
+  {clientId && (
+  <div>
+    Due Amount:{" "}
+    <span className="text-red-600">₹{(clientRes?.grandTotalClientAmount - clientPaymentSchema?.grandTotalClientPayment)?.toFixed(2)}</span>
+  </div>
+  )}
+</div>
+
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-2xl font-bold text-orange-700 mb-4">
                     Year {currentYear} Goods
@@ -95,7 +114,7 @@ export default function ClientGoodsDetailsYearlyComp({ clientedit, clientId, cur
                 </div>
             ) : (
 
-                (ClientGoodsData.length > 0) ? (
+                (ClientGoodsData.length > 0 || ClientPaymentData?.length > 0) ? (
 
 
 

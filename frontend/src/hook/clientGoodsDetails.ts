@@ -62,7 +62,7 @@ const fetchClientGoodsDetails = async (clientId?: string, year?: number) => {
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
   const retData = ClientGoodsItemSchema.parse(data.data?.[0].data);
-  return { status, message, data: retData };
+  return { status, message, data: retData, totalCount: data.data?.[0].totalCount, grandTotalClientAmount:data.data?.[0].grandTotalClientAmount, };
 };
 
 const useGetClientGoodsDetails = ({

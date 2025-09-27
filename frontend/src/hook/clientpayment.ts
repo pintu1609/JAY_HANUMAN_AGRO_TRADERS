@@ -138,7 +138,7 @@ const fetchClientGoodsPaymentDetails = async (
   const status = statusSchema.parse(data.status);
   const message = messageSchema.parse(data.message);
   const retData = ClientGoodsPaymentSchema.parse(data.data?.[0].data);
-  return { status, message, data: retData };
+  return { status, message, data: retData, totalCount: data.data?.[0].totalCount , grandTotalClientPayment:data.data?.[0].grandTotalClientPayment};
 };
 
 const useGetClientGoodsPaymentDetails = ({

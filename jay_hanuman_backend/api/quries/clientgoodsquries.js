@@ -53,6 +53,36 @@ exports.searchClient = (filter = {}, pagination = {}) => {
           ...matchStage,
           { $count: "count" }, // count **after filtering**
         ],
+         grandTotals: [
+          ...matchStage,
+          {
+            $group: {
+              _id: null,
+              grandTotalClientAmount: { $sum: "$clientAmount" },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              grandTotalClientAmount: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+    $addFields: {
+      // flatten grandTotals[0] → grandTotalSeller & grandTotalSellerPayment
+      grandTotalClientAmount: { $arrayElemAt: ["$grandTotals.grandTotalClientAmount", 0] },
+      
+      totalCount: { $ifNull: [{ $arrayElemAt: ["$totalCount.count", 0] }, 0] },
+    },
+  },
+    {
+      $project: {
+        data: 1,
+        totalCount: 1,
+        grandTotalClientAmount: 1,
       },
     },
   ];
