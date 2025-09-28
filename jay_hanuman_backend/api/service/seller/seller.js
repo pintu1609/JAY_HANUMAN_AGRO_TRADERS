@@ -7,8 +7,11 @@ exports.createSeller = async (body) => {
   let totalAmount = 0;
   let commisionAmount = 0;
   let weightCost = 0;
+  let totalLfetPackages = 0;
   const packagesWithCalculation = body.packages.map((pkg) => {
     const amount = ((pkg.package * pkg.weight) / 40) * pkg.rate;
+
+    totalLfetPackages = Number(pkg.package);
 
     let packageTotal;
     if (!pkg.commision || pkg.commision === 0) {
@@ -26,6 +29,7 @@ exports.createSeller = async (body) => {
     return {
       ...pkg,
       amount,
+      leftPackages: totalLfetPackages,
     };
   });
 
@@ -93,9 +97,22 @@ exports.updateSeller = async (body, id) => {
   let totalAmount = 0;
   let commisionAmount = 0;
   let weightCost = 0;
+  let totalLfetPackages = 0;
+
   const packagesWithCalculation = body.packages.map((pkg) => {
     const amount = ((pkg.package * pkg.weight) / 40) * pkg.rate;
 
+    const existingPkg = goodDetails.packages.find(
+      (p) => String(p._id) === String(pkg._id)
+    );
+
+    let soldPackages = 0;
+    if (existingPkg && existingPkg.clientDetails) {
+      soldPackages = existingPkg.clientDetails.reduce((acc, client) => {
+        return acc + Number(client.soldPackages || 0);
+      }, 0);
+    }
+    totalLfetPackages = Number(pkg.package) - soldPackages;
     let packageTotal;
     if (!pkg.commision || pkg.commision === 0) {
       packageTotal = amount;
@@ -112,6 +129,8 @@ exports.updateSeller = async (body, id) => {
     return {
       ...pkg,
       amount,
+      // clientDetails: existingPkg.clientDetails,
+      leftPackages: totalLfetPackages,
     };
   });
 

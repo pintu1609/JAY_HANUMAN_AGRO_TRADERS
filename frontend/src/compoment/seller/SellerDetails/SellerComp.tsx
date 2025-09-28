@@ -41,7 +41,7 @@ export default function SellerGoodsComp({
     mode,
 }: Props) {
     const addPackage = () => {
-        const newPackage = { package: "", weight: 0, rate: 0, date: "", commision: 0, broker: "", WareHouse: false };
+        const newPackage = { package: "", weight: 0, rate: 0, date: "", commision: 0, broker: "", wareHouse: false };
         setFieldValue("packages", [...values.packages, newPackage]);
 
     };

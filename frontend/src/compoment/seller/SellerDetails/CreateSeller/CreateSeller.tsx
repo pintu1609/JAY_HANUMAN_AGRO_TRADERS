@@ -38,6 +38,8 @@ export default function CreateSeller({ onClose, onSuccess }: Props) {
       }
     },
   });
+    console.log("🚀 ~ CreateSeller ~ errors:", errors)
+    console.log("🚀 ~ CreateSeller ~ values:", values)
 
   useEffect(() => {
     if (isSuccess && data) {
