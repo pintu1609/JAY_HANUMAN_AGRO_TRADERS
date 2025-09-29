@@ -69,7 +69,7 @@ const Dashboard = () => {
       {cards.map((card, index) => (
         <div
           key={index}
-          className={`rounded-2xl shadow-md p-6 flex items-center gap-4 transition-transform transform hover:scale-105 ${card.bg}`}
+          className={`cursor-pointer rounded-2xl shadow-md p-6 flex items-center gap-4 transition-transform transform hover:scale-105 ${card.bg}`}
           onClick={() => {
             router.push(card.url);
           }}

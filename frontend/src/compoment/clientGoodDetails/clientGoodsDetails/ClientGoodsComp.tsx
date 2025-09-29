@@ -327,6 +327,9 @@ export default function ClientGoodsComp({
                                                     value={sp.package}
                                                     name={`sellersDetails[${sIndex}].sellerPackages[${spIndex}].package`}
                                                     onChange={handleChange}
+                                                    // max={
+                                                    //     selectedSeller?.packages?.find((p: any) => p._id === sp.packageId)?.package
+                                                    // }
                                                     className={`w-full h-[42px] px-4 border rounded-lg outline-none text-gray-700 ${errors.sellersDetails?.[sIndex]?.sellerPackages?.[spIndex]?.package && touched.sellersDetails?.[sIndex]?.sellerPackages?.[spIndex]?.package
                                                         ? "border-red-500"
                                                         : "border-gray-300"

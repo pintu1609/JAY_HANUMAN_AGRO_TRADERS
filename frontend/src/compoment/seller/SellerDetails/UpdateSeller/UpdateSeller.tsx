@@ -26,7 +26,10 @@ export default function UpdateSeller({ sellerData, onClose, onSuccess }: Props) 
     setFieldValue,
     resetForm,
   } = useFormik({
-    initialValues: sellerData,
+    initialValues: {...sellerData,
+      name: sellerData.name==="-"?"":sellerData.name,
+      address: sellerData.address==="-"?"":sellerData.address
+    },
     validationSchema: toFormikValidationSchema(sellerGoodsSchema),
     validateOnChange: true,
     onSubmit: async (values) => {

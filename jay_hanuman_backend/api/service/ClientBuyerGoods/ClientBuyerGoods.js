@@ -171,40 +171,79 @@ exports.update = async (id, body) => {
     clientAmount,
   };
 
-  for (const seller of body.sellersDetails) {
-    const sellerDoc = await dal.findByID(sellerModel, seller.sellerId);
-    if (!sellerDoc) continue;
+  
+  // for (const seller of body.sellersDetails) {
+  //   const sellerDoc = await dal.findByID(sellerModel, seller.sellerId);
+  //   if (!sellerDoc) continue;
 
-    for (const pkg of seller.sellerPackages) {
-      const pkgdetails = sellerDoc.packages.find(
-        (p) => p._id.toString() === pkg.packageId
-      );
-      if (!pkgdetails) continue;
+  //   for (const pkg of seller.sellerPackages) {
+  //     const pkgdetails = sellerDoc.packages.find(
+  //       (p) => p._id.toString() === pkg.packageId
+  //     );
+  //     if (!pkgdetails) continue;
 
-      const existingClient = pkgdetails.clientDetails.find(
-        (c) => c.clientId.toString() === body.clientId
-      );
+  //     // const existingClient = pkgdetails.clientDetails.find(
+  //     //   (c) => c.clientId.toString() === body.clientId
+  //     // );
 
-      if (existingClient) {
-        // If client exists, update soldPackages
-        existingClient.soldPackages = String(Number(pkg.package));
-      } else {
-        // Otherwise, push new client entry
-        pkgdetails.clientDetails.push({
-          clientId: body.clientId,
-          soldPackages: String(pkg.package),
-        });
-      }
-      const totalSold = pkgdetails.clientDetails.reduce(
-        (acc, c) => acc + Number(c.soldPackages || 0),
-        0
-      );
+  //     // if (existingClient) {
+  //     //   // If client exists, update soldPackages
+  //     //   existingClient.soldPackages = String(Number(pkg.package));
+  //     // } else {
+  //     //   // Otherwise, push new client entry
+  //     //   pkgdetails.clientDetails.push({
+  //     //     clientId: body.clientId,
+  //     //     soldPackages: String(pkg.package),
+  //     //   });
+  //     // }
 
-      pkgdetails.leftPackages = String(Number(pkgdetails.package) - totalSold);
-    }
+  //     pkgdetails.clientDetails = pkgdetails.clientDetails
+  //   .filter((c) => c.clientId.toString() !== body.clientId)
+  //   .concat([
+  //     {
+  //       clientId: body.clientId,
+  //       soldPackages: String(pkg.package),
+  //     },
+  //   ]);
 
-    await dal.findOneAndUpdate(sellerModel, { _id: sellerDoc._id }, sellerDoc);
-  }
+  //     const totalSold = pkgdetails.clientDetails.reduce(
+  //       (acc, c) => acc + Number(c.soldPackages || 0),
+  //       0
+  //     );
+
+  //     pkgdetails.leftPackages = String(Number(pkgdetails.package) - totalSold);
+  //   }
+
+  //   await dal.findOneAndUpdate(sellerModel, { _id: sellerDoc._id }, sellerDoc);
+  // }
+
+
+// update clientPackage
+
+
+//   const sellersWithClient = await dal.find(sellerModel, {
+//   "packages.clientDetails.clientId": body.clientId,
+// });
+//   console.log("🚀 ~ sellersWithClient:", sellersWithClient)
+
+//   for (const seller of sellersWithClient) {
+//   for (const pkg of seller.packages) {
+//     pkg.clientDetails = pkg.clientDetails.filter(
+//       (c) => c.clientId.toString() !== body.clientId.toString()
+//     );
+
+    
+
+//     // recalc leftPackages
+//     const totalSold = pkg.clientDetails.reduce(
+//       (acc, c) => acc + Number(c.soldPackages || 0),
+//       0
+//     );
+//     pkg.leftPackages = String(Number(pkg.package) - totalSold);
+//   }
+
+//   await seller.save();
+// }
 
   const updateClientGoods = await dal.findOneAndReplace(
     model,

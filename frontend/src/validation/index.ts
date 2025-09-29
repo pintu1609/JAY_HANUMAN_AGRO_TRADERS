@@ -304,9 +304,19 @@ const sellerGoodsSchema = z
       )
       .min(1, "At least one package is required"),
   })
-  .refine((data) => data.name || data.address, {
-    message: "Either name or address is required",
-    path: ["name"], // 👈 attaches error to `name` (you could also use `address` or [] for form-level)
+  .superRefine((data, ctx) => {
+    if (!data.name && !data.address) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Either name or address is required",
+        path: ["name"],
+      });
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Either name or address is required",
+        path: ["address"],
+      });
+    }
   });
 
   const clientGoodsDetailsSchema = z.object({
