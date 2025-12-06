@@ -27,23 +27,13 @@ const sellerSchema = new Schema(
         commision: { type: Number, required: true },
         amount: { type: Number, required: true },
         wareHouse: { type: Boolean, required: true },
+        remaining: { type: Number, required: true },
         clientDetails: [
           {
-            clientId: {
-              type: Schema.Types.ObjectId,
-              ref: "ClientDetails",
-              
-            },
-            soldPackages:{
-                type: String,
-                
-            }
+            clientId: { type: Schema.Types.ObjectId, ref: "Register" },
+            soldPackages: { type: Number, default: 0 },
           },
         ],
-        leftPackages:{
-            type: String,
-            required: true
-        }
       },
     ],
   },

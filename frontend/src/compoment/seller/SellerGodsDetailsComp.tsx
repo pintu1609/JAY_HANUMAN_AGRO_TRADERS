@@ -110,15 +110,15 @@ export default function SellerGoodsDetailsComp({ currentYear }: any) {
            <div className="flex justify-between gap-6 mb-4 text-lg font-semibold text-orange-800 bg-white p-4 rounded-lg shadow-md">
   <div>
     Total Good Amount:{" "}
-    <span className="text-orange-600">₹{sellerRes?.grandTotalSellerAmount.toFixed(2)}</span>
+    <span className="text-orange-600">₹{sellerRes?.grandTotalSellerAmount ? sellerRes?.grandTotalSellerAmount?.toFixed(2) : "0"} </span>
   </div>
   <div>
     Total Payment:{" "}
-    <span className="text-green-600">₹{sellerRes?.grandTotalSellerPayment.toFixed(2) || 0}</span>
+    <span className="text-green-600">₹{sellerRes?.grandTotalSellerPayment?.toFixed(2) || 0}</span>
   </div>
   <div>
     Due Amount:{" "}
-    <span className="text-red-600">₹{(sellerRes?.grandTotalSellerAmount - sellerRes?.grandTotalSellerPayment).toFixed(2) || 0}</span>
+    <span className="text-red-600">₹{(sellerRes?.grandTotalSellerAmount - sellerRes?.grandTotalSellerPayment)?.toFixed(2) || 0}</span>
   </div>
 </div>
             <div className="flex items-center justify-between mb-4">

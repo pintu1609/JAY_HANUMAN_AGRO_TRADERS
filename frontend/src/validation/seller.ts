@@ -13,6 +13,8 @@ const PackageItemSchema = z.object({
   amount: z.number(),
   commision: z.number(),
   wareHouse:z.boolean(),
+  remaining: z.number(),
+
 });
 
 

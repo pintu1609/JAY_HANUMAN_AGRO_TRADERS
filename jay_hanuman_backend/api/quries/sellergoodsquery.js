@@ -89,3 +89,75 @@ exports.searchsellergoods = (filter, pagination) => {
 
   return dataQuery;
 };
+
+
+// exports.searchsellergoods = (filter, pagination) => {
+//   const { page, limit } = pagination || {};
+//   const skip = page && limit ? (page - 1) * limit : 0;
+
+//   const baseQuery = [{ $match: { ...filter } }];
+
+//   const dataQuery = [
+//     ...baseQuery,
+
+//     // Unwind packages to filter individually
+//     { $unwind: { path: "$packages", preserveNullAndEmptyArrays: true } },
+
+//     // Only keep packages with remaining > 0
+//     { $match: { "packages.remaining": { $gt: 0 } } },
+
+//     // Lookup broker details
+//     {
+//       $lookup: {
+//         from: "brokers",
+//         localField: "packages.broker",
+//         foreignField: "_id",
+//         pipeline: [{ $project: { _id: 1, name: 1 } }],
+//         as: "brokerDetails",
+//       },
+//     },
+//     { $unwind: { path: "$brokerDetails", preserveNullAndEmptyArrays: true } },
+//     { $addFields: { "packages.broker": "$brokerDetails" } },
+
+//     // Group back into seller document
+//     {
+//       $group: {
+//         _id: "$_id",
+//         name: { $first: { $ifNull: ["$name", "-"] } },
+//         address: { $first: { $ifNull: ["$address", "-"] } },
+//         totalAmount: { $first: "$totalAmount" },
+//         commisionAmount: { $first: "$commisionAmount" },
+//         weightCost: { $first: "$weightCost" },
+//         packages: { $push: "$packages" }, // only remaining > 0 packages included
+
+//         createdAt: { $first: "$createdAt" },
+//       },
+//     },
+
+//     {
+//       $project: {
+//         name: 1,
+//         address: 1,
+//         totalAmount: 1,
+//         commisionAmount: 1,
+//         weightCost: 1,
+//         packages: 1,
+//       },
+//     },
+
+//     { $sort: { createdAt: -1 } },
+//   ];
+
+//   if (page && limit) {
+//     return [
+//       {
+//         $facet: {
+//           data: [...dataQuery, { $skip: skip }, { $limit: limit }],
+//           totalCount: [{ $count: "count" }],
+//         },
+//       },
+//     ];
+//   }
+
+//   return dataQuery;
+// };
