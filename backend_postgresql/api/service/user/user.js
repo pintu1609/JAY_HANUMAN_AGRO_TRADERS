@@ -39,8 +39,20 @@ exports.loginUser = async (body) => {
 
 exports.getAllUser = async () => {
   const users = await dal.find(User);
-  users.forEach(u => delete u.password);
-  return { status: 200, message: 'Users fetched', data: users };
+  // users.forEach(u => delete u.password);
+  const formattedUsers = users.map(u => {
+    const user = { ...u };
+
+    // rename id -> _id
+    user._id = user.id;
+    delete user.id;
+
+    // remove password
+    delete user.password;
+
+    return user;
+  });
+  return { status: 200, message: 'Users fetched', data: formattedUsers };
 };
 
 exports.getUserById = async (id) => {

@@ -92,7 +92,7 @@ const fetchAllUser = async () => {
   const message = messageSchema.parse(data.message);
 
   const dataSchema = z.object({
-    _id: z.string(),
+    _id: z.union([z.string(), z.number()]),
     name: z.string(),
     email: z.string(),
     phone: z.string(),
