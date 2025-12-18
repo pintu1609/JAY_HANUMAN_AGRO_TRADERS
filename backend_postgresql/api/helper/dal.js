@@ -304,3 +304,19 @@ exports.findOneAndDelete = async (model, where) => {
   const { rows } = await pool.query(query, values);
   return rows[0];
 };
+
+
+exports.findOneExcludeId = async (model, column, value, excludeId) => {
+  if (!model.table) throw new Error("DAL Error: table is undefined");
+
+  const query = `
+    SELECT *
+    FROM ${model.table}
+    WHERE ${column} = $1
+      AND id <> $2
+    LIMIT 1
+  `;
+
+  const { rows } = await pool.query(query, [value, excludeId]);
+  return rows[0] || null;
+};
