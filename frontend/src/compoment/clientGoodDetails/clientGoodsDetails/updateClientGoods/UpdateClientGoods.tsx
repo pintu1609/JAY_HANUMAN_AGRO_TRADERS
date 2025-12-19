@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import ClientGoodsComp from "../ClientGoodsComp";
 import { useUpdateClientGood } from "@/hook/clientGoodsDetails";
 import { ClientGoodsItemParams, UpdateClientGood } from "@/types/clientGoods/clientgoods";
+import { useGetSellerGoodsDetails } from "@/hook/sellergoodsdetails";
 
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 }
 export default function UpdateClientGoods({ clientedit, clientGoodData, onClose, onSuccess }: Props) {
     const { mutateAsync, isPending, isSuccess, isError, data, error } = useUpdateClientGood();
+          const { data: sellerDetails, refetch } = useGetSellerGoodsDetails();
 
     const {
         values,
@@ -72,6 +74,7 @@ export default function UpdateClientGoods({ clientedit, clientGoodData, onClose,
             resetForm();
             onClose();
             onSuccess();
+            refetch();
         }
 
         if (isError && error) {
@@ -94,6 +97,7 @@ export default function UpdateClientGoods({ clientedit, clientGoodData, onClose,
             setFieldValue={setFieldValue}
             mode="update"
             clientedit={clientedit}
+             sellerDetails={sellerDetails}
 
 
         /></div>)

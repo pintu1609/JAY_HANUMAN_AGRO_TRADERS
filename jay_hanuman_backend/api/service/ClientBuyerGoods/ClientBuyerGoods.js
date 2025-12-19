@@ -552,6 +552,7 @@ exports.create = async (body) => {
 
 
 exports.update = async (id, body) => {
+  // 0️⃣ Check existence
   const existing = await dal.findByID(model, id);
   if (!existing) {
     return { status: 400, message: "Client Buyer Goods not found" };
@@ -559,7 +560,7 @@ exports.update = async (id, body) => {
 
   const clientGoodsId = id;
 
-  // 1️⃣ Calculate client total packages
+  // 1️⃣ Client total packages
   const clientTotalPackages = body.packages.reduce(
     (sum, p) => sum + Number(p.package),
     0
@@ -567,56 +568,94 @@ exports.update = async (id, body) => {
 
   let sellerTotalPackages = 0;
 
-  // 2️⃣ Find ALL sellers containing this clientGoodsId
+  // 2️⃣ Sellers already linked with this clientGoodsId
   const affectedSellers = await dal.find(sellerModel, {
     "packages.clientDetails.clientGoodsId": clientGoodsId,
   });
 
-  // 3️⃣ Map sellers from request body for quick lookup
+  // 3️⃣ Sellers from request body
+  const bodySellerIds = body.sellersDetails.map(s =>
+    s.sellerId.toString()
+  );
+
+  // 4️⃣ Union of seller IDs (existing + new)
+  const sellerIdSet = new Set([
+    ...affectedSellers.map(s => s._id.toString()),
+    ...bodySellerIds,
+  ]);
+
+  // 5️⃣ Map sellers from body
   const bodySellerMap = new Map();
   for (const seller of body.sellersDetails) {
     bodySellerMap.set(seller.sellerId.toString(), seller);
   }
 
-  // 4️⃣ Process each affected seller
-  for (const sellerDoc of affectedSellers) {
-    const bodySeller = bodySellerMap.get(sellerDoc._id.toString());
+  // 6️⃣ Process each seller
+  for (const sellerId of sellerIdSet) {
+    const sellerDoc = await dal.findByID(sellerModel, sellerId);
+    if (!sellerDoc) continue;
+
+    const bodySeller = bodySellerMap.get(sellerId);
     let subtotal = 0;
 
     for (const pkgDetails of sellerDoc.packages) {
-      // 🔥 Always remove old clientGoodsId first
+      // 🔥 REMOVE old transaction for this clientGoodsId
       pkgDetails.clientDetails = pkgDetails.clientDetails.filter(
         c => c.clientGoodsId.toString() !== clientGoodsId.toString()
       );
 
-      // If seller exists in updated body
+      // 🔥 RE-APPLY if present in update payload
       if (bodySeller) {
         const updatedPkg = bodySeller.sellerPackages.find(
           p => p.packageId === pkgDetails._id.toString()
         );
 
         if (updatedPkg) {
+          const soldQty = Number(updatedPkg.package);
+
+          // ============================
+          // 🔥 SELLER AMOUNT CALCULATION (FIX)
+          // ============================
+          const subAmount =
+            ((soldQty * pkgDetails.weight) / 40) * pkgDetails.rate;
+
+          let sellerAmount = subAmount;
+
+          if (pkgDetails.commision && pkgDetails.commision > 0) {
+            const commissionDeduction =
+              (subAmount * pkgDetails.commision) / 100;
+            const weightDeduction = soldQty * 5;
+
+            sellerAmount =
+              subAmount - commissionDeduction - weightDeduction;
+          }
+
+          // 🔥 Store sellerAmount back in payload
+          updatedPkg.sellerAmount = sellerAmount;
+
+          // 🔥 Push clientGoods reference
           pkgDetails.clientDetails.push({
             clientGoodsId,
-            soldPackages: Number(updatedPkg.package),
+            soldPackages: soldQty,
           });
 
-          subtotal += Number(updatedPkg.package);
+          subtotal += soldQty;
         }
       }
 
-      // Recalculate remaining
+      // 🔁 Recalculate remaining stock
       const totalSold = pkgDetails.clientDetails.reduce(
         (acc, c) => acc + Number(c.soldPackages || 0),
         0
       );
 
-      pkgDetails.remaining = Number(pkgDetails.package) - totalSold;
+      pkgDetails.remaining =
+        Number(pkgDetails.package) - totalSold;
     }
 
     sellerTotalPackages += subtotal;
 
-    // 5️⃣ Persist seller update
+    // 7️⃣ Persist seller stock update
     await dal.findOneAndUpdate(
       sellerModel,
       { _id: sellerDoc._id },
@@ -624,7 +663,7 @@ exports.update = async (id, body) => {
     );
   }
 
-  // 6️⃣ Validate package totals
+  // 8️⃣ Validate totals
   if (sellerTotalPackages !== clientTotalPackages) {
     return {
       status: 400,
@@ -632,15 +671,21 @@ exports.update = async (id, body) => {
     };
   }
 
-  // 7️⃣ Recalculate client amount
+  // 9️⃣ Recalculate client amount
   const subtotalAmount = body.packages.reduce((sum, pkg) => {
-    const multiplier = pkg.calculation === "Quantal" ? 100 : 40;
-    return sum + ((pkg.package * pkg.weight) / multiplier) * pkg.rate;
+    const multiplier =
+      pkg.calculation === "Quantal" ? 100 : 40;
+    return (
+      sum +
+      ((Number(pkg.package) * pkg.weight) / multiplier) *
+        pkg.rate
+    );
   }, 0);
 
-  const clientAmount = subtotalAmount + body.misleniousCharge;
+  const clientAmount =
+    subtotalAmount + body.misleniousCharge;
 
-  // 8️⃣ Update ClientBuyerGoods
+  // 🔟 Update ClientBuyerGoods
   const updated = await dal.findOneAndUpdate(
     model,
     { _id: id },
@@ -654,6 +699,7 @@ exports.update = async (id, body) => {
     data: updated,
   };
 };
+
 
 
 // exports.delete = async (id) => {

@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import { useEffect } from "react";
 import ClientGoodsComp from "../ClientGoodsComp";
 import { useCreateClientGood } from "@/hook/clientGoodsDetails";
+import { useGetSellerGoodsDetails } from "@/hook/sellergoodsdetails";
 
 
 interface Props {
@@ -16,6 +17,8 @@ interface Props {
 }
 export default function CreateClientGoods({ clientedit, clientId, onClose, onSuccess }: Props) {
   const { mutateAsync, isPending, isSuccess, isError, data, error } = useCreateClientGood();
+      const { data: sellerDetails, refetch } = useGetSellerGoodsDetails();
+
 
   const {
     values,
@@ -51,6 +54,7 @@ export default function CreateClientGoods({ clientedit, clientId, onClose, onSuc
       resetForm();
       onClose();
       onSuccess();
+      refetch();
     }
 
     if (isError && error) {
@@ -73,6 +77,7 @@ export default function CreateClientGoods({ clientedit, clientId, onClose, onSuc
       setFieldValue={setFieldValue}
       mode="create"
       clientedit={clientedit}
+      sellerDetails={sellerDetails}
 
 
     /></div>)
