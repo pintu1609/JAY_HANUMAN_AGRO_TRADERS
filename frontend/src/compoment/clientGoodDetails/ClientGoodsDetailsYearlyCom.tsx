@@ -72,18 +72,28 @@ export default function ClientGoodsDetailsYearlyComp({ clientedit, clientId, cur
             <div className="flex justify-between gap-6 mb-4 text-lg font-semibold text-orange-800 bg-white p-4 rounded-lg shadow-md">
                 <div>
                     Total Goods Amount:{" "}
-                    <span className="text-orange-600">₹{clientRes?.grandTotalClientAmount?.toFixed(2)}</span>
+                    <span className="text-orange-600">₹{clientRes?.grandTotalClientAmount?.toFixed(2) ?? 0}</span>
                 </div>
-                {clientId && (
+                {clientId ? (
                     <div>
                         Total Payment:{" "}
-                        <span className="text-green-600">₹{clientPaymentSchema?.grandTotalClientPayment?.toFixed(2)}</span>
+                        <span className="text-green-600">₹{clientPaymentSchema?.grandTotalClientPayment?.toFixed(2) ?? 0}</span>
+                    </div>
+                ):(
+                    <div>
+                        Total Payment:{" "}
+                        <span className="text-green-600">₹{clientRes?.grandTotalPayment?.toFixed(2) ?? 0}</span>
                     </div>
                 )}
-                {clientId && (
+                {clientId ? (
                     <div>
                         Due Amount:{" "}
-                        <span className="text-red-600">₹{(clientRes?.grandTotalClientAmount - clientPaymentSchema?.grandTotalClientPayment)?.toFixed(2)}</span>
+                        <span className="text-red-600">₹{(Number(clientRes?.grandTotalClientAmount??0) - Number(clientPaymentSchema?.grandTotalClientPayment ?? 0))?.toFixed(2)}</span>
+                    </div>
+                ):(
+                    <div>
+                        Due Amount:{" "}
+                        <span className="text-red-600">₹{(Number(clientRes?.grandTotalClientAmount ?? 0) - Number(clientRes?.grandTotalPayment?? 0))?.toFixed(2)}</span>
                     </div>
                 )}
             </div>

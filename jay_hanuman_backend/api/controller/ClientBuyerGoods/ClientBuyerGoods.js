@@ -41,11 +41,12 @@ exports.getClientBuyerGoods = async (req, res, next) => {
     }
     const quries = await searchClient(filter);
     const user = await service.getClientGoodsDetails(quries);
-    responseHandler(user.data, res, user.message, 200);
+    const goodsDetails = await service.getGoodsDetailsWithYearPayment(user,year);
+    responseHandler(goodsDetails.data, res, goodsDetails.message, 200);
   } catch (err) {
     console.error(err);
     useErrorHandler(err, req, res, next);
-    next(err);
+    next(err); 
   }
 };
 
