@@ -2,6 +2,7 @@ const dal = require("../../helper/dal");
 const model = require("../../model/ClientBuyerGoods/ClientBuyerGoods");
 // const sellermodal = require("../../model/seller/seller");
 const sellerModel = require("../../model/seller/seller");
+const clintPayment = require("../../model/ClientBuyerGoods/clientgoodspayment");
 // exports.create = async (body) => {
 //   const clientTotalPackages = body.packages.reduce((totalpkg, pkg) => {
 //     return totalpkg + Number(pkg.package);
@@ -177,7 +178,6 @@ const sellerModel = require("../../model/seller/seller");
 //   };
 // }
 
-
 exports.create = async (body) => {
   // 1️⃣ Validate total client packages
   const clientTotalPackages = body.packages.reduce(
@@ -196,7 +196,7 @@ exports.create = async (body) => {
 
     for (const pkg of seller.sellerPackages) {
       const pkgDetails = sellerDoc.packages.find(
-        p => p._id.toString() === pkg.packageId
+        (p) => p._id.toString() === pkg.packageId
       );
       if (!pkgDetails) throw new Error("Seller package not found");
 
@@ -245,7 +245,7 @@ exports.create = async (body) => {
 
     for (const pkg of seller.sellerPackages) {
       const pkgDetails = sellerDoc.packages.find(
-        p => p._id.toString() === pkg.packageId
+        (p) => p._id.toString() === pkg.packageId
       );
 
       pkgDetails.clientDetails.push({
@@ -274,7 +274,6 @@ exports.create = async (body) => {
     data: createdClientGoods,
   };
 };
-
 
 // exports.update = async (id, body) => {
 //   const existingClientGoods = await dal.findByID(model, id);
@@ -347,7 +346,6 @@ exports.create = async (body) => {
 //     clientAmount,
 //   };
 
-  
 //   // for (const seller of body.sellersDetails) {
 //   //   const sellerDoc = await dal.findByID(sellerModel, seller.sellerId);
 //   //   if (!sellerDoc) continue;
@@ -393,9 +391,7 @@ exports.create = async (body) => {
 //   //   await dal.findOneAndUpdate(sellerModel, { _id: sellerDoc._id }, sellerDoc);
 //   // }
 
-
 // // update clientPackage
-
 
 // //   const sellersWithClient = await dal.find(sellerModel, {
 // //   "packages.clientDetails.clientId": body.clientId,
@@ -407,8 +403,6 @@ exports.create = async (body) => {
 // //     pkg.clientDetails = pkg.clientDetails.filter(
 // //       (c) => c.clientId.toString() !== body.clientId.toString()
 // //     );
-
-    
 
 // //     // recalc leftPackages
 // //     const totalSold = pkg.clientDetails.reduce(
@@ -435,7 +429,6 @@ exports.create = async (body) => {
 //     data: updateClientGoods,
 //   };
 // };
-
 
 // exports.update = async (id, body) => {
 //   // 1️⃣ Fetch existing client goods
@@ -550,7 +543,6 @@ exports.create = async (body) => {
 //   };
 // };
 
-
 exports.update = async (id, body) => {
   // 0️⃣ Check existence
   const existing = await dal.findByID(model, id);
@@ -574,13 +566,11 @@ exports.update = async (id, body) => {
   });
 
   // 3️⃣ Sellers from request body
-  const bodySellerIds = body.sellersDetails.map(s =>
-    s.sellerId.toString()
-  );
+  const bodySellerIds = body.sellersDetails.map((s) => s.sellerId.toString());
 
   // 4️⃣ Union of seller IDs (existing + new)
   const sellerIdSet = new Set([
-    ...affectedSellers.map(s => s._id.toString()),
+    ...affectedSellers.map((s) => s._id.toString()),
     ...bodySellerIds,
   ]);
 
@@ -601,13 +591,13 @@ exports.update = async (id, body) => {
     for (const pkgDetails of sellerDoc.packages) {
       // 🔥 REMOVE old transaction for this clientGoodsId
       pkgDetails.clientDetails = pkgDetails.clientDetails.filter(
-        c => c.clientGoodsId.toString() !== clientGoodsId.toString()
+        (c) => c.clientGoodsId.toString() !== clientGoodsId.toString()
       );
 
       // 🔥 RE-APPLY if present in update payload
       if (bodySeller) {
         const updatedPkg = bodySeller.sellerPackages.find(
-          p => p.packageId === pkgDetails._id.toString()
+          (p) => p.packageId === pkgDetails._id.toString()
         );
 
         if (updatedPkg) {
@@ -626,8 +616,7 @@ exports.update = async (id, body) => {
               (subAmount * pkgDetails.commision) / 100;
             const weightDeduction = soldQty * 5;
 
-            sellerAmount =
-              subAmount - commissionDeduction - weightDeduction;
+            sellerAmount = subAmount - commissionDeduction - weightDeduction;
           }
 
           // 🔥 Store sellerAmount back in payload
@@ -649,8 +638,7 @@ exports.update = async (id, body) => {
         0
       );
 
-      pkgDetails.remaining =
-        Number(pkgDetails.package) - totalSold;
+      pkgDetails.remaining = Number(pkgDetails.package) - totalSold;
     }
 
     sellerTotalPackages += subtotal;
@@ -673,17 +661,11 @@ exports.update = async (id, body) => {
 
   // 9️⃣ Recalculate client amount
   const subtotalAmount = body.packages.reduce((sum, pkg) => {
-    const multiplier =
-      pkg.calculation === "Quantal" ? 100 : 40;
-    return (
-      sum +
-      ((Number(pkg.package) * pkg.weight) / multiplier) *
-        pkg.rate
-    );
+    const multiplier = pkg.calculation === "Quantal" ? 100 : 40;
+    return sum + ((Number(pkg.package) * pkg.weight) / multiplier) * pkg.rate;
   }, 0);
 
-  const clientAmount =
-    subtotalAmount + body.misleniousCharge;
+  const clientAmount = subtotalAmount + body.misleniousCharge;
 
   // 🔟 Update ClientBuyerGoods
   const updated = await dal.findOneAndUpdate(
@@ -699,8 +681,6 @@ exports.update = async (id, body) => {
     data: updated,
   };
 };
-
-
 
 // exports.delete = async (id) => {
 //   const deleteClientGoods = await dal.findOneAndDelete(model, { _id: id });
@@ -742,7 +722,7 @@ exports.delete = async (id) => {
 
       // Remove this clientGoodsId
       pkgDetails.clientDetails = pkgDetails.clientDetails.filter(
-        c => c.clientGoodsId.toString() !== clientGoodsId.toString()
+        (c) => c.clientGoodsId.toString() !== clientGoodsId.toString()
       );
 
       if (beforeLength !== pkgDetails.clientDetails.length) {
@@ -777,12 +757,38 @@ exports.delete = async (id) => {
   };
 };
 
-
 exports.getClientGoodsDetails = async (quries) => {
   const getClientGoods = await dal.aggregate(model, quries);
   return {
     message: "Client Buyer Goods fetched successfully",
     status: 200,
     data: getClientGoods,
+  };
+};
+
+exports.getGoodsDetailsWithYearPayment = async (user, year) => {
+  const filter = {};
+  if (year) {
+    const start = new Date(`${year}-01-01`);
+    const end = new Date(`${year}-12-31T23:59:59.999Z`);
+    filter.date = { $gte: start, $lte: end };
+  }
+
+  const paymentDetails = await dal.find(clintPayment, filter, {}, { date: -1 });
+  const grandTotalPayment = paymentDetails.reduce(
+    (sum, p) => sum + Number(p.amount || 0),
+    0
+  );
+
+  const getClientDetailsWithYearPayment = [{
+    ...user.data[0],
+    grandTotalPayment,
+  }];
+ 
+
+  return {
+    message: "Client Buyer Goods fetched successfully",
+    status: 200,
+    data: getClientDetailsWithYearPayment,
   };
 };

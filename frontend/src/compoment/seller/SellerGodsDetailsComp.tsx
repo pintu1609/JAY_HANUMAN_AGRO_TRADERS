@@ -118,7 +118,7 @@ export default function SellerGoodsDetailsComp({ currentYear }: any) {
   </div>
   <div>
     Due Amount:{" "}
-    <span className="text-red-600">₹{(sellerRes?.grandTotalSellerAmount - sellerRes?.grandTotalSellerPayment)?.toFixed(2) || 0}</span>
+    <span className="text-red-600">₹{(Number(sellerRes?.grandTotalSellerAmount ?? 0) - Number(sellerRes?.grandTotalSellerPayment ??0))?.toFixed(2) || 0}</span>
   </div>
 </div>
             <div className="flex items-center justify-between mb-4">
