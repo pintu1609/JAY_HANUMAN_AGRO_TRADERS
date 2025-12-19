@@ -35,7 +35,8 @@ interface Props {
     setFieldValue: any;
     isPending: boolean;
     mode: string;
-    clientedit?: boolean
+    clientedit?: boolean;
+    sellerDetails:any;
 }
 
 export default function ClientGoodsComp({
@@ -50,6 +51,7 @@ export default function ClientGoodsComp({
     isPending,
     mode,
     clientedit,
+    sellerDetails,
 }: Props) {
     const addPackage = () => {
         const newPackage = { package: "", weight: 0, rate: 0, calculation: "" };
@@ -97,7 +99,7 @@ export default function ClientGoodsComp({
 
     const { data: client } = useGetAllClientDetails();
     const { data: company } = useGetAllCompanyDetails();
-    const { data: sellerDetails } = useGetSellerGoodsDetails();
+    // const { data: sellerDetails, refetch } = useGetSellerGoodsDetails();
 
 
     return (
