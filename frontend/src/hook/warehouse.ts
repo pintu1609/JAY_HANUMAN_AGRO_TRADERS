@@ -4,10 +4,10 @@ import ENDPOINTS from "@/service/endpoints";
 import { z } from "zod";
 import { WareHouseDataSchema } from "@/validation/warehouse";
 
-const fetchWareHouseGoods = async ({ year }: { year: number }) => {
+const fetchWareHouseGoods = async ({ year,tab }: { year: number,tab?:string }) => {
   const { data } = await axiosInstance({
     method: "get",
-    url: `${ENDPOINTS.WAREHOUSEGOODDETAILS}?year=${year}`,
+    url: `${ENDPOINTS.WAREHOUSEGOODDETAILS}?year=${year}&tab=${tab}`,
     headers: { "Content-Type": "application/json" },
   });
   const statusSchema = z.number().optional();
@@ -23,10 +23,10 @@ const fetchWareHouseGoods = async ({ year }: { year: number }) => {
   };
 };
 
-const useGetWareHouseGoods = (year: number) => {
+const useGetWareHouseGoods = (year: number,tab?:string) => {
   return useQuery({
-    queryKey: ["useGetWareHouseGoods", year],
-    queryFn: () => fetchWareHouseGoods({ year: year }),
+    queryKey: ["useGetWareHouseGoods", year,tab],
+    queryFn: () => fetchWareHouseGoods({ year: year,tab:tab }),
   });
 };
 

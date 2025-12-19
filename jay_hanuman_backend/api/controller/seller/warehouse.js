@@ -9,6 +9,7 @@ const service = require("../../service/seller/warehouse");
 exports.wareHouse = async (req, res, next) => {
   try {
     const year = req.query.year;
+     const tab = req.query.tab || "all";
     const filter = {};
     if (year) {
       const start = new Date(`${year}-01-01`);
@@ -16,9 +17,11 @@ exports.wareHouse = async (req, res, next) => {
       filter["packages.date"] = { $gte: start, $lte: end };
       // ✅ FIXED
     }
+
+    
     const pagination = {};
 
-    const quries = await searchWareHouseGoods(filter, pagination);
+    const quries = await searchWareHouseGoods(filter, pagination, tab);
     const wareHouse = await service.getWareHouse(quries);
     if (wareHouse.status === 400) {
       return clientHandler({}, res, wareHouse.message, user.status);

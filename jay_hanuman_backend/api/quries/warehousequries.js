@@ -1,12 +1,19 @@
 const mongoose = require("mongoose");
-exports.searchWareHouseGoods = (filter, pagination) => {
+exports.searchWareHouseGoods = (filter, pagination, tab) => {
   const { page = 1, limit = 10 } = pagination; // default pagination values
   const skip = (page - 1) * limit;
+   let remainingCondition = {};
+  if (tab === "available") {
+    remainingCondition = { "packages.remaining": { $gt: 0 } };
+  } else if (tab === "soldout") {
+    remainingCondition = { "packages.remaining": 0 };
+  }
   const pipeline = [
     { $unwind: "$packages" },
     {
       $match: {
         ...filter,
+        ...remainingCondition,
         "packages.wareHouse": true,
       },
     },
@@ -25,6 +32,7 @@ exports.searchWareHouseGoods = (filter, pagination) => {
             commision: "$packages.commision",
             date: "$packages.date",
             wareHouse: "$packages.wareHouse",
+            remaining: "$packages.remaining",
           },
         },
       },
