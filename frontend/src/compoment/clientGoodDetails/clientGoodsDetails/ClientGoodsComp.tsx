@@ -318,7 +318,7 @@ export default function ClientGoodsComp({
 
                                                     {selectedSeller?.packages?.map((p: any, i: number) => (
                                                         <option key={i} value={p._id}>
-                                                            {p.remaining} | Rate: {p.rate}
+                                                            Pkg {p.package} | Left {p.remaining} | Rate: {p.rate}
                                                         </option>
                                                     ))}
                                                 </select>

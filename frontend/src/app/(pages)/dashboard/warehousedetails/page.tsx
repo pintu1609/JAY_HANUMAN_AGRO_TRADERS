@@ -2,7 +2,6 @@
 import { useGetWareHouseGoods } from "@/hook/warehouse"
 import { WareHouseDetailsParams } from "@/types/warehouse/warehouse"
 import { ClipLoader } from "react-spinners"
-import { FiEye } from "react-icons/fi"
 import { ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -10,12 +9,14 @@ import { useState } from "react"
 export default function WareHouseDetails() {
     const router = useRouter();
     const currentYear = new Date().getFullYear();
+    const [tab, setTab] = useState<"available" | "all" | "soldout">("available");
+
 
     const [currentYearAdd, setCurrentYearAdd] = useState(currentYear);
     const years = Array.from({ length: currentYear - 2020 + 1 }, (_, i) => 2020 + i);
 
 
-    const { data: queryResult, isLoading } = useGetWareHouseGoods(currentYearAdd)
+    const { data: queryResult, isLoading } = useGetWareHouseGoods(currentYearAdd, tab)
 
     const warehouseDetails: WareHouseDetailsParams[] = queryResult?.data || []
 
@@ -58,6 +59,40 @@ export default function WareHouseDetails() {
                     ))}
                 </div>
             </div>
+            <div className="flex gap-3 mb-6 justify-center">
+                <button
+                    onClick={() => setTab("available")}
+                    className={`px-4 py-2 rounded-lg font-semibold
+      ${tab === "available"
+                            ? "bg-green-600 text-white"
+                            : "bg-green-100 text-green-800 hover:bg-green-200"}
+    `}
+                >
+                    Available
+                </button>
+
+                <button
+                    onClick={() => setTab("all")}
+                    className={`px-4 py-2 rounded-lg font-semibold
+      ${tab === "all"
+                            ? "bg-orange-600 text-white"
+                            : "bg-orange-100 text-orange-800 hover:bg-orange-200"}
+    `}
+                >
+                    All
+                </button>
+
+                <button
+                    onClick={() => setTab("soldout")}
+                    className={`px-4 py-2 rounded-lg font-semibold
+      ${tab === "soldout"
+                            ? "bg-red-600 text-white"
+                            : "bg-red-100 text-red-800 hover:bg-red-200"}
+    `}
+                >
+                    Sold Out
+                </button>
+            </div>
 
 
             {isLoading ? (
@@ -72,9 +107,10 @@ export default function WareHouseDetails() {
                                 <th className="p-3 border">Name</th>
                                 <th className="p-3 border">Address</th>
                                 <th className="p-3 border">Package</th>
+                                <th className="p-3 border">Remaining</th>
                                 <th className="p-3 border">Weight</th>
                                 <th className="p-3 border">Rate</th>
-                                <th className="p-3 border">Comm. Rate</th>
+                                <th className="p-3 border">Comm. %</th>
                                 <th className="p-3 border">Ttl. Amt</th>
                                 <th className="p-3 border"> Ttl Comm.</th>
 
@@ -83,10 +119,8 @@ export default function WareHouseDetails() {
                         </thead>
                         <tbody>
                             {warehouseDetails.map((item, index) => {
-                                const totalPackage = item.packages.reduce((total, pkg) => total + Number(pkg.package), 0)
                                 const totalAmt = item.packages.reduce((total, pkg) => total + Number(pkg.amount), 0)
                                 const totalComm = (item.packages.reduce((total, pkg) => total + Number(pkg.amount) * Number(pkg.commision) / 100, 0))
-
                                 return (
                                     <tr key={index} className="hover:bg-orange-50 text-sm">
                                         <td className="p-2 border text-center">{item.sellerName || "-"}</td>
@@ -96,6 +130,12 @@ export default function WareHouseDetails() {
                                                 <div key={i} className="flex flex-col">
                                                     {pkg.package}
                                                 </div>
+                                            ))}
+                                        </td>
+                                        <td className="p-2 border text-center">
+                                            {item.packages.map((pkg, i) => (
+                                                <div key={i} className="flex flex-col">
+                                                    {pkg.remaining}</div>
                                             ))}
                                         </td>
 
@@ -114,19 +154,12 @@ export default function WareHouseDetails() {
                                         <td className="p-2 border text-center">
                                             {item.packages.map((pkg, i) => (
                                                 <div key={i} className="flex flex-col">
-                                                    ₹{pkg.commision}</div>
+                                                    {pkg.commision} %</div>
                                             ))}
                                         </td>
                                         <td className="p-2 border text-center">{totalAmt.toFixed(2)}</td>
-                                        <td className="p-2 border text-center">{totalComm.toFixed(2)}</td>
-                                        {/* <td className="p-2 border-l border-t text-center">
-                                            <button
-                                                className="text-blue-600 hover:text-blue-800 cursor-pointer"
-                                                onClick={() => handleShowPackageDetails(item)}
-                                            >
-                                                <FiEye size={18} className="text-gray-500" />
-                                            </button>
-                                        </td> */}
+                                        <td className="p-2 border text-center">₹{totalComm.toFixed(2)}</td>
+
                                     </tr>
                                 )
                             })}
@@ -140,7 +173,14 @@ export default function WareHouseDetails() {
                                         0
                                     )}
                                 </td>
-                                <td colSpan={2} className="p-2 border text-center">-</td>
+                                <td className="p-2 border text-center">
+                                    {warehouseDetails.reduce(
+                                        (sum, item) => sum + item.packages.reduce((t, pkg) => t + Number(pkg.remaining), 0),
+                                        0
+                                    )}
+                                </td>
+
+                                <td colSpan={3} className="p-2 border text-center">-</td>
                                 <td className="p-2 border text-center">
                                     ₹
                                     {warehouseDetails
@@ -148,12 +188,18 @@ export default function WareHouseDetails() {
                                         .toFixed(2)}
                                 </td>
                                 <td className="p-2 border text-center">
-                                    ₹
-                                    {warehouseDetails
-                                        .reduce((sum, item) => sum + item.packages.reduce((t, pkg) => t + Number(pkg.commision), 0), 0)
-                                        .toFixed(2)}
+                                    ₹{warehouseDetails.reduce(
+                                        (sum, item) =>
+                                            sum +
+                                            item.packages.reduce(
+                                                (pkgSum, pkg) =>
+                                                    pkgSum + (Number(pkg.amount) * Number(pkg.commision)) / 100,
+                                                0
+                                            ),
+                                        0
+                                    ).toFixed(2)}
                                 </td>
-                                <td className="p-2 border-l border-t border-b" ></td>
+
                             </tr>
                         </tfoot>
                     </table>

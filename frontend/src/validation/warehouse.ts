@@ -10,6 +10,7 @@ const PackageSchema = z.object({
   commision: z.number(),
   date: z.string(),
   wareHouse: z.boolean(),
+remaining: z.number(),
 });
 
 // ✅ Schema for a single seller's goods
