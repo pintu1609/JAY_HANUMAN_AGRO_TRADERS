@@ -30,7 +30,7 @@ const sellerSchema = new Schema(
         remaining: { type: Number, required: true },
         clientDetails: [
           {
-            clientId: { type: Schema.Types.ObjectId, ref: "Register" },
+            clientGoodsId: { type: Schema.Types.ObjectId, ref: "ClientBuyerGoods" },
             soldPackages: { type: Number, default: 0 },
           },
         ],
