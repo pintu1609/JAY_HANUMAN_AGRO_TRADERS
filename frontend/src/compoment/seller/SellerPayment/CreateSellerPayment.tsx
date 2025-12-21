@@ -36,6 +36,7 @@ export default function CreateSellerPayment({ paymentData, onClose, onSuccess }:
         mutateAsync(payload);
 
       } catch (err) {
+        console.log(err);
         toast.error("Something went wrong!");
       }
     },
@@ -66,7 +67,7 @@ export default function CreateSellerPayment({ paymentData, onClose, onSuccess }:
       }
     }
 
-  }, [isSuccess, isError, data, error, resetForm, onClose]);
+  }, [isSuccess, isError, data, error, resetForm, onClose, onSuccess]);
 
 
   return (

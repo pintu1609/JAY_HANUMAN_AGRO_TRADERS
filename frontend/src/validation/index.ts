@@ -1,4 +1,3 @@
-import { Warehouse } from "lucide-react";
 import { z } from "zod";
 
 const initialLogin = {

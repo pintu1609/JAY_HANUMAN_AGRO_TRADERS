@@ -11,11 +11,11 @@ export default function User() {
   const router = useRouter();
   const [openUpdateUser, setOpenUpdateUser] = useState(false);
   const [userData, setUserData] = useState({});
-  const { data, isLoading, isError, error, refetch } = useGetAllUser();
+  const { data, isLoading, refetch } = useGetAllUser();
   const { mutateAsync, isPending } = useDeleteRegisterUser(refetch);
 
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: string | number) => {
     if (confirm("Are you sure you want to delete this user?")) {
 
       mutateAsync(id);

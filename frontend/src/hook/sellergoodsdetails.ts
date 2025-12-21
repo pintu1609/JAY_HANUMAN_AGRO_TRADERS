@@ -125,7 +125,7 @@ const useDeleteSellerGood = (onSuccess?: () => void) => {
   return useMutation({
     mutationKey: ["useDeleteSellerGood"],
     mutationFn: (id: string) => deletSellerGood(id),
-    onSuccess: (data) => {
+    onSuccess: () => {
       onSuccess?.();
     },
   });

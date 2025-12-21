@@ -24,7 +24,9 @@ export default function Broker() {
                 await mutateAsync(id);
                 toast.success("Broker deleted successfully");
             } catch (err) {
+                console.error("Error deleting broker:", err);
                 toast.error("Failed to delete broker");
+
             }
         }
     };

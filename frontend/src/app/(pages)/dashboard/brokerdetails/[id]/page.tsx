@@ -1,14 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Pencil, Trash2, UserPlus } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { BeatLoader, ClipLoader } from "react-spinners";
-import toast from "react-hot-toast";
 import { useGetBrokerDetails } from "@/hook/brokerdetails";
 import { BrokerDetailsType } from "@/types/brokerdetails/broker.param";
-import { number } from "zod";
 import BrokerYearlyReportComp from "@/compoment/broker/BrokerYearlyReportComp";
-import CreateBrokerBayment from "@/compoment/broker/BrokerPayment/CreateBrokerPayment";
+// import CreateBrokerBayment from "@/compoment/broker/BrokerPayment/CreateBrokerPayment";
 
 export default function BrokerDetails() {
     const params = useParams();

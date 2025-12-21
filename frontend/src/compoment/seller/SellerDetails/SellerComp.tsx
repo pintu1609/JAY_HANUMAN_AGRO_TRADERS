@@ -1,7 +1,7 @@
 "use client";
 
 import { BeatLoader } from "react-spinners";
-import { Warehouse, X } from "lucide-react";
+import {  X } from "lucide-react";
 import { AiFillCloseCircle, AiOutlinePlus } from "react-icons/ai";
 import { useGetAllBrokerDetails } from "@/hook/brokerdetails";
 

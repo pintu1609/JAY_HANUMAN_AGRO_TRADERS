@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { ArrowLeft, Pencil, Trash2, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useDeleteRegisterUser, useGetAllUser } from "@/hook/register";
+// import { useDeleteRegisterUser, useGetAllUser } from "@/hook/register";
 import { ClipLoader } from "react-spinners";
-import UpdateUser from "@/compoment/user/UpdateUser/UpdateUser";
+// import UpdateUser from "@/compoment/user/UpdateUser/UpdateUser";
 import { useDeleteCompanyDetails, useGetAllCompanyDetails } from "@/hook/companydetails";
 import { CompanyDetailsType } from "@/types/companydetails/companyparam";
 import CreateCompany from "@/compoment/companyDetails/createCompany/CreateCompany";

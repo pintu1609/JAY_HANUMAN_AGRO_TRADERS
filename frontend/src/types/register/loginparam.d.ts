@@ -13,7 +13,7 @@ export interface RegisterParams {
 
  
   export interface UserType {
-    _id: string;
+    _id: string | number;
     name: string;
     email: string;
     phone: string;
@@ -38,6 +38,6 @@ export interface RegisterParams {
   }
  export interface UpdateRegisterUser {
     data:updateUserParams,
-    id:string
+    id:string | number
     
   }

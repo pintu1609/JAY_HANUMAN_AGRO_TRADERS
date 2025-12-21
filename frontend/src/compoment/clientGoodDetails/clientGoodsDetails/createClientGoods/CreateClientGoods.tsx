@@ -43,6 +43,7 @@ export default function CreateClientGoods({ clientedit, clientId, onClose, onSuc
         mutateAsync(values);
 
       } catch (err) {
+        console.log(err);
         toast.error("Something went wrong!");
       }
     },
@@ -61,7 +62,7 @@ export default function CreateClientGoods({ clientedit, clientId, onClose, onSuc
       toast.error(error.message ?? "Something went wrong!");
     }
 
-  }, [isSuccess, isError, data, error, resetForm, onClose]);
+  }, [isSuccess, isError, data, error, resetForm, onClose,onSuccess,refetch]);
 
 
   return (

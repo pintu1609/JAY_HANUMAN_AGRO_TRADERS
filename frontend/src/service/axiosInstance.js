@@ -1,5 +1,5 @@
 import axios from "axios";
-import ENDPOINTS from "./endpoints";
+// import ENDPOINTS from "./endpoints";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_REACT_APP_BASE_URL,

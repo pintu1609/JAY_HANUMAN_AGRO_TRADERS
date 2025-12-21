@@ -98,7 +98,7 @@ const useDeleteBrokerDetails = (onSuccess?: () => void) => {
   return useMutation({
     mutationKey: ["useDeleteBrokerDetails"],
     mutationFn: (id: string) => deletBrokerDetails(id),
-    onSuccess: (data) => {
+    onSuccess: () => {
       onSuccess?.();
     },
   });

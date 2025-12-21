@@ -29,7 +29,7 @@ const useDeleteClientPayment = (onSuccess?: () => void) => {
   return useMutation({
     mutationKey: ["useDeleteClientPayment"],
     mutationFn: (id: string) => deletClientPayment(id),
-    onSuccess: (data) => {
+    onSuccess: () => {
       onSuccess?.();
     },
   });

@@ -3,7 +3,7 @@
 import { useGetSellerGoodsByBrokerId } from "@/hook/sellergoodsbroker";
 import { PaymentItem, SellerGoodsItem, SellerGoodsParams } from "@/types/brokerdetails/broker.param";
 import { useState } from "react";
-import { FiEdit, FiEye, FiPlus, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiEye, FiTrash2 } from "react-icons/fi";
 import PackageDetails from "./PackageDetailsModal/PackageDetailsModal";
 import ShowPaymentDetails from "../PaymentComp/showPayment/ShowPayment";
 import { ClipLoader } from "react-spinners";
@@ -52,6 +52,7 @@ export default function BrokerYearlyReportComp({ id, currentYear, onClose, addBr
                 await mutateAsync(id);
                 toast.success("Payment deleted successfully");
             } catch (err) {
+                console.error("Error deleting payment:", err);
                 toast.error("Failed to delete payment");
             }
         }

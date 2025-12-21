@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 import { AiFillCloseCircle, AiOutlinePlus } from "react-icons/ai";
 import { useGetAllClientDetails } from "@/hook/clientdetails";
 import { useGetAllCompanyDetails } from "@/hook/companydetails";
-import { useGetSellerGoodsDetails } from "@/hook/sellergoodsdetails";
+// import { useGetSellerGoodsDetails } from "@/hook/sellergoodsdetails";
 
 interface Package {
     package: string;

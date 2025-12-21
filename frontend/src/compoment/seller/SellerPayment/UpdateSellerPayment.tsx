@@ -1,5 +1,5 @@
 import PaymentDetailsForm from "@/compoment/PaymentComp/PaymentComp";
-import { intialPayment, paymentSchema } from "@/validation";
+import { paymentSchema } from "@/validation";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
@@ -54,6 +54,7 @@ export default function UpdateSellerPayment({ paymentdata, onClose, onSuccess }:
                 mutateAsync(payload);
 
             } catch (err) {
+                console.log(err);
                 toast.error("Something went wrong!");
             }
         },
@@ -80,7 +81,7 @@ export default function UpdateSellerPayment({ paymentdata, onClose, onSuccess }:
       }
     }
 
-    }, [isSuccess, isError, data, error, resetForm, onClose]);
+    }, [isSuccess, isError, data, error, resetForm, onClose , onSuccess]);
 
     useEffect(() => {
         if (values.paymentType === "Cash") {
@@ -89,7 +90,7 @@ export default function UpdateSellerPayment({ paymentdata, onClose, onSuccess }:
             setFieldValue("toAccount", { accountHolderName: "", accountNumber: "", ifscCode: "" });
         }
 
-    }, [values.paymentType]);
+    }, [values.paymentType, setFieldValue]);
 
 
     return (

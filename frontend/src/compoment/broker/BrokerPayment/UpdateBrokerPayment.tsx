@@ -1,9 +1,9 @@
 import PaymentDetailsForm from "@/compoment/PaymentComp/PaymentComp";
-import { intialPayment, paymentSchema } from "@/validation";
+import {  paymentSchema } from "@/validation";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
-import { useCreateBrokerPayment, useUpdateBrokerPayment } from "@/hook/brokerPayment";
+import {  useUpdateBrokerPayment } from "@/hook/brokerPayment";
 import { useEffect } from "react";
 import { PaymentItem } from "@/types/brokerdetails/broker.param";
 
@@ -52,6 +52,7 @@ export default function UpdateBrokerPayment({ onClose, onSuccess, paymentdata }:
                 mutateAsync(payload);
 
             } catch (err) {
+                console.log(err);
                 toast.error("Something went wrong!");
             }
         },
@@ -69,7 +70,7 @@ export default function UpdateBrokerPayment({ onClose, onSuccess, paymentdata }:
             toast.error(error.message ?? "Something went wrong!");
         }
 
-    }, [isSuccess, isError, data, error, resetForm, onClose]);
+    }, [isSuccess, isError, data, error, resetForm, onClose,onSuccess]);
 
     useEffect(() => {
         if (values.paymentType === "Cash") {
@@ -81,7 +82,7 @@ export default function UpdateBrokerPayment({ onClose, onSuccess, paymentdata }:
         //     setFieldValue("fromAccount", { ifscCode: "" });
         //     setFieldValue("toAccount", { ifscCode: "" });
         // }
-    }, [values.paymentType]);
+    }, [values.paymentType, setFieldValue]);
 
 
     return (

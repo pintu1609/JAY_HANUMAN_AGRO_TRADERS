@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { updateSchema } from "@/validation";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { RegisterParams, updateUserParams, UpdateUserType, UserType } from "@/types/register/loginparam";
+import {  updateUserParams, UpdateUserType, UserType } from "@/types/register/loginparam";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { ZodError } from "zod";
@@ -82,7 +82,7 @@ export default function UpdateUser({ userData, onClose, onSuccess }: Props) {
         toast.error("Something went wrong");
       }
     }
-  }, [isSuccess, isError, data, error, resetForm, router]);
+  }, [isSuccess, isError, data, error, resetForm, router, onClose, onSuccess]);
 
   return (
     <div className="fixed  inset-0 bg-black/30 flex items-center justify-center z-50">

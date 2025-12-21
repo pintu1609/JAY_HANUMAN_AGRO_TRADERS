@@ -1,4 +1,3 @@
-import { PaymentItem } from "@/types/brokerdetails/broker.param";
 import { PaymentItemdetais } from "@/types/sellerDetails/sellerparam";
 import { X } from "lucide-react";
 

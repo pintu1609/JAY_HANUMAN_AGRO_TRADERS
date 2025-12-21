@@ -1,7 +1,4 @@
-
 "use client";
-
-
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { FiEdit, FiTrash2, FiEye, FiPlus } from "react-icons/fi";
@@ -34,8 +31,8 @@ export default function SellerGoodsDetailsComp({ currentYear }: any) {
 
     const { data: sellerRes, isLoading, refetch } = useGetSellerGoodsDetailsWithPayment(currentYear);
     console.log("🚀 ~ SellerGoodsDetailsComp ~ sellerRes:", sellerRes)
-    const { mutate: mutateDelete, isPending: isDeleting } = useDeleteSellerGood(refetch);
-    const { mutate: mutateSellerPaymentDelete, isPending: isDeletingSellerPayment } = useDeleteSellerPayment(refetch);
+    const { mutate: mutateDelete } = useDeleteSellerGood(refetch);
+    const { mutate: mutateSellerPaymentDelete } = useDeleteSellerPayment(refetch);
 
     const goodsData: SellerGoodsParams[] = sellerRes?.data || [];
 
