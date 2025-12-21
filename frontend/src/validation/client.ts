@@ -1,4 +1,4 @@
-import { email, nullable, z } from "zod";
+import {  z } from "zod";
 
 const packageSchema=z.object({
     _id: z.string(),

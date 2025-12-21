@@ -34,6 +34,7 @@ export default function CreateBrokerPayment({ onClose, brokerId, onSuccess }: Pr
         mutateAsync(payload);
 
       } catch (err) {
+        console.log(err);
         toast.error("Something went wrong!");
       }
     },
@@ -51,7 +52,7 @@ export default function CreateBrokerPayment({ onClose, brokerId, onSuccess }: Pr
       toast.error(error.message ?? "Something went wrong!");
     }
 
-  }, [isSuccess, isError, data, error, resetForm, onClose]);
+  }, [isSuccess, isError, data, error, resetForm, onClose, onSuccess]);
 
 
   return (

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import {
-  initialCompany,
+ 
   companySchema
 } from "@/validation";
 import { useFormik } from "formik";

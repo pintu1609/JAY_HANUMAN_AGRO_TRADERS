@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {  useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/service/axiosinstance";
 import ENDPOINTS from "@/service/endpoints";
 import { z } from "zod";

@@ -34,12 +34,12 @@ export default function CreateSeller({ onClose, onSuccess }: Props) {
         mutateAsync(values);
 
       } catch (err) {
+        console.log(err);
         toast.error("Something went wrong!");
       }
     },
   });
-    console.log("🚀 ~ CreateSeller ~ errors:", errors)
-    console.log("🚀 ~ CreateSeller ~ values:", values)
+   
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -53,7 +53,7 @@ export default function CreateSeller({ onClose, onSuccess }: Props) {
       toast.error(error.message ?? "Something went wrong!");
     }
 
-  }, [isSuccess, isError, data, error, resetForm, onClose]);
+  }, [isSuccess, isError, data, error, resetForm, onClose, onSuccess]);
 
 
   return (

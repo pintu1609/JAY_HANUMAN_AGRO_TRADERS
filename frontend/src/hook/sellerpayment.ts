@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "@/service/axiosinstance";
 import ENDPOINTS from "@/service/endpoints";
 import { z } from "zod";
@@ -28,7 +28,7 @@ const useDeleteSellerPayment = (onSuccess?: () => void) => {
   return useMutation({
     mutationKey: ["useDeleteSellerPayment"],
     mutationFn: (id: string) => deletSellerPayment(id),
-    onSuccess: (data) => {
+    onSuccess: () => {
       onSuccess?.();
     },
   });

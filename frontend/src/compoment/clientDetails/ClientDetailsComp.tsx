@@ -1,6 +1,6 @@
 import { useGetAllCompanyDetails } from "@/hook/companydetails";
 import { X, Plus, Minus } from "lucide-react";
-import { BeatLoader, ClipLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 
 interface Props {
   onClose: () => void
@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function ClientDetailsComp({ onClose, handleSubmit, values, errors, touched, handleChange, handleBlur, isPending, mode, addPhone, removePhone }: Props) {
-  const { data: companyData, isLoading } = useGetAllCompanyDetails();
+  const { data: companyData } = useGetAllCompanyDetails();
 
 
   return (

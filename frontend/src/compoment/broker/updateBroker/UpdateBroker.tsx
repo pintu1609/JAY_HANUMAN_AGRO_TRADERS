@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 import { useUpdateBroker } from "@/hook/brokerdetails";
 import BrokerComp from "../BrokerComp";
 import { UpdateBrokerType } from "@/types/brokerdetails/broker.param";
-import { id } from "zod/locales";
 
 interface Props {
   onClose: () => void

@@ -63,7 +63,7 @@ const useDeleteCompanyDetails = (onSuccess?: () => void) => {
   return useMutation({
     mutationKey: ["useDeleteCompanyDetails"],
     mutationFn: (id: string) => deletCompanyDetails(id),
-    onSuccess: (data) => {
+    onSuccess: () => {
       onSuccess?.();
     },
   });

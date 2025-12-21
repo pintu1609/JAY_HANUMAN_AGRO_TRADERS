@@ -20,9 +20,9 @@ export default function WareHouseDetails() {
 
     const warehouseDetails: WareHouseDetailsParams[] = queryResult?.data || []
 
-    const handleShowPackageDetails = (item: WareHouseDetailsParams) => {
-        console.log("Show packages for:", item)
-    }
+    // const handleShowPackageDetails = (item: WareHouseDetailsParams) => {
+    //     console.log("Show packages for:", item)
+    // }
 
     const handleClickYear = (year: number) => {
         setCurrentYearAdd(year);

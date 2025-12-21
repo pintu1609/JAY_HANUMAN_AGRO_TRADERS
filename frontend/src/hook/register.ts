@@ -143,7 +143,7 @@ const useUpdateRegisterUser = () => {
   });
 };
 
-const deletRegisterUser = async (id: string) => {
+const deletRegisterUser = async (id: string | number) => {
   const { data } = await axiosInstance({
     method: "delete",
     url: `${ENDPOINTS.USER}${id}`,
@@ -162,8 +162,8 @@ const deletRegisterUser = async (id: string) => {
 const useDeleteRegisterUser = (onSuccess?: () => void) => {
   return useMutation({
     mutationKey: ["useDeleteRegisterUser"],
-    mutationFn: (id: string) => deletRegisterUser(id),
-    onSuccess: (data) => {
+    mutationFn: (id: string | number) => deletRegisterUser(id),
+    onSuccess: () => {
       onSuccess?.();
     },
   });

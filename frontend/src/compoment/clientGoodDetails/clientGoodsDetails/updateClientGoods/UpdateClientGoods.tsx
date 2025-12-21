@@ -1,4 +1,4 @@
-import { initialClientGoodsDetails, clientGoodsDetailsSchema } from "@/validation";
+import {  clientGoodsDetailsSchema } from "@/validation";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import toast from "react-hot-toast";
 import { useFormik } from "formik";
@@ -63,6 +63,7 @@ export default function UpdateClientGoods({ clientedit, clientGoodData, onClose,
                 mutateAsync(payload);
 
             } catch (err) {
+                console.log(err);
                 toast.error("Something went wrong!");
             }
         },
@@ -81,7 +82,7 @@ export default function UpdateClientGoods({ clientedit, clientGoodData, onClose,
             toast.error(error.message ?? "Something went wrong!");
         }
 
-    }, [isSuccess, isError, data, error, resetForm, onClose]);
+    }, [isSuccess, isError, data, error, resetForm, onClose, onSuccess, refetch]);
 
 
     return (

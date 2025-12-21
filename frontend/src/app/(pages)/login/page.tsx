@@ -43,7 +43,7 @@ export default function Login() {
         password: values.password,
       };
       try {
-        const response = await mutateAsync(payload);
+         await mutateAsync(payload);
       } catch (error) {
         console.error("Error during login:", error);
       }
@@ -79,7 +79,7 @@ export default function Login() {
 
 
     }
-  }, [isSuccess, isError, data, error, resetForm]);
+  }, [isSuccess, isError, data, error, resetForm,router]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-50">
