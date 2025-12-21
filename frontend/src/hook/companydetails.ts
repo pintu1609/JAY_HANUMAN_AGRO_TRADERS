@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axiosInstance from "@/service/axiosinstance";
+import axiosInstance from "@/service/axios";
 import ENDPOINTS from "@/service/endpoints";
 // import { LoginParams,RegisterParams, UpdateRegisterUser } from "@/types/register/loginparam";
 import { z } from "zod";

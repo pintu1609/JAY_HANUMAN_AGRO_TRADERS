@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "@/service/axiosinstance";
+import axiosInstance from "@/service/axios";
 import ENDPOINTS from "@/service/endpoints";
 import { z } from "zod";
 import { SellerGoodsResponseSchema } from "@/validation/broker";
