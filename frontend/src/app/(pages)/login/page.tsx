@@ -11,8 +11,11 @@ import { ZodError } from "zod";
 import { BeatLoader } from "react-spinners";
 import { LoginParams } from "@/types/register/loginparam";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useCookies } from 'next-client-cookies';
 
 export default function Login() {
+    const cookies = useCookies();
+
   const [showPassword, setShowPassword] = useState(false);
 
 
@@ -59,6 +62,8 @@ export default function Login() {
       if (status === 200) {
         resetForm();
         localStorage.setItem('accessToken', data?.token)
+        cookies.set('accessToken', data?.token)
+        
         localStorage.setItem('name', data?.data?.name)
         router.push("/dashboard");
       }
