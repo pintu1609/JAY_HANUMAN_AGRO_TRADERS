@@ -75,31 +75,31 @@ export default function User() {
                     <table className="min-w-full border border-gray-200">
                         <thead className="bg-gray-100">
                             <tr>
-                                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 border-r">
+                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 border-r">
                                     S.No
                                 </th>
-                                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600 border-r">
+                                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-600 border-r">
                                     Name
                                 </th>
-                                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600 border-r">
+                                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-600 border-r">
                                     Company Name
                                 </th>
-                                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600 border-r">
+                                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-600 border-r">
                                     Email
                                 </th>
-                                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600 border-r">
+                                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-600 border-r">
                                     Phone
                                 </th>
-                                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600 border-r">
+                                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-600 border-r">
                                     address
                                 </th>
-                                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600 border-r">
+                                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-600 border-r">
                                     GST No.
                                 </th>
-                                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600 border-r">
+                                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-600 border-r">
                                     Pan No.
                                 </th>
-                                <th className="px-6 py-3 text-right text-sm font-semibold text-gray-600 " >
+                                <th className="px-4 py-3 text-right text-sm font-semibold text-gray-600 " >
                                     Actions
                                 </th>
                             </tr>
@@ -108,12 +108,12 @@ export default function User() {
                             {companyData.length > 0 ? (
                                 companyData.map((com, index) => (
                                     <tr key={com._id} className="border-t">
-                                        <td className="px-6 py-4 border-r">{index + 1}</td>
-                                        <td className="px-6 py-4 border-r">{com.name ? com.name : "-"}</td>
-                                        <td className="px-6 py-4 border-r">{com.companyName ? com.companyName : "-"}</td>
+                                        <td className="px-4 py-4 border-r">{index + 1}</td>
+                                        <td className="px-4 py-4 border-r">{com.name ? com.name : "-"}</td>
+                                        <td className="px-4 py-4 border-r">{com.companyName ? com.companyName : "-"}</td>
 
-                                        <td className="px-6 py-4 border-r">{com.email ? com.email : "-"}</td>
-                                        <td className="px-6 py-4 border-r">
+                                        <td className="px-4 py-4 border-r">{com.email ? com.email : "-"}</td>
+                                        <td className="px-4 py-4 border-r">
                                             {com.phone?.map((phone, index) => (
 
                                                 <span key={index}>
@@ -122,10 +122,10 @@ export default function User() {
                                                 </span>
                                             ))}
                                         </td>
-                                        <td className="px-6 py-4 border-r">{com.address}</td>
-                                        <td className="px-6 py-4  border-r">{com.gst ? com.gst : "-"}</td>
-                                        <td className="px-6 py-4 border-r">{com.pan ? com.pan : "-"}</td>
-                                        <td className="px-6 py-4 text-right space-x-3">
+                                        <td className="px-4 py-4 border-r">{com.address}</td>
+                                        <td className="px-4 py-4  border-r">{com.gst ? com.gst : "-"}</td>
+                                        <td className="px-4 py-4 border-r">{com.pan ? com.pan : "-"}</td>
+                                        <td className="px-4 py-4 text-right space-x-3">
                                             <button
                                                 onClick={() => handleUpdateCompany(com)}
                                                 className="text-blue-600 hover:text-blue-800 cursor-pointer"
