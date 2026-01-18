@@ -3,6 +3,8 @@
 // import ENDPOINTS from "./endpoints";
 
 import axios from "axios";
+import Cookies from "js-cookie";
+
 
 const baseURL = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL;
 
@@ -23,7 +25,8 @@ axiosInstance.interceptors.request.use(
   async (config) => {
         if (typeof window !== "undefined") {
 
-    const accessToken = localStorage.getItem('accessToken');
+    // const accessToken = localStorage.getItem('accessToken');
+    const accessToken = Cookies.get('accessToken');
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
