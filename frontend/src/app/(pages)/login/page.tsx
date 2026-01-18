@@ -61,7 +61,7 @@ export default function Login() {
 
       if (status === 200) {
         resetForm();
-        localStorage.setItem('accessToken', data?.token)
+        // localStorage.setItem('accessToken', data?.token)
         cookies.set('accessToken', data?.token)
         
         localStorage.setItem('name', data?.data?.name)
