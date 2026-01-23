@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./jay_hanuman_backend
+      dockerfile: Dockerfile
+    image: jay_hanuman_backend:latest
+    container_name: jay-hanuman-backend
+    ports:
+      - "5500:5500"
+    env_file:
+      - ./jay_hanuman_backend/.env
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: jay_hanuman_frontend:latest
+    container_name: jay-hanuman-frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env.local
+    depends_on:
+      - backend
+    restart: unless-stopped
