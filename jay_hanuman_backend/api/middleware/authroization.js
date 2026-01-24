@@ -7,7 +7,7 @@ exports.verifyToken = (req, res, next) => {
   if (!token) return clientHandler({}, res, "No token provided", 401);
 
   try {
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_PRIVATE_KEY);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (err) {
